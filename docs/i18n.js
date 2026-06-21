@@ -199,7 +199,7 @@ window.__i18n = {
     'proj.1.desc':  'Development and integration of the Odoo v19 ORM for the digitalization and automation of CPCES internal processes. Data model design, entity relationships and custom business logic within the Odoo ecosystem, ensuring scalability and full traceability.',
     'proj.2.title': 'CENESA ',
     'proj.2.desc':  'Design and development of the institutional and corporate website for CENESA S.A. Modern frontend architecture focused on performance, SEO and user experience. Responsible for the complete cycle: UI/UX design, development and deployment infrastructure.',
-    'proj.3.title': 'Vultra Intranet · CENESA',
+    'proj.3.title': 'Intranet · CENESA',
     'proj.3.desc':  'End-to-End corporate intranet system for the comprehensive administrative management of CENESA S.A.: nursing, pharmacy, room control and shift modules. Intranet architecture adopted by strategic business rule decision to ensure security, sensitive data privacy and internal access control. Includes RESTful web API and native Android APK.',
     'proj.more':    '// more projects · coming soon',
 
