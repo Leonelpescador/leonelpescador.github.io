@@ -123,6 +123,11 @@
     <a href="#projects"   data-i18n="nav.projects"   style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">proyectos</a>
     <a href="#education"  data-i18n="nav.education"  style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">educación</a>
     <a href="#contact"    data-i18n="nav.contact"    style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">contacto</a>
+    <div style="display:flex;gap:6px;align-items:center;border-left:1px solid rgba(16,185,129,0.2);padding-left:36px;margin-left:6px;">
+      <button id="lang-es" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#10b981;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">ES</button>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#10b981;">·</span>
+      <button id="lang-en" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#6b7280;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">EN</button>
+    </div>
   </div>
   <!-- Hamburger button — solo mobile -->
   <button id="nav-burger" aria-label="Menu" style="display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:transparent;border:none;cursor:pointer;padding:0;z-index:601;">
@@ -140,6 +145,11 @@
   <a href="#projects"   data-i18n="nav.projects"   style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">proyectos</a>
   <a href="#education"  data-i18n="nav.education"  style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">educación</a>
   <a href="#contact"    data-i18n="nav.contact"    style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);display:block;transition:background 0.2s;">contacto</a>
+  <div style="padding:16px clamp(24px,6vw,64px);border-top:1px solid rgba(16,185,129,0.06);display:flex;gap:8px;align-items:center;">
+    <button id="lang-es-mobile" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#10b981;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">ES</button>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#10b981;">·</span>
+    <button id="lang-en-mobile" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#6b7280;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">EN</button>
+  </div>
 </div>
 
 <!-- ── HERO ──────────────────────────────────────────── -->
@@ -586,6 +596,7 @@ class Component extends DCLogic {
     this._initForm();
     this._initMobileNav();
     this._initCounters();
+    this._initLangSwitch();
   }
 
   _applyI18n() {
@@ -930,6 +941,45 @@ class Component extends DCLogic {
         card.style.borderColor = '';
       });
     });
+  }
+
+  _initLangSwitch() {
+    const updateBtnColors = (lang) => {
+      const btnEsDesktop = document.getElementById('lang-es');
+      const btnEnDesktop = document.getElementById('lang-en');
+      const btnEsMobile = document.getElementById('lang-es-mobile');
+      const btnEnMobile = document.getElementById('lang-en-mobile');
+
+      [btnEsDesktop, btnEsMobile].forEach(btn => {
+        if (btn) btn.style.color = lang === 'es' ? '#10b981' : '#6b7280';
+      });
+      [btnEnDesktop, btnEnMobile].forEach(btn => {
+        if (btn) btn.style.color = lang === 'en' ? '#10b981' : '#6b7280';
+      });
+    };
+
+    const switchLang = (lang) => {
+      localStorage.setItem('lang', lang);
+      window.__lang = lang;
+      window.__applyLang(lang);
+      if (window.__i18n[lang] && Array.isArray(window.__i18n[lang]['roles'])) {
+        this._roles = window.__i18n[lang]['roles'];
+      }
+      updateBtnColors(lang);
+    };
+
+    const btnEsDesktop = document.getElementById('lang-es');
+    const btnEnDesktop = document.getElementById('lang-en');
+    const btnEsMobile = document.getElementById('lang-es-mobile');
+    const btnEnMobile = document.getElementById('lang-en-mobile');
+
+    if (btnEsDesktop) btnEsDesktop.addEventListener('click', () => switchLang('es'));
+    if (btnEnDesktop) btnEnDesktop.addEventListener('click', () => switchLang('en'));
+    if (btnEsMobile) btnEsMobile.addEventListener('click', () => switchLang('es'));
+    if (btnEnMobile) btnEnMobile.addEventListener('click', () => switchLang('en'));
+
+    const currentLang = window.__lang || localStorage.getItem('lang') || 'es';
+    updateBtnColors(currentLang);
   }
 
   renderVals() {
