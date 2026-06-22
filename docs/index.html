@@ -1,996 +1,404 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./i18n.js"></script>
-<script src="./support.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pescador Jesús Leonel · Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<x-dc>
 
-<helmet>
-  <title>Pescador Jesús Leonel | Developer</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23040904'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='11' font-weight='700' fill='%2310b981'%3E%26lt%3BPJL%2F%26gt%3B%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: #040904; color: #b8d4b8; font-family: 'Inter', sans-serif; cursor: none; overflow-x: hidden; }
-    ::selection { background: rgba(16,185,129,0.25); color: #e8f5e9; }
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: #040904; }
-    ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 2px; }
-    a { cursor: none; }
-
-    @keyframes glitch-a {
-      0%,87%,100% { clip-path:inset(100% 0 0 0); transform:translate(0); }
-      88% { clip-path:inset(12% 0 72% 0); transform:translate(-4px,0); }
-      90% { clip-path:inset(58% 0 22% 0); transform:translate(4px,0); }
-      92% { clip-path:inset(38% 0 44% 0); transform:translate(-2px,0); }
-      94% { clip-path:inset(78% 0 8% 0); transform:translate(3px,0); }
-      96% { clip-path:inset(25% 0 60% 0); transform:translate(-1px,0); }
-      98% { clip-path:inset(65% 0 18% 0); transform:translate(2px,0); }
-    }
-    @keyframes glitch-b {
-      0%,85%,100% { clip-path:inset(100% 0 0 0); transform:translate(0); }
-      86% { clip-path:inset(30% 0 50% 0); transform:translate(4px,0); }
-      88% { clip-path:inset(70% 0 12% 0); transform:translate(-4px,0); }
-      90% { clip-path:inset(5% 0 82% 0); transform:translate(2px,0); }
-      92% { clip-path:inset(48% 0 38% 0); transform:translate(-3px,0); }
-      94% { clip-path:inset(85% 0 4% 0); transform:translate(1px,0); }
-      96% { clip-path:inset(20% 0 65% 0); transform:translate(-2px,0); }
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    @keyframes floaty {
-      0%,100% { transform:translateX(-50%) translateY(0); }
-      50% { transform:translateX(-50%) translateY(-9px); }
-    }
-    @keyframes pulse-cta {
-      0%,100% { box-shadow:0 0 0 0 rgba(16,185,129,0.45); }
-      60% { box-shadow:0 0 0 12px rgba(16,185,129,0); }
-    }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    [data-s] {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
-    }
-    [data-s="r"] { transform: translateX(36px); }
-    [data-s="l"] { transform: translateX(-36px); }
-    [data-s="scale"] { transform: scale(0.92); }
-    [data-s].in { opacity: 1 !important; transform: none !important; }
-
-    .nav-links a { position: relative; }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -3px;
-      width: 0; height: 1px;
-      background: #10b981;
-      box-shadow: 0 0 8px rgba(16,185,129,0.8);
-      transition: width 0.3s cubic-bezier(0.16,1,0.3,1);
-    }
-    .nav-links a:hover::after { width: 100%; }
-
-    @media (max-width:820px) {
-      .two-col { grid-template-columns: 1fr !important; }
-      .three-col { grid-template-columns: 1fr !important; }
-      .nav-links { display: none !important; }
-      .hide-mobile { display: none !important; }
-      #nav-burger { display: flex !important; }
-    }
-  </style>
-</helmet>
-
-<template id="__bundler_thumbnail">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 56">
-    <rect width="80" height="56" fill="#040904"/>
-    <circle cx="58" cy="28" r="16" fill="none" stroke="#10b981" stroke-width="0.8" opacity="0.5"/>
-    <circle cx="58" cy="28" r="10" fill="none" stroke="#10b981" stroke-width="0.6" opacity="0.4"/>
-    <text x="12" y="22" font-family="monospace" font-size="6" fill="#10b981" font-weight="bold">&lt;PJL/&gt;</text>
-    <text x="12" y="32" font-family="monospace" font-size="4" fill="#f59e0b">Full-Stack Dev</text>
-    <text x="12" y="40" font-family="monospace" font-size="3" fill="#e8f5e9">Python · Django · Odoo</text>
-    <line x1="12" y1="44" x2="40" y2="44" stroke="#10b981" stroke-width="0.8"/>
-  </svg>
-</template>
-
-<!-- Custom Cursor -->
-<div id="cdot" style="position:fixed;width:8px;height:8px;background:#10b981;border-radius:50%;pointer-events:none;z-index:999999;top:0;left:0;will-change:transform;box-shadow:0 0 12px #10b981,0 0 4px #10b981;"></div>
-<div id="cring" style="position:fixed;width:38px;height:38px;border:1px solid rgba(16,185,129,0.55);border-radius:50%;pointer-events:none;z-index:999998;top:0;left:0;will-change:transform;transition:transform 0.14s ease,border-color 0.3s;"></div>
-
-<!-- Fixed Background Canvas -->
-<canvas ref="{{ canvasRef }}" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;"></canvas>
-
-<!-- Scanlines overlay -->
-<div style="position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.025) 3px,rgba(0,0,0,0.025) 4px);"></div>
-
-<!-- ── NAV ───────────────────────────────────────────── -->
-<nav id="nav" style="position:fixed;top:0;left:0;right:0;z-index:600;padding:24px clamp(24px,6vw,64px);display:flex;justify-content:space-between;align-items:center;transition:padding 0.4s,background 0.4s,border 0.4s,backdrop-filter 0.4s;">
-  <div style="font-family:'JetBrains Mono',monospace;color:#10b981;font-size:1.1rem;font-weight:700;letter-spacing:-1px;user-select:none;">
-    &lt;PJL<span style="color:#f59e0b;">/</span>&gt;
-  </div>
-  <div class="nav-links" style="display:flex;gap:36px;align-items:center;">
-    <a href="#about"      data-i18n="nav.about"      style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">sobre_mí</a>
-    <a href="#skills"     data-i18n="nav.skills"     style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">skills</a>
-    <a href="#experience" data-i18n="nav.experience" style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">experiencia</a>
-    <a href="#projects"   data-i18n="nav.projects"   style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">proyectos</a>
-    <a href="#education"  data-i18n="nav.education"  style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">educación</a>
-    <a href="#contact"    data-i18n="nav.contact"    style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#10b981;text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;" style-hover="color:#10b981">contacto</a>
-    <div style="display:flex;gap:6px;align-items:center;border-left:1px solid rgba(16,185,129,0.2);padding-left:36px;margin-left:6px;">
-      <button id="lang-es" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#10b981;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">ES</button>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#10b981;">·</span>
-      <button id="lang-en" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#6b7280;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">EN</button>
+<!-- ── NAVBAR ── -->
+<nav id="nav">
+  <a href="#" class="nav-brand">
+    <div class="nav-icon"><span></span><span></span><span></span><span></span></div>
+    <span class="nav-name">Leonel Pescador</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about"      data-i18n="nav_about">Sobre mí</a></li>
+    <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
+    <li><a href="#experience" data-i18n="nav_experience">Experiencia</a></li>
+    <li><a href="#projects"   data-i18n="nav_projects">Proyectos</a></li>
+    <li><a href="#education"  data-i18n="nav_education">Educación</a></li>
+    <li><a href="#contact"    data-i18n="nav_contact">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
     </div>
+    <a href="https://github.com/Leonelpescador" target="_blank" class="btn-gh">GitHub</a>
   </div>
-  <!-- Hamburger button — solo mobile -->
-  <button id="nav-burger" aria-label="Menu" style="display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:transparent;border:none;cursor:pointer;padding:0;z-index:601;">
-    <span class="bline" style="display:block;width:22px;height:1.5px;background:#10b981;transition:transform 0.3s,opacity 0.3s;"></span>
-    <span class="bline" style="display:block;width:22px;height:1.5px;background:#10b981;transition:transform 0.3s,opacity 0.3s;"></span>
-    <span class="bline" style="display:block;width:22px;height:1.5px;background:#10b981;transition:transform 0.3s,opacity 0.3s;"></span>
-  </button>
 </nav>
 
-<!-- Mobile dropdown menu -->
-<div id="nav-mobile" style="display:none;position:fixed;top:0;left:0;right:0;z-index:599;padding-top:72px;background:rgba(4,9,4,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(16,185,129,0.15);flex-direction:column;">
-  <a href="#about"      data-i18n="nav.about"      style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">sobre_mí</a>
-  <a href="#skills"     data-i18n="nav.skills"     style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">skills</a>
-  <a href="#experience" data-i18n="nav.experience" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">experiencia</a>
-  <a href="#projects"   data-i18n="nav.projects"   style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">proyectos</a>
-  <a href="#education"  data-i18n="nav.education"  style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);border-bottom:1px solid rgba(16,185,129,0.06);display:block;transition:background 0.2s;">educación</a>
-  <a href="#contact"    data-i18n="nav.contact"    style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;text-decoration:none;letter-spacing:0.1em;padding:16px clamp(24px,6vw,64px);display:block;transition:background 0.2s;">contacto</a>
-  <div style="padding:16px clamp(24px,6vw,64px);border-top:1px solid rgba(16,185,129,0.06);display:flex;gap:8px;align-items:center;">
-    <button id="lang-es-mobile" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#10b981;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">ES</button>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#10b981;">·</span>
-    <button id="lang-en-mobile" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:none;border:none;color:#6b7280;cursor:pointer;font-weight:600;letter-spacing:0.05em;transition:color 0.2s;">EN</button>
-  </div>
-</div>
+<!-- ── HERO ── -->
+<section class="hero" style="border:none;padding:0;">
+  <canvas id="particle-canvas"></canvas>
 
-<!-- ── HERO ──────────────────────────────────────────── -->
-<section style="position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(28px,7vw,90px) 80px;">
+  <div class="hero-body">
+    <p class="hero-kicker"><span data-i18n="hero_hello">&gt; Hello, World!</span><span class="hero-blink">_</span></p>
 
-  <!-- Label -->
-  <p data-s data-d="80" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#10b981;letter-spacing:0.22em;margin-bottom:28px;">
-    <span data-i18n="hero.hello">&gt; Hello, World!</span><span style="animation:blink 1s step-end infinite;">_</span>
-  </p>
+    <h1 class="hero-name">Pescador<br>Jesús Leonel</h1>
 
-  <!-- Glitch Name -->
-  <div data-s data-d="200" style="position:relative;margin-bottom:20px;width:fit-content;max-width:100%;">
-    <h1 style="font-family:'JetBrains Mono',monospace;font-size:clamp(2.1rem,5vw,4.4rem);font-weight:700;color:#e8f5e9;line-height:1.08;letter-spacing:-2px;">
-      Pescador Jesús Leonel
-    </h1>
-    <h1 aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:clamp(2.1rem,5vw,4.4rem);font-weight:700;color:#10b981;line-height:1.08;letter-spacing:-2px;position:absolute;top:0;left:0;animation:glitch-a 7s infinite;">
-      Pescador Jesús Leonel
-    </h1>
-    <h1 aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:clamp(2.1rem,5vw,4.4rem);font-weight:700;color:#f59e0b;line-height:1.08;letter-spacing:-2px;position:absolute;top:0;left:0;animation:glitch-b 7s infinite 0.35s;">
-      Pescador Jesús Leonel
-    </h1>
+    <div class="hero-tw-wrap">
+      <span class="hero-tw" id="tw-text"></span>
+      <span class="hero-tw-cursor">|</span>
+    </div>
+
+    <p class="hero-desc">
+      <span data-i18n="hero_desc">Especializado en Python · Django · FastAPI · Odoo · React Native.</span>
+      <span class="loc">Salta, Argentina</span>
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-cta-filled" data-i18n="hero_cta_contact">Contactar →</a>
+      <a href="#about"   class="btn-cta-outline" data-i18n="hero_cta_portfolio">Ver portafolio ↓</a>
+    </div>
+
+    <div class="hero-socials">
+      <a href="https://linkedin.com/in/pescador-jesus-leonel" target="_blank" class="hero-social-link">LinkedIn ↗</a>
+      <a href="https://github.com/Leonelpescador" target="_blank" class="hero-social-link">GitHub ↗</a>
+      <a href="https://github.com/leonelconsejo" target="_blank" class="hero-social-link">GitHub-CPCES ↗</a>
+    </div>
   </div>
 
-  <!-- Typewriter -->
-  <div data-s data-d="360" style="height:clamp(36px,5vw,48px);margin-bottom:28px;display:flex;align-items:center;gap:0;">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2.2vw,1.35rem);color:#f59e0b;font-weight:500;letter-spacing:0.02em;">{{ tw }}</span>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2.2vw,1.35rem);color:#10b981;animation:blink 0.75s step-end infinite;">|</span>
-  </div>
-
-  <!-- Description -->
-  <p data-s data-d="480" data-i18n-html="hero.desc" style="font-size:clamp(0.9rem,1.4vw,1.05rem);color:#6b7280;max-width:520px;line-height:1.85;margin-bottom:44px;text-wrap:pretty;">
-    Especializado en Python · Django · FastAPI · Odoo · React Native.<br>
-    <span style="color:#10b981;font-family:'JetBrains Mono',monospace;font-size:0.82rem;">Salta, Argentina</span>
-  </p>
-
-  <!-- CTAs -->
-  <div data-s data-d="580" style="display:flex;gap:14px;flex-wrap:wrap;">
-    <a href="#contact" data-i18n="hero.cta.contact" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;padding:14px 30px;background:#10b981;color:#040904;border-radius:3px;text-decoration:none;font-weight:700;letter-spacing:0.06em;transition:all 0.25s;animation:pulse-cta 2.5s infinite;display:inline-block;" style-hover="background:#0dd17a;transform:translateY(-2px);">
-      Contactar →
-    </a>
-    <a href="#about" data-i18n="hero.cta.portfolio" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;padding:14px 30px;border:1px solid rgba(16,185,129,0.38);color:#10b981;border-radius:3px;text-decoration:none;font-weight:500;letter-spacing:0.06em;transition:all 0.25s;display:inline-block;" style-hover="background:rgba(16,185,129,0.08);border-color:#10b981;transform:translateY(-2px);">
-      Ver portafolio ↓
-    </a>
-  </div>
-
-  <!-- Socials -->
-  <div data-s data-d="680" style="display:flex;gap:28px;margin-top:48px;flex-wrap:wrap;align-items:center;">
-    <a href="https://linkedin.com/in/pescador-jesus-leonel" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#e8f5e9;text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;" style-hover="color:#10b981">LinkedIn ↗</a>
-    <a href="https://github.com/Leonelpescador" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#e8f5e9;text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;" style-hover="color:#10b981">GitHub ↗</a>
-    <a href="https://github.com/leonelconsejo" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#e8f5e9;text-decoration:none;letter-spacing:0.1em;transition:color 0.2s;" style-hover="color:#10b981">GitHub-CPCES ↗</a>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div style="position:absolute;bottom:36px;left:50%;animation:floaty 2.2s ease-in-out infinite;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:8px;">
-    <span style="font-size:1.1rem;color:#ffffff;line-height:1;">↓</span>
-    <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(16,185,129,0.5),transparent);"></div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-arr">↓</span>
+    <div class="hero-scroll-line"></div>
   </div>
 </section>
 
-<!-- ── ABOUT ─────────────────────────────────────────── -->
-<section id="about" style="position:relative;z-index:2;padding:clamp(72px,10vw,120px) clamp(28px,7vw,90px);border-top:1px solid rgba(16,185,129,0.07);">
-  <div style="max-width:1160px;margin:0 auto;">
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="sec-header">
+    <span class="sec-label" data-i18n="about_label">Sobre mí</span>
+    <h2 class="sec-title" data-i18n="about_title">Sobre Mí</h2>
+    <div class="sec-underline"></div>
+  </div>
+  <div class="about-card-centered" data-reveal>
+    <p class="about-bio" data-i18n-html="about_bio1">
+      Soy Analista de Sistemas y Desarrollador Full-Stack con experiencia en la creación de
+      <span class="hi">soluciones tecnológicas de alto impacto</span> y transformación digital.
+    </p>
+    <p class="about-bio" data-i18n-html="about_bio2">
+      Especializado en el ecosistema <span class="hi2">Python (Django · FastAPI · Odoo)</span> y JavaScript.
+      Lidero relevamiento de requerimientos, diseño de arquitecturas escalables y coordinación con equipos multidisciplinarios bajo metodologías ágiles.
+    </p>
+    <p class="about-bio" data-i18n-html="about_bio3">
+      Actualmente enfocado en la <span class="hi3">transformación digital institucional</span>, alineando tecnología con los objetivos del negocio.
+    </p>
+  </div>
+</section>
 
-    <div data-s style="margin-bottom:56px;">
-      <h2 data-i18n="section.about" style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;color:#e8f5e9;margin-top:8px;letter-spacing:-1px;">Sobre Mí</h2>
-      <div style="width:44px;height:2px;background:#10b981;margin-top:14px;"></div>
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="sec-header">
+    <span class="sec-label" data-i18n="skills_label">Habilidades</span>
+    <h2 class="sec-title" data-i18n="skills_title">Stack Técnico</h2>
+    <div class="sec-underline"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group" data-reveal data-delay="1">
+      <span class="skill-group-name" data-i18n="sk_backend">Backend</span>
+      <div class="skill-pills">
+        <span class="pill">Python</span>
+        <span class="pill">Django</span>
+        <span class="pill">FastAPI</span>
+      </div>
+    </div>
+    <div class="skill-group" data-reveal data-delay="2">
+      <span class="skill-group-name" data-i18n="sk_frontend">Frontend</span>
+      <div class="skill-pills">
+        <span class="pill">React Native</span>
+        <span class="pill">HTML / CSS</span>
+        <span class="pill">JavaScript</span>
+        <span class="pill">UI/UX Design</span>
+      </div>
+    </div>
+    <div class="skill-group" data-reveal data-delay="3">
+      <span class="skill-group-name" data-i18n="sk_db">Databases</span>
+      <div class="skill-pills">
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">MySQL</span>
+        <span class="pill">Firebase</span>
+        <span class="pill">SQL Server</span>
+      </div>
+    </div>
+    <div class="skill-group" data-reveal data-delay="4">
+      <span class="skill-group-name">ERP</span>
+      <div class="skill-pills">
+        <span class="pill">Odoo v19</span>
+        <span class="pill">ORM</span>
+        <span class="pill" data-i18n="sk_modules">Módulos Custom</span>
+      </div>
+    </div>
+    <div class="skill-group" data-reveal data-delay="5">
+      <span class="skill-group-name" data-i18n="sk_tools">Project Mgmt</span>
+      <div class="skill-pills">
+        <span class="pill">Scrum</span>
+        <span class="pill">Jira</span>
+        <span class="pill">Confluence</span>
+        <span class="pill">Notion</span>
+        <span class="pill">Docker</span>
+      </div>
+    </div>
+    <div class="skill-group" data-reveal data-delay="6">
+      <span class="skill-group-name" data-i18n="sk_design">Design / UX</span>
+      <div class="skill-pills">
+        <span class="pill">Figma</span>
+        <span class="pill">Visio</span>
+      </div>
+    </div>
+    <div class="skill-group" data-reveal data-delay="7">
+      <span class="skill-group-name" data-i18n="sk_idioms">Idiomas</span>
+      <div class="skill-pills">
+        <span class="pill" data-i18n="sk_es">Español (Nativo)</span>
+        <span class="pill" data-i18n="sk_en">English B1</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="sec-header">
+    <span class="sec-label" data-i18n="exp_label">Experiencia</span>
+    <h2 class="sec-title" data-i18n="exp_title">Trayectoria Profesional</h2>
+    <div class="sec-underline"></div>
+  </div>
+  <div class="timeline">
+
+    <!-- CPCES -->
+    <div class="timeline-item" data-reveal data-delay="1">
+      <div class="timeline-card">
+        <div class="timeline-card-top">
+          <div>
+            <span class="timeline-company" data-i18n="exp1_company">
+              Consejo Prof. de Ciencias Económicas de Salta
+              <span class="timeline-current-badge" data-i18n="exp_current">Actual</span>
+            </span>
+          </div>
+          <span class="timeline-date-badge" data-i18n="exp1_date">Jun 2025 – Presente</span>
+        </div>
+        <p class="timeline-role" data-i18n="exp1_role">Desarrollador de Software · Analista Funcional</p>
+        <p class="timeline-loc">Salta, Argentina</p>
+        <div class="timeline-bullets">
+          <p class="timeline-bullet" data-i18n="exp1_b1">Análisis de procesos de negocio y relevamiento de requerimientos con las áreas involucradas.</p>
+          <p class="timeline-bullet" data-i18n="exp1_b2">Definición de requerimientos funcionales y elaboración de documentación técnica del proyecto.</p>
+          <p class="timeline-bullet" data-i18n="exp1_b3">Diseño de arquitectura técnica y desarrollo de módulos personalizados en el ecosistema Odoo.</p>
+          <p class="timeline-bullet" data-i18n="exp1_b4">Decisiones estratégicas sobre estructura de código y arquitectura para garantizar escalabilidad.</p>
+        </div>
+        <div class="timeline-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Odoo</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag" data-i18n="exp1_tag">Análisis Funcional</span>
+        </div>
+      </div>
     </div>
 
-    <div class="two-col" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:start;">
+    <!-- CENESA -->
+    <div class="timeline-item" data-reveal data-delay="2">
+      <div class="timeline-card">
+        <div class="timeline-card-top">
+          <span class="timeline-company">CENESA S.A.</span>
+          <span class="timeline-date-badge">2021 – Sep 2025</span>
+        </div>
+        <p class="timeline-role" data-i18n="exp2_role">Desarrollador de Software · Administrador de Sistema</p>
+        <p class="timeline-loc">Salta, Argentina</p>
+        <div class="timeline-bullets">
+          <p class="timeline-bullet" data-i18n="exp2_b1">Diseño, desarrollo y puesta en producción E2E de API web y app mobile corporativa para Android.</p>
+          <p class="timeline-bullet" data-i18n="exp2_b2">Integración de aplicaciones internas: gestión de inventarios, control de turnos y asignación de habitaciones.</p>
+          <p class="timeline-bullet" data-i18n="exp2_b3">Módulo de integración con obras sociales para automatizar y auditar control de reintegros médicos.</p>
+          <p class="timeline-bullet" data-i18n="exp2_b4">Responsable del ciclo de vida completo: UI/UX, arquitectura backend e infraestructura de servidores.</p>
+        </div>
+        <div class="timeline-tech">
+          <span class="tech-tag">Django</span>
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">React Native</span>
+          <span class="tech-tag">Firebase</span>
+          <span class="tech-tag">Android</span>
+          <span class="tech-tag">MySQL</span>
+        </div>
+      </div>
+    </div>
 
-      <!-- Left: bio -->
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="sec-header">
+    <span class="sec-label" data-i18n="proj_label">Proyectos</span>
+    <h2 class="sec-title" data-i18n="proj_title">Trabajo Destacado</h2>
+    <div class="sec-underline"></div>
+  </div>
+  <div class="projects-grid">
+
+    <!-- CPCES Odoo -->
+    <div class="project-card" data-reveal data-delay="1">
+      <div class="project-top">
+        <img class="project-logo"
+          src="https://www.consejosalta.org.ar/wp-content/uploads/LOGO-APAISADO-SIN-FONDO-PNG.png"
+          alt="CPCES"
+          onerror="this.style.display='none'">
+        <div class="project-links-top">
+          <span class="project-badge badge-amber" data-i18n="proj_indev">En Desarrollo</span>
+          <a href="https://oficinavirtualdev.consejosalta.org.ar/" target="_blank" class="project-link-top" data-i18n="proj_visit">Sistema ↗</a>
+        </div>
+      </div>
       <div>
-        <p data-s data-d="80" data-i18n-html="about.bio1" style="color:#7a9a7a;line-height:1.9;font-size:0.97rem;margin-bottom:18px;text-wrap:pretty;">
-          Soy Analista de Sistemas y Desarrollador Full-Stack con experiencia en la creación de
-          <span style="color:#e0f0e0;font-weight:500;">soluciones tecnológicas de alto impacto</span> y transformación digital.
-        </p>
-        <p data-s data-d="140" data-i18n-html="about.bio2" style="color:#7a9a7a;line-height:1.9;font-size:0.97rem;margin-bottom:18px;text-wrap:pretty;">
-          Especializado en el ecosistema <span style="color:#10b981;font-weight:600;">Python (Django · FastAPI · Odoo) y JavaScript.</span> 
-          Lidero relevamiento de requerimientos, diseño de arquitecturas escalables y coordinación con equipos multidisciplinarios bajo metodologías ágiles.
-        </p>
-        <p data-s data-d="200" data-i18n-html="about.bio3" style="color:#7a9a7a;line-height:1.9;font-size:0.97rem;text-wrap:pretty;">
-          Actualmente estoy enfocado en la <span style="color:#f59e0b;font-weight:500;">transformación digital institucional</span>, alineando tecnología con los objetivos del negocio.
-        </p>
-
-        <!-- Stats -->
-        <div data-s data-d="280" style="display:flex;gap:36px;margin-top:44px;flex-wrap:wrap;">
-          <div>
-            <div data-count="5" data-count-suffix="+" style="font-family:'JetBrains Mono',monospace;font-size:2.1rem;font-weight:700;color:#10b981;line-height:1;">5+</div>
-            <div data-i18n="about.stat1" style="font-size:0.78rem;color:#e8f5e9;margin-top:5px;letter-spacing:0.05em;">años como dev</div>
-          </div>
-        </div>
+        <p class="project-name" data-i18n="proj1_title">Integración ORM · Odoo v19</p>
+        <p class="project-org">Consejo Prof. de Ciencias Económicas de Salta</p>
+      </div>
+      <p class="project-desc" data-i18n="proj1_desc">
+        Desarrollo e integración del ORM de Odoo v19 para la digitalización y automatización de los procesos internos del CPCES. Diseño de modelos de datos, relaciones entre entidades y lógica de negocio personalizada, garantizando escalabilidad y trazabilidad completa.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Odoo v19</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">ORM</span>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ── SKILLS ─────────────────────────────────────────── -->
-<section id="skills" style="position:relative;z-index:2;padding:clamp(72px,10vw,120px) clamp(28px,7vw,90px);background:rgba(16,185,129,0.018);border-top:1px solid rgba(16,185,129,0.08);border-bottom:1px solid rgba(16,185,129,0.08);">
-  <div style="max-width:1160px;margin:0 auto;">
-
-    <div data-s style="margin-bottom:56px;">
-      <h2 data-i18n="section.skills" style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;color:#e8f5e9;margin-top:8px;letter-spacing:-1px;">Habilidades</h2>
-      <div style="width:44px;height:2px;background:#10b981;margin-top:14px;"></div>
-    </div>
-
-    <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;">
-
-      <!-- Right: tech chips -->
+    <!-- CENESA Web -->
+    <div class="project-card" data-reveal data-delay="2">
+      <div class="project-top">
+        <img class="project-logo"
+          src="http://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png"
+          alt="CENESA"
+          onerror="this.style.display='none'">
+        <div class="project-links-top">
+          <span class="project-badge badge-plum">Corporate</span>
+          <a href="https://www.cenesa.com.ar" target="_blank" class="project-link-top" data-i18n="proj_web">Pag Web ↗</a>
+        </div>
+      </div>
       <div>
-        <p data-s data-i18n="skills.header" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#10b981;letter-spacing:0.2em;margin-bottom:32px;">// tech_stack</p>
+        <p class="project-name" data-i18n="proj2_title">CENESA · Sitio Corporativo</p>
+        <p class="project-org">CENESA S.A.</p>
+      </div>
+      <p class="project-desc" data-i18n="proj2_desc">
+        Diseño y desarrollo del sitio web institucional y corporativo de CENESA S.A. Arquitectura frontend moderna con foco en rendimiento, SEO y experiencia de usuario. Responsable del ciclo completo: UI/UX, desarrollo e infraestructura de deploy.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">Django</span>
+        <span class="stack-tag">HTML/CSS</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">UI/UX</span>
+      </div>
+    </div>
 
-        <div data-s data-d="60" style="margin-bottom:26px;">
-          <p data-i18n="skills.cat.databases" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#e8f5e9;letter-spacing:0.16em;margin-bottom:11px;">DATABASES</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">PostgreSQL</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">MySQL</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Firebase</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">SQLserver</span>
-          </div>
-        </div>
-        <div data-s data-d="110" style="margin-bottom:26px;">
-          <p data-i18n="skills.cat.erp" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#e8f5e9;letter-spacing:0.16em;margin-bottom:11px;">ERP</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(245,158,11,0.28);border-radius:2px;color:#6b7280;">Odoo Config</span>
-            <span data-i18n="skills.odoo.custom" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(245,158,11,0.28);border-radius:2px;color:#6b7280;">Módulos Custom</span>
-          </div>
-        </div>
-        <div data-s data-d="160" style="margin-bottom:26px;">
-          <p data-i18n="skills.cat.project" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#e8f5e9;letter-spacing:0.16em;margin-bottom:11px;">PROJECT MGMT</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Scrum</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Jira</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Confluence</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Notion</span>
-          </div>
-        </div>
-        <div data-s data-d="210" style="margin-bottom:26px;">
-          <p data-i18n="skills.cat.design" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#e8f5e9;letter-spacing:0.16em;margin-bottom:11px;">DESIGN / UX</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Figma</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">UI/UX</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(16,185,129,0.22);border-radius:2px;color:#6b7280;">Visio</span>
-          </div>
-        </div>
-        <div data-s data-d="260">
-          <p data-i18n="skills.cat.languages" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#e8f5e9;letter-spacing:0.16em;margin-bottom:11px;">IDIOMAS</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <span data-i18n="skills.lang.spanish" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(245,158,11,0.28);border-radius:2px;color:#6b7280;">Español (Nativo)</span>
-            <span data-i18n="skills.lang.english" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:5px 13px;border:1px solid rgba(245,158,11,0.28);border-radius:2px;color:#6b7280;">English B1</span>
-          </div>
+    <!-- CENESA Intranet -->
+    <div class="project-card" data-reveal data-delay="3">
+      <div class="project-top">
+        <img class="project-logo"
+          src="http://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png"
+          alt="CENESA"
+          onerror="this.style.display='none'">
+        <div class="project-links-top">
+          <span class="project-badge badge-lichen">Full Stack E2E</span>
+          <a href="https://gestiones.cenesa.com.ar:88/login" target="_blank" class="project-link-top">Intranet ↗</a>
+          <a href="https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view" target="_blank" class="project-link-top">APK ↗</a>
         </div>
       </div>
+      <div>
+        <p class="project-name" data-i18n="proj3_title">CENESA · Intranet Corporativa</p>
+        <p class="project-org">CENESA S.A.</p>
+      </div>
+      <p class="project-desc" data-i18n="proj3_desc">
+        Sistema intranet corporativo E2E para gestión administrativa integral: módulos de enfermería, farmacia, control de habitaciones y turnos. Arquitectura intranet adoptada por decisión estratégica para garantizar seguridad y privacidad de datos. API RESTful + APK nativa Android.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">FastAPI</span>
+        <span class="stack-tag">React Native</span>
+        <span class="stack-tag">Android</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">Firebase</span>
+      </div>
+    </div>
+
+  </div>
+  <p class="proj-more" data-i18n="proj_more">// más proyectos · coming soon</p>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="sec-header">
+    <span class="sec-label" data-i18n="edu_label">Educación</span>
+    <h2 class="sec-title" data-i18n="edu_title">Formación Académica</h2>
+    <div class="sec-underline"></div>
+  </div>
+  <div class="edu-card" data-reveal>
+    <div class="edu-card-top">
+      <div>
+        <p class="edu-degree" data-i18n="edu_degree">Técnico Superior en Análisis de Sistemas</p>
+      </div>
+      <span class="edu-date-badge">2022 – 2024</span>
+    </div>
+    <p class="edu-inst">Instituto Superior del Milagro</p>
+    <p class="edu-loc">Salta, Argentina</p>
+    <span class="edu-badge" data-i18n="edu_badge">✓ Finalizado</span>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="sec-header">
+    <span class="sec-label" data-i18n="contact_label">Contacto</span>
+    <h2 class="sec-title" data-i18n="contact_title">Contacto</h2>
+    <div class="sec-underline"></div>
+  </div>
+  <div class="contact-inner" data-reveal>
+    <p class="contact-question" data-i18n="contact_question">¿Tenés un proyecto en mente? Hablemos.</p>
+    <form action="https://formspree.io/f/xzdlpejn" method="POST" id="contact-form">
+      <div class="form-group">
+        <label class="form-label" data-i18n="form_name">Nombre</label>
+        <input type="text" name="name" class="form-input" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-input" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="form_msg">Mensaje</label>
+        <textarea name="message" class="form-textarea" required></textarea>
+      </div>
+      <button type="submit" class="btn-send" data-i18n="form_send">Enviar mensaje →</button>
+    </form>
+
+    <div class="contact-links-row">
+      <a href="mailto:leopescador07@gmail.com" class="contact-row-link">
+        <span class="contact-row-label">Email</span>
+        <span class="contact-row-val">leopescador07@gmail.com</span>
+      </a>
+      <a href="https://linkedin.com/in/pescador-jesus-leonel" target="_blank" class="contact-row-link">
+        <span class="contact-row-label">LinkedIn</span>
+        <span class="contact-row-val">pescador-jesus-leonel</span>
+      </a>
+      <a href="https://github.com/Leonelpescador" target="_blank" class="contact-row-link">
+        <span class="contact-row-label">GitHub</span>
+        <span class="contact-row-val">Leonelpescador</span>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ── EXPERIENCE ──────────────────────────────────────── -->
-<section id="experience" style="position:relative;z-index:2;padding:clamp(72px,10vw,120px) clamp(28px,7vw,90px);">
-  <div style="max-width:1160px;margin:0 auto;">
-
-    <div data-s style="margin-bottom:56px;">
-      <h2 data-i18n="section.experience" style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;color:#e8f5e9;margin-top:8px;letter-spacing:-1px;">Experiencia</h2>
-      <div style="width:44px;height:2px;background:#10b981;margin-top:14px;"></div>
-    </div>
-
-    <div style="position:relative;padding-left:28px;">
-      <!-- Timeline line -->
-      <div style="position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,#10b981 0%,rgba(16,185,129,0.2) 70%,transparent 100%);"></div>
-
-      <!-- CPCES -->
-      <div data-s style="position:relative;margin-bottom:48px;padding-left:36px;">
-        <div style="position:absolute;left:-36px;top:6px;width:9px;height:9px;border-radius:50%;background:#10b981;box-shadow:0 0 0 5px rgba(16,185,129,0.15),0 0 16px rgba(16,185,129,0.4);"></div>
-        <div style="padding:26px 28px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.15);border-radius:6px;transition:border-color 0.3s;" style-hover="border-color:rgba(16,185,129,0.38);">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
-            <div>
-              <h3 data-i18n="exp.cpces.role" style="font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:#e8f5e9;">Desarrollador de Software | Analista Funcional</h3>
-              <p data-i18n="exp.cpces.company" style="color:#10b981;font-size:0.88rem;font-weight:500;margin-top:5px;">Consejo Profesional de Ciencias Económicas de Salta (CPCES)</p>
-            </div>
-            <span data-i18n="exp.cpces.date" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#f59e0b;padding:4px 10px;border:1px solid rgba(245,158,11,0.3);border-radius:2px;white-space:nowrap;flex-shrink:0;">Jun 2025 – Presente</span>
-          </div>
-          <p data-i18n="exp.location" style="font-size:0.8rem;color:#e8f5e9;margin-bottom:16px;">Salta, Argentina</p>
-          <ul style="display:flex;flex-direction:column;gap:9px;list-style:none;margin-bottom:20px;">
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cpces.bullet1">Análisis de procesos de negocio y relevamiento de requerimientos con las áreas involucradas.</span>
-            </li>
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cpces.bullet2">Definición de requerimientos funcionales y elaboración de documentación técnica del proyecto.</span>
-            </li>
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cpces.bullet3">Diseño de arquitectura técnica y desarrollo de módulos personalizados en el ecosistema Odoo.</span>
-            </li>
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cpces.bullet4">Decisiones estratégicas sobre estructura de código y arquitectura para garantizar escalabilidad.</span>
-            </li>
-          </ul>
-          <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Python</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Odoo</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">PostgreSQL</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Docker</span>
-            <span data-i18n="exp.cpces.tag.analysis" style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Análisis Funcional</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- CENESA -->
-      <div data-s data-d="80" style="position:relative;margin-bottom:48px;padding-left:36px;">
-        <div style="position:absolute;left:-36px;top:6px;width:9px;height:9px;border-radius:50%;background:#f59e0b;box-shadow:0 0 0 5px rgba(245,158,11,0.12),0 0 16px rgba(245,158,11,0.3);"></div>
-        <div style="padding:26px 28px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.15);border-radius:6px;transition:border-color 0.3s;" style-hover="border-color:rgba(16,185,129,0.38);">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
-            <div>
-              <h3 data-i18n="exp.cenesa.role" style="font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:#e8f5e9;">Desarrollador de Software | Administrador de Sistema</h3>
-              <p data-i18n="exp.cenesa.company" style="color:#10b981;font-size:0.88rem;font-weight:500;margin-top:5px;">CENESA S.A.</p>
-            </div>
-            <span data-i18n="exp.cenesa.date" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#f59e0b;padding:4px 10px;border:1px solid rgba(245,158,11,0.3);border-radius:2px;white-space:nowrap;flex-shrink:0;">2021 – Sep 2025</span>
-          </div>
-          <p data-i18n="exp.location" style="font-size:0.8rem;color:#e8f5e9;margin-bottom:16px;">Salta, Argentina</p>
-          <ul style="display:flex;flex-direction:column;gap:9px;list-style:none;margin-bottom:20px;">
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cenesa.bullet1">Diseño, desarrollo y puesta en producción E2E de una API web y app mobile corporativa para Android.</span>
-            </li>
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cenesa.bullet2">Integración de aplicaciones internas para procesos administrativos.</span>
-            </li>
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cenesa.bullet3">Módulo de integración con obras sociales para automatizar y auditar control de reintegros médicos.</span>
-            </li>
-            <li style="color:#6b7280;font-size:0.88rem;padding-left:14px;position:relative;line-height:1.75;">
-              <span style="position:absolute;left:0;color:#10b981;font-weight:600;">›</span>
-              <span data-i18n="exp.cenesa.bullet4">Responsable del ciclo de vida completo: UI/UX, arquitectura backend e infraestructura de servidores.</span>
-            </li>
-          </ul>
-          <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Django</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">FastAPI</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">React Native</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Firebase</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Android</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">MySQL</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;padding:3px 9px;background:rgba(16,185,129,0.08);border-radius:2px;color:#10b981;">Sysadmin</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PROJECTS ────────────────────────────────────────── -->
-<section id="projects" style="position:relative;z-index:2;padding:clamp(72px,10vw,120px) clamp(28px,7vw,90px);background:rgba(16,185,129,0.018);border-top:1px solid rgba(16,185,129,0.08);border-bottom:1px solid rgba(16,185,129,0.08);">
-  <div style="max-width:1160px;margin:0 auto;">
-
-    <div data-s style="margin-bottom:56px;">
-      <h2 data-i18n="section.projects" style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;color:#e8f5e9;margin-top:8px;letter-spacing:-1px;">Proyectos</h2>
-      <div style="width:44px;height:2px;background:#10b981;margin-top:14px;"></div>
-    </div>
-
-    <div class="three-col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
-
-      <!-- Card 1 — ORM Odoo v19 (CPCES) -->
-      <div data-s data-tilt style="padding:28px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.17);border-radius:6px;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.3s;cursor:default;display:flex;flex-direction:column;gap:0;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;">
-          <div style="width:120px;height:42px;display:flex;align-items:center;">
-            <img src="https://www.consejosalta.org.ar/wp-content/uploads/LOGO-APAISADO-SIN-FONDO-PNG.png" alt="CPCES" style="max-width:100%;max-height:100%;object-fit:contain;filter:brightness(0.95);">
-          </div>
-          <a href="https://oficinavirtualdev.consejosalta.org.ar/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#6b7280;text-decoration:none;letter-spacing:0.06em;position:relative;display:inline-block;">
-            <span data-i18n="proj.1.link">Sistema↗</span>
-            <span aria-hidden="true" data-i18n="proj.1.link" style="position:absolute;top:0;left:0;color:#10b981;animation:glitch-a 7s infinite;white-space:nowrap;">Sistema↗</span>
-            <span aria-hidden="true" data-i18n="proj.1.link" style="position:absolute;top:0;left:0;color:#f59e0b;animation:glitch-b 7s infinite 0.35s;white-space:nowrap;">Sistema↗</span>
-          </a>
-        </div>
-        <h3 data-i18n="proj.1.title" style="font-family:'JetBrains Mono',monospace;font-size:0.98rem;font-weight:600;color:#e8f5e9;margin-bottom:10px;">CPCES · Odoo (En Desarrollo)</h3>
-        <p data-i18n="proj.1.desc" style="font-size:0.83rem;color:#e8f5e9;line-height:1.75;margin-bottom:22px;flex:1;text-wrap:pretty;">Desarrollo e integración del ORM de Odoo v19 para la digitalización y automatización de los procesos internos del CPCES.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">Python</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">Odoo v19</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">PostgreSQL</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">ORM</span>
-        </div>
-      </div>
-
-      <!-- Card 2 — CENESA Web -->
-      <div data-s data-d="80" data-tilt style="padding:28px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.17);border-radius:6px;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.3s;cursor:default;display:flex;flex-direction:column;gap:0;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;">
-          <div style="width:120px;height:42px;display:flex;align-items:center;">
-            <img src="http://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png" alt="CENESA" style="max-width:100%;max-height:100%;object-fit:contain;filter:brightness(0.95);">
-          </div>
-          <a href="https://www.cenesa.com.ar" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#6b7280;text-decoration:none;letter-spacing:0.06em;position:relative;display:inline-block;">
-            <span data-i18n="proj.2.link">Pag Web↗</span>
-            <span aria-hidden="true" data-i18n="proj.2.link" style="position:absolute;top:0;left:0;color:#10b981;animation:glitch-a 7s infinite;white-space:nowrap;">Pag Web↗</span>
-            <span aria-hidden="true" data-i18n="proj.2.link" style="position:absolute;top:0;left:0;color:#f59e0b;animation:glitch-b 7s infinite 0.35s;white-space:nowrap;">Pag Web↗</span>
-          </a>
-        </div>
-        <h3 data-i18n="proj.2.title" style="font-family:'JetBrains Mono',monospace;font-size:0.98rem;font-weight:600;color:#e8f5e9;margin-bottom:10px;">CENESA</h3>
-        <p data-i18n="proj.2.desc" style="font-size:0.83rem;color:#e8f5e9;line-height:1.75;margin-bottom:22px;flex:1;text-wrap:pretty;">Diseño y desarrollo del sitio web institucional y corporativo de CENESA S.A. Responsable del ciclo completo: UI/UX, desarrollo e infraestructura de deploy.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">Django</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">HTML/CSS</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">PostgreSQL</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">UI/UX</span>
-        </div>
-      </div>
-
-      <!-- Card 3 — Intranet Vultra (CENESA) -->
-      <div data-s data-d="160" data-tilt style="padding:28px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.17);border-radius:6px;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.3s;cursor:default;display:flex;flex-direction:column;gap:0;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;">
-          <div style="width:120px;height:42px;display:flex;align-items:center;">
-            <img src="http://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png" alt="CENESA" style="max-width:100%;max-height:100%;object-fit:contain;filter:brightness(0.95);">
-          </div>
-          <div style="display:flex;gap:16px;align-items:center;">
-            <a href="https://gestiones.cenesa.com.ar:88/login" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#6b7280;text-decoration:none;letter-spacing:0.06em;position:relative;display:inline-block;">
-              <span data-i18n="proj.3.link.intranet">intranet ↗</span>
-              <span aria-hidden="true" data-i18n="proj.3.link.intranet" style="position:absolute;top:0;left:0;color:#10b981;animation:glitch-a 7s infinite;white-space:nowrap;">intranet ↗</span>
-              <span aria-hidden="true" data-i18n="proj.3.link.intranet" style="position:absolute;top:0;left:0;color:#f59e0b;animation:glitch-b 7s infinite 0.35s;white-space:nowrap;">intranet ↗</span>
-            </a>
-            <a href="https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view?usp=sharing" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#6b7280;text-decoration:none;letter-spacing:0.06em;position:relative;display:inline-block;">
-              <span data-i18n="proj.3.link.apk">APK ↗</span>
-              <span aria-hidden="true" data-i18n="proj.3.link.apk" style="position:absolute;top:0;left:0;color:#10b981;animation:glitch-a 7s infinite 1.2s;white-space:nowrap;">APK ↗</span>
-              <span aria-hidden="true" data-i18n="proj.3.link.apk" style="position:absolute;top:0;left:0;color:#f59e0b;animation:glitch-b 7s infinite 1.55s;white-space:nowrap;">APK ↗</span>
-            </a>
-          </div>
-        </div>
-        <h3 data-i18n="proj.3.title" style="font-family:'JetBrains Mono',monospace;font-size:0.98rem;font-weight:600;color:#e8f5e9;margin-bottom:10px;">CENESA</h3>
-        <p data-i18n="proj.3.desc" style="font-size:0.83rem;color:#e8f5e9;line-height:1.75;margin-bottom:22px;flex:1;text-wrap:pretty;">Sistema intranet corporativo E2E para gestión administrativa integral: enfermería, farmacia, control de habitaciones y turnos. API web RESTful + APK nativa para Android.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">FastAPI</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">React Native</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">Android</span>
-          <span style="color:#2d3748;font-size:0.68rem;">·</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#10b981;">PostgreSQL</span>
-        </div>
-      </div>
-    </div>
-
-    <p data-s data-i18n="proj.more" style="text-align:center;margin-top:40px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#2d3748;letter-spacing:0.08em;">// más proyectos · coming soon</p>
-  </div>
-</section>
-
-<!-- ── EDUCATION ──────────────────────────────────────── -->
-<section id="education" style="position:relative;z-index:2;padding:clamp(72px,10vw,120px) clamp(28px,7vw,90px);">
-  <div style="max-width:1160px;margin:0 auto;">
-
-    <div data-s style="margin-bottom:56px;">
-      <h2 data-i18n="section.education" style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;color:#e8f5e9;margin-top:8px;letter-spacing:-1px;">Educación</h2>
-      <div style="width:44px;height:2px;background:#10b981;margin-top:14px;"></div>
-    </div>
-
-    <div data-s style="max-width:600px;padding:32px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.18);border-radius:6px;transition:border-color 0.3s;" style-hover="border-color:rgba(16,185,129,0.4);">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
-        <div>
-          <h3 data-i18n="edu.degree" style="font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:#e8f5e9;">Técnico Superior en Análisis de Sistemas</h3>
-          <p data-i18n="edu.school" style="color:#10b981;font-size:0.88rem;margin-top:6px;font-weight:500;">Instituto Superior del Milagro</p>
-        </div>
-        <span data-i18n="edu.date" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#f59e0b;padding:4px 10px;border:1px solid rgba(245,158,11,0.3);border-radius:2px;white-space:nowrap;flex-shrink:0;">2022 – 2024</span>
-      </div>
-      <p data-i18n="edu.location" style="font-size:0.8rem;color:#e8f5e9;margin-bottom:16px;">Salta, Argentina</p>
-      <span data-i18n="edu.status" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;padding:4px 12px;background:rgba(16,185,129,0.1);border-radius:2px;color:#10b981;">✓ Finalizado</span>
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT ────────────────────────────────────────── -->
-<section id="contact" style="position:relative;z-index:2;padding:clamp(72px,10vw,120px) clamp(28px,7vw,90px);background:rgba(16,185,129,0.018);border-top:1px solid rgba(16,185,129,0.08);">
-  <div style="max-width:1160px;margin:0 auto;">
-
-    <div data-s style="text-align:center;margin-bottom:64px;">
-      <h2 data-i18n="section.contact" style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;color:#e8f5e9;margin-top:8px;letter-spacing:-1px;">Contacto</h2>
-      <div style="width:44px;height:2px;background:#10b981;margin:14px auto 0;"></div>
-      <p data-i18n="contact.question" style="font-size:0.97rem;color:#e8f5e9;margin-top:22px;line-height:1.8;">¿Tenés un proyecto en mente? Hablemos.</p>
-    </div>
-
-    <div data-s style="max-width:640px;margin:0 auto;">
-      <form id="contact-form" action="https://formspree.io/f/xzdlpejn" method="POST" style="display:flex;flex-direction:column;gap:20px;">
-          <div>
-            <label data-i18n="form.name.label" for="contact-name" style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#e8f5e9;letter-spacing:0.14em;margin-bottom:8px;">NOMBRE</label>
-            <input id="contact-name" name="name" type="text" required data-i18n-placeholder="form.name.placeholder" placeholder="Tu nombre" style="width:100%;padding:12px 16px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.18);border-radius:4px;color:#e8f5e9;font-family:'Inter',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.25s;" onfocus="this.style.borderColor='rgba(16,185,129,0.55)'" onblur="this.style.borderColor='rgba(16,185,129,0.18)'">
-          </div>
-          <div>
-            <label data-i18n="form.email.label" for="contact-email" style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#e8f5e9;letter-spacing:0.14em;margin-bottom:8px;">EMAIL</label>
-            <input id="contact-email" name="email" type="email" required data-i18n-placeholder="form.email.placeholder" placeholder="tu@email.com" style="width:100%;padding:12px 16px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.18);border-radius:4px;color:#e8f5e9;font-family:'Inter',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.25s;" onfocus="this.style.borderColor='rgba(16,185,129,0.55)'" onblur="this.style.borderColor='rgba(16,185,129,0.18)'">
-          </div>
-          <div>
-            <label data-i18n="form.msg.label" for="contact-msg" style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#e8f5e9;letter-spacing:0.14em;margin-bottom:8px;">MENSAJE</label>
-            <textarea id="contact-msg" name="message" required rows="5" data-i18n-placeholder="form.msg.placeholder" placeholder="Contame sobre tu proyecto..." style="width:100%;padding:12px 16px;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.18);border-radius:4px;color:#e8f5e9;font-family:'Inter',sans-serif;font-size:0.88rem;outline:none;resize:vertical;transition:border-color 0.25s;min-height:130px;" onfocus="this.style.borderColor='rgba(16,185,129,0.55)'" onblur="this.style.borderColor='rgba(16,185,129,0.18)'"></textarea>
-          </div>
-          <button id="contact-submit" type="submit" style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:14px 32px;background:#10b981;color:#040904;border:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:all 0.25s;align-self:flex-start;" onmouseover="this.style.background='#0dd17a';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#10b981';this.style.transform='none'">
-            <span data-i18n="form.submit">Enviar mensaje →</span>
-          </button>
-          <p id="contact-status" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:12px 16px;border-radius:4px;"></p>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ─────────────────────────────────────────── -->
-<footer style="position:relative;z-index:2;padding:28px clamp(28px,7vw,90px);border-top:1px solid rgba(16,185,129,0.07);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-  <span data-i18n-html="footer.brand" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#fcf8f8;">&lt;PJL/&gt; · Salta, Argentina</span>
-  <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#fcf8f8;"><span data-i18n="footer.credit">Diseñador y desarrollador Pescador Jesús Leonel</span> · {{ year }}</span>
+<!-- ── FOOTER ── -->
+<footer>
+  <a href="#" class="footer-brand">
+    <div class="nav-icon"><span></span><span></span><span></span><span></span></div>
+    <span class="nav-name">Leonel Pescador</span>
+  </a>
+  <span class="footer-copy">© 2026 Pescador Jesús Leonel · Salta, Argentina</span>
 </footer>
 
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{
-  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 900 }
-}">
-
-class Component extends DCLogic {
-  canvasRef = React.createRef();
-  state = { tw: '' };
-  _raf = null;
-  _twTimer = null;
-  _pts = [];
-  _sphere = { rx: 0.18, ry: 0 };
-  _roles = [
-    'Full-Stack Developer',
-    'Analista de Sistemas',
-    'Python Backend Dev',
-    'Odoo Specialist',
-    'Mobile Developer',
-  ];
-
-  componentDidMount() {
-    this._initCursor();
-    this._initCanvas();
-    this._initScroll();
-    this._initBars();
-    this._initNav();
-    this._initTilt();
-    this._applyI18n();
-    this._initTypewriter();
-    this._initForm();
-    this._initMobileNav();
-    this._initCounters();
-    this._initLangSwitch();
-  }
-
-  _applyI18n() {
-    const lang = window.__lang || localStorage.getItem('lang') || 'es';
-    const dict = window.__i18n && window.__i18n[lang];
-    if (!dict) return;
-    window.__applyLang(lang);
-    if (Array.isArray(dict['roles'])) this._roles = dict['roles'];
-  }
-
-  _initMobileNav() {
-    const burger = document.getElementById('nav-burger');
-    const menu   = document.getElementById('nav-mobile');
-    if (!burger || !menu) return;
-
-    const lines = burger.querySelectorAll('.bline');
-
-    const open = () => {
-      menu.style.display = 'flex';
-      lines[0].style.transform = 'translateY(6.5px) rotate(45deg)';
-      lines[1].style.opacity   = '0';
-      lines[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
-      burger.setAttribute('aria-expanded', 'true');
-    };
-    const close = () => {
-      menu.style.display = 'none';
-      lines[0].style.transform = '';
-      lines[1].style.opacity   = '1';
-      lines[2].style.transform = '';
-      burger.setAttribute('aria-expanded', 'false');
-    };
-
-    burger.addEventListener('click', () => {
-      menu.style.display === 'flex' ? close() : open();
-    });
-
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-  }
-
-  _initForm() {
-    const form   = document.getElementById('contact-form');
-    const status = document.getElementById('contact-status');
-    const submit = document.getElementById('contact-submit');
-    if (!form) return;
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const lang = window.__lang || localStorage.getItem('lang') || 'es';
-      const dict = (window.__i18n && window.__i18n[lang]) || {};
-      submit.disabled = true;
-      submit.style.opacity = '0.6';
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) {
-          form.reset();
-          status.textContent = dict['form.success'] || '✓ Mensaje enviado.';
-          status.style.cssText = 'display:block;font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;padding:12px 16px;border-radius:4px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);color:#10b981;';
-        } else {
-          throw new Error();
-        }
-      } catch(_) {
-        status.textContent = dict['form.error'] || '✗ Algo salió mal.';
-        status.style.cssText = 'display:block;font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;padding:12px 16px;border-radius:4px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.25);color:#f59e0b;';
-      } finally {
-        submit.disabled = false;
-        submit.style.opacity = '1';
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this._raf) cancelAnimationFrame(this._raf);
-    if (this._twTimer) clearTimeout(this._twTimer);
-    window.removeEventListener('resize', this._resize);
-    document.removeEventListener('mousemove', this._onMouse);
-  }
-
-  _resize = () => {
-    const c = this.canvasRef.current;
-    if (c) { c.width = window.innerWidth; c.height = window.innerHeight; }
-  };
-
-  _onMouse = (e) => {
-    const dot  = document.getElementById('cdot');
-    const ring = document.getElementById('cring');
-    const x = e.clientX, y = e.clientY;
-    if (dot)  dot.style.transform  = `translate(${x - 4}px,${y - 4}px)`;
-    if (ring) ring.style.transform = `translate(${x - 19}px,${y - 19}px)`;
-  };
-
-  _initCursor() {
-    document.addEventListener('mousemove', this._onMouse);
-    document.addEventListener('mousedown', () => {
-      const d = document.getElementById('cdot');
-      const r = document.getElementById('cring');
-      if (d) d.style.scale = '2.2';
-      if (r) r.style.borderColor = 'rgba(16,185,129,0.9)';
-    });
-    document.addEventListener('mouseup', () => {
-      const d = document.getElementById('cdot');
-      const r = document.getElementById('cring');
-      if (d) d.style.scale = '1';
-      if (r) r.style.borderColor = 'rgba(16,185,129,0.55)';
-    });
-    // enlarge ring on interactive elements
-    const hoverIn  = () => { const r=document.getElementById('cring'); if(r){ r.style.transform+=' scale(1.6)'; r.style.borderColor='rgba(16,185,129,0.8)'; } };
-    const hoverOut = () => { const r=document.getElementById('cring'); if(r){ r.style.borderColor='rgba(16,185,129,0.55)'; } };
-    document.querySelectorAll('a,button,[data-tilt]').forEach(el => {
-      el.addEventListener('mouseenter', hoverIn);
-      el.addEventListener('mouseleave', hoverOut);
-    });
-  }
-
-  _initCanvas() {
-    const c = this.canvasRef.current;
-    if (!c) return;
-    const ctx = c.getContext('2d');
-    this._resize();
-    window.addEventListener('resize', this._resize);
-
-    for (let i = 0; i < 88; i++) {
-      this._pts.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        r: Math.random() * 1.1 + 0.3,
-      });
-    }
-
-    const draw = () => {
-      const w = c.width, h = c.height;
-      ctx.clearRect(0, 0, w, h);
-      const pts = this._pts;
-
-      // Move + draw particles
-      for (let i = 0; i < pts.length; i++) {
-        pts[i].x = (pts[i].x + pts[i].vx + w) % w;
-        pts[i].y = (pts[i].y + pts[i].vy + h) % h;
-        ctx.beginPath();
-        ctx.arc(pts[i].x, pts[i].y, pts[i].r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(16,185,129,0.45)';
-        ctx.fill();
-      }
-
-      // Connections
-      for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-          const dx = pts[i].x - pts[j].x;
-          const dy = pts[i].y - pts[j].y;
-          const d  = Math.sqrt(dx * dx + dy * dy);
-          if (d < 105) {
-            ctx.beginPath();
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
-            ctx.strokeStyle = `rgba(16,185,129,${(0.11 * (1 - d / 105)).toFixed(3)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // 3D Sphere (right-center of screen)
-      this._drawSphere(ctx, w * 0.78, h * 0.5, Math.min(w, h) * 0.19);
-      this._sphere.ry += 0.0065;
-      this._sphere.rx += 0.0018;
-
-      this._raf = requestAnimationFrame(draw);
-    };
-    draw();
-  }
-
-  _drawSphere(ctx, cx, cy, r) {
-    const { rx, ry } = this._sphere;
-    const LATS = 9, LONS = 12, FOV = 520;
-
-    const project = (x3, y3, z3) => {
-      const x1 = x3 * Math.cos(ry) + z3 * Math.sin(ry);
-      const z1 = -x3 * Math.sin(ry) + z3 * Math.cos(ry);
-      const y2 = y3 * Math.cos(rx) - z1 * Math.sin(rx);
-      const z2 = y3 * Math.sin(rx) + z1 * Math.cos(rx);
-      const s  = FOV / (FOV + z2);
-      return { sx: cx + x1 * s, sy: cy + y2 * s, z: z2 };
-    };
-
-    ctx.lineWidth = 0.65;
-
-    for (let la = 0; la <= LATS; la++) {
-      const phi = (la / LATS) * Math.PI;
-      ctx.beginPath();
-      let first = true;
-      for (let lo = 0; lo <= LONS; lo++) {
-        const th = (lo / LONS) * 2 * Math.PI;
-        const p = project(r * Math.sin(phi) * Math.cos(th), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(th));
-        const a = (0.03 + ((p.z + r) / (2 * r)) * 0.25).toFixed(3);
-        ctx.strokeStyle = `rgba(16,185,129,${a})`;
-        if (first) { ctx.moveTo(p.sx, p.sy); first = false; }
-        else ctx.lineTo(p.sx, p.sy);
-      }
-      ctx.stroke();
-    }
-
-    for (let lo = 0; lo < LONS; lo++) {
-      const th = (lo / LONS) * 2 * Math.PI;
-      ctx.beginPath();
-      let first = true;
-      for (let la = 0; la <= LATS; la++) {
-        const phi = (la / LATS) * Math.PI;
-        const p = project(r * Math.sin(phi) * Math.cos(th), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(th));
-        const a = (0.03 + ((p.z + r) / (2 * r)) * 0.25).toFixed(3);
-        ctx.strokeStyle = `rgba(16,185,129,${a})`;
-        if (first) { ctx.moveTo(p.sx, p.sy); first = false; }
-        else ctx.lineTo(p.sx, p.sy);
-      }
-      ctx.stroke();
-    }
-
-    // Glowing dots at intersection points facing camera
-    for (let la = 0; la <= LATS; la += 2) {
-      for (let lo = 0; lo < LONS; lo += 2) {
-        const phi = (la / LATS) * Math.PI;
-        const th  = (lo / LONS) * 2 * Math.PI;
-        const p   = project(r * Math.sin(phi) * Math.cos(th), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(th));
-        if (p.z > -r * 0.2) {
-          const brightness = Math.max(0, (p.z / r));
-          ctx.beginPath();
-          ctx.arc(p.sx, p.sy, 1.8, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(16,185,129,${(brightness * 0.7).toFixed(3)})`;
-          ctx.fill();
-        }
-      }
-    }
-  }
-
-  _initTypewriter() {
-    const roles = this._roles;
-    let ri = 0, ci = 0, del = false;
-    const tick = () => {
-      const cur = roles[ri];
-      if (!del) {
-        this.setState({ tw: cur.slice(0, ci) });
-        ci++;
-        if (ci > cur.length) { del = true; this._twTimer = setTimeout(tick, 1800); return; }
-      } else {
-        ci--;
-        this.setState({ tw: cur.slice(0, ci) });
-        if (ci === 0) { del = false; ri = (ri + 1) % roles.length; this._twTimer = setTimeout(tick, 350); return; }
-      }
-      this._twTimer = setTimeout(tick, del ? 38 : 72);
-    };
-    this._twTimer = setTimeout(tick, 1100);
-  }
-
-  _initScroll() {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-        } else if (e.boundingClientRect.top > 0) {
-          // Salió por abajo (aún no fue visto): quitar .in para re-animar al bajar
-          e.target.classList.remove('in');
-        }
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('[data-s]').forEach(el => {
-      const delay = el.dataset.d || 0;
-      el.style.transitionDelay = delay + 'ms';
-      obs.observe(el);
-    });
-  }
-
-  _initCounters() {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const el     = e.target;
-        const target = parseInt(el.dataset.count, 10);
-        const suffix = el.dataset.countSuffix || '';
-        const dur    = 1200;
-        const start  = performance.now();
-        obs.unobserve(el);
-        const tick = (now) => {
-          const progress = Math.min((now - start) / dur, 1);
-          const eased    = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(eased * target) + suffix;
-          if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('[data-count]').forEach(el => obs.observe(el));
-  }
-
-  _initBars() {
-    const barMap = { bp: '90%', bd: '85%', bo: '82%', bj: '80%', bs: '80%', br: '75%' };
-    const sec = document.getElementById('skills');
-    if (!sec) return;
-    const obs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        Object.entries(barMap).forEach(([id, w]) => {
-          const el = document.getElementById(id);
-          if (el) el.style.width = w;
-        });
-        obs.disconnect();
-      }
-    }, { threshold: 0.25 });
-    obs.observe(sec);
-  }
-
-  _initNav() {
-    const handle = () => {
-      const nav = document.getElementById('nav');
-      if (!nav) return;
-      const down = window.scrollY > 55;
-      Object.assign(nav.style, {
-        padding:        down ? '14px clamp(24px,6vw,64px)' : '24px clamp(24px,6vw,64px)',
-        background:     down ? 'rgba(4,9,4,0.93)'          : 'transparent',
-        backdropFilter: down ? 'blur(14px)'                 : 'none',
-        borderBottom:   down ? '1px solid rgba(16,185,129,0.11)' : 'none',
-      });
-    };
-    window.addEventListener('scroll', handle, { passive: true });
-  }
-
-  _initTilt() {
-    document.querySelectorAll('[data-tilt]').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width  - 0.5;
-        const y = (e.clientY - rect.top)  / rect.height - 0.5;
-        card.style.transform   = `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.04)`;
-        card.style.boxShadow   = `${-x * 22}px ${y * 22}px 40px rgba(16,185,129,0.07)`;
-        card.style.borderColor = 'rgba(16,185,129,0.38)';
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform   = '';
-        card.style.boxShadow   = '';
-        card.style.borderColor = '';
-      });
-    });
-  }
-
-  _initLangSwitch() {
-    const updateBtnColors = (lang) => {
-      const btnEsDesktop = document.getElementById('lang-es');
-      const btnEnDesktop = document.getElementById('lang-en');
-      const btnEsMobile = document.getElementById('lang-es-mobile');
-      const btnEnMobile = document.getElementById('lang-en-mobile');
-
-      [btnEsDesktop, btnEsMobile].forEach(btn => {
-        if (btn) btn.style.color = lang === 'es' ? '#10b981' : '#6b7280';
-      });
-      [btnEnDesktop, btnEnMobile].forEach(btn => {
-        if (btn) btn.style.color = lang === 'en' ? '#10b981' : '#6b7280';
-      });
-    };
-
-    const switchLang = (lang) => {
-      localStorage.setItem('lang', lang);
-      window.__lang = lang;
-      window.__applyLang(lang);
-      if (window.__i18n[lang] && Array.isArray(window.__i18n[lang]['roles'])) {
-        this._roles = window.__i18n[lang]['roles'];
-      }
-      updateBtnColors(lang);
-    };
-
-    const btnEsDesktop = document.getElementById('lang-es');
-    const btnEnDesktop = document.getElementById('lang-en');
-    const btnEsMobile = document.getElementById('lang-es-mobile');
-    const btnEnMobile = document.getElementById('lang-en-mobile');
-
-    if (btnEsDesktop) btnEsDesktop.addEventListener('click', () => switchLang('es'));
-    if (btnEnDesktop) btnEnDesktop.addEventListener('click', () => switchLang('en'));
-    if (btnEsMobile) btnEsMobile.addEventListener('click', () => switchLang('es'));
-    if (btnEnMobile) btnEnMobile.addEventListener('click', () => switchLang('en'));
-
-    const currentLang = window.__lang || localStorage.getItem('lang') || 'es';
-    updateBtnColors(currentLang);
-  }
-
-  renderVals() {
-    return {
-      canvasRef: this.canvasRef,
-      tw:        this.state.tw,
-      year:      new Date().getFullYear(),
-    };
-  }
-}
-
-</script>
+<script src="i18n.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
