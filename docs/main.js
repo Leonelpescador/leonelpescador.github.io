@@ -122,6 +122,15 @@ window.addEventListener('scroll', () => {
 
   let stars = [], nebulae = [], rot = 0, clock = 0;
 
+  /* mouse 3D – estado suavizado con lerp */
+  let mx = 0, my = 0, tmx = 0, tmy = 0;
+  window.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    tmx = Math.max(-1, Math.min(1, (e.clientX - rect.left) / rect.width  * 2 - 1));
+    tmy = Math.max(-1, Math.min(1, (e.clientY - rect.top)  / rect.height * 2 - 1));
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => { tmx = 0; tmy = 0; });
+
   function buildGalaxy() {
     stars   = [];
     nebulae = [];
@@ -242,17 +251,26 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  const TILT    = Math.PI * .19;
-  const cosTilt = Math.cos(TILT), sinTilt = Math.sin(TILT);
+  const BASE_TILT = Math.PI * .19;
 
   function frame() {
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
 
-    rot   += .00024;
-    clock += .014;
+    rot   += .000264;
+    clock += .0154;
 
-    const cosY = Math.cos(rot), sinY = Math.sin(rot);
+    /* suavizar posición del mouse con lerp */
+    mx += (tmx - mx) * .05;
+    my += (tmy - my) * .05;
+
+    /* inclinación e Y-rotación dinámicas impulsadas por el mouse */
+    const curRot  = rot + mx * .32;
+    const curTilt = BASE_TILT + my * .20;
+    const cosTilt = Math.cos(curTilt);
+    const sinTilt = Math.sin(curTilt);
+
+    const cosY = Math.cos(curRot), sinY = Math.sin(curRot);
     const R    = Math.min(W, H) * .52;
     const cx   = W * .60, cy = H * .50;
     const fov  = 1300;
@@ -260,8 +278,10 @@ window.addEventListener('scroll', () => {
     /* proyectar y ordenar */
     const projected = stars.map(s => {
       if (s.bg) {
+        /* parallax opuesto al mouse: el fondo se mueve en contra → sensación de profundidad */
         return {
-          sx: cx + s.gx * W * .55, sy: cy + s.gy * H * .55,
+          sx: cx + s.gx * W * .55 - mx * W * .010,
+          sy: cy + s.gy * H * .55 - my * H * .006,
           sz_draw: s.sz, col: s.col,
           al: s.al * (.72 + .28 * Math.sin(clock * .6 + s.tw)),
           z: -2, giant: false
@@ -294,8 +314,20 @@ window.addEventListener('scroll', () => {
       ctx.arc(p.sx, p.sy, Math.max(.14, p.sz_draw), 0, Math.PI * 2);
       ctx.fill();
 
-      /* destello en cruz para superestrellas */
       if (p.giant && p.sz_draw > 1.2) {
+        /* halo de brillo suave (glow 3D realista) */
+        const glowR = p.sz_draw * 5;
+        const gs = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, glowR);
+        gs.addColorStop(0,   'rgba(255,255,240,' + (a * .45) + ')');
+        gs.addColorStop(.35, 'rgba(200,180,255,' + (a * .15) + ')');
+        gs.addColorStop(1,   'rgba(0,0,0,0)');
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = gs;
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, glowR, 0, Math.PI * 2);
+        ctx.fill();
+
+        /* destello en cruz */
         const len = p.sz_draw * 6;
         ctx.globalAlpha = a * .28;
         ctx.strokeStyle = p.col;
@@ -304,7 +336,6 @@ window.addEventListener('scroll', () => {
         ctx.moveTo(p.sx - len, p.sy); ctx.lineTo(p.sx + len, p.sy);
         ctx.moveTo(p.sx, p.sy - len); ctx.lineTo(p.sx, p.sy + len);
         ctx.stroke();
-        /* diagonal tenue */
         const d = len * .55;
         ctx.globalAlpha = a * .12;
         ctx.beginPath();
@@ -338,7 +369,6 @@ window.addEventListener('scroll', () => {
     /* ── núcleo: bloom en 4 capas ── */
     const pulse = 1 + .05 * Math.sin(clock * .65);
 
-    /* punto candente central */
     const g0 = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * .038 * pulse);
     g0.addColorStop(0,   'rgba(255,255,235,.95)');
     g0.addColorStop(.25, 'rgba(255,220,120,.60)');
@@ -350,7 +380,6 @@ window.addEventListener('scroll', () => {
     ctx.ellipse(cx, cy, R * .038 * pulse, R * .038 * pulse * cosTilt, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    /* corona amarilla */
     const g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * .16 * pulse);
     g1.addColorStop(0,   'rgba(255,230,130,.22)');
     g1.addColorStop(.35, 'rgba(230,180,255,.10)');
@@ -361,7 +390,6 @@ window.addEventListener('scroll', () => {
     ctx.ellipse(cx, cy, R * .16 * pulse, R * .16 * pulse * cosTilt, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    /* halo interior azul-violeta */
     const g2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * .46);
     g2.addColorStop(0,   'rgba(160,120,255,.08)');
     g2.addColorStop(.45, 'rgba(128,82,255,.04)');
@@ -369,7 +397,6 @@ window.addEventListener('scroll', () => {
     ctx.fillStyle = g2;
     ctx.fillRect(0, 0, W, H);
 
-    /* halo exterior oscuro – profundidad cósmica */
     const g3 = ctx.createRadialGradient(cx, cy, R * .38, cx, cy, R * 1.45);
     g3.addColorStop(0,   'rgba(90,60,190,.045)');
     g3.addColorStop(.5,  'rgba(60,40,140,.022)');
