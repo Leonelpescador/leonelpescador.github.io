@@ -1,0 +1,141 @@
+/* ════════════════════════════════════════════════
+   RESPONSIVE / MOBILE — hamburger, menú móvil, media
+   queries y motion-safe. Cargar ÚLTIMO para que sus
+   @media siempre ganen en la cascada.
+   ════════════════════════════════════════════════ */
+
+/* ── NAV HAMBURGER ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  z-index: 201;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--bone);
+  border-radius: 2px;
+  transition: transform .3s cubic-bezier(.16,1,.3,1), opacity .3s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE MENU ── */
+.nav-mobile {
+  position: fixed;
+  top: 56px; left: 0; right: 0;
+  background: rgba(4,4,13,.97);
+  backdrop-filter: blur(20px);
+  border-bottom: var(--hair);
+  z-index: 199;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .4s cubic-bezier(.16,1,.3,1);
+}
+.nav-mobile.open { max-height: 500px; }
+.nav-mobile ul { list-style: none; padding: 12px 0; }
+.nav-mobile ul li a {
+  display: block;
+  padding: 13px 24px;
+  font-size: 12px; font-weight: 600; letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--smoke);
+  text-decoration: none;
+  transition: color .35s cubic-bezier(.16,1,.3,1),
+              background .35s cubic-bezier(.16,1,.3,1),
+              border-color .35s cubic-bezier(.16,1,.3,1),
+              transform .25s cubic-bezier(.16,1,.3,1);
+  border-left: 2px solid transparent;
+}
+.nav-mobile ul li a:hover {
+  color: var(--bone);
+  background: rgba(128,82,255,.06);
+  border-left-color: var(--plum);
+}
+.nav-mobile ul li a:active {
+  color: var(--plum);
+  background: rgba(128,82,255,.12);
+  border-left-color: var(--plum);
+  transform: translateX(4px);
+}
+.nav-mobile-foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px 20px;
+  border-top: var(--hair);
+}
+
+/* ── BREAKPOINT PRINCIPAL ── */
+@media (max-width: 860px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .nav-right  { display: none; }
+  .nav-hamburger { display: flex; }
+  section { padding: 72px 20px; }
+  .about-card-centered { padding: 24px 22px; }
+  .timeline { padding-left: 20px; }
+  .timeline-item { padding-left: 22px; }
+  .timeline-card-top { flex-direction: column; }
+  .hero-body { padding: 90px 24px 72px; }
+  footer { padding: 32px 20px; }
+  .sec-title { font-size: clamp(1.8rem, 6vw, 2.6rem); }
+}
+
+/* ── WHATSAPP: oculto con pestaña deslizable (mobile) ── */
+@media (max-width: 860px) {
+  #wa-wrapper {
+    position: fixed;
+    bottom: 80px;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    transform: translateX(100%);
+    transition: transform .4s cubic-bezier(.16,1,.3,1);
+  }
+  #wa-wrapper.open {
+    transform: translateX(0);
+  }
+  #wa-toggle {
+    width: 60px;
+    height: 52px;
+    background: #25d366;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    animation: wa-bounce 1.6s ease-in-out infinite;
+  }
+  #wa-btn {
+    position: static;
+    width: 279px; /* ← ANCHO del botón/caja */
+    height: 200px; /* ← ALTO del botón/caja  */
+    animation: none;
+    box-shadow: none;
+  }
+}
+
+/* ocultar pestaña en desktop */
+@media (min-width: 861px) {
+  #wa-wrapper { display: contents; }
+  #wa-toggle  { display: none; }
+}
+
+/* ── MOTION-SAFE OVERRIDE ── */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot { display: none; }
+}

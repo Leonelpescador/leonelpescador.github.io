@@ -1,0 +1,43 @@
+/* ════════════════════════════════════════════════
+   ANIMATIONS — @keyframes + clases de animación
+   Cargar DESPUÉS de base y ANTES de components, para
+   que un :hover de componente pueda sobreescribir el
+   estado de reveal (evita el choque hover ↔ reveal).
+   ════════════════════════════════════════════════ */
+
+/* ── KEYFRAMES ── */
+@keyframes blink       { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes pulse-btn   { 0%,100%{box-shadow:0 0 0 0 rgba(128,82,255,.45)} 60%{box-shadow:0 0 0 14px rgba(128,82,255,0)} }
+@keyframes fade-in-up  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes floaty      { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+@keyframes reveal-up   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+@keyframes aurora-move { 0%,100%{opacity:.5;transform:translateX(-10px)} 50%{opacity:1;transform:translateX(10px)} }
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(0,0,0,.45), 0 0 0 0   rgba(37,211,102,.4); }
+  50%       { box-shadow: 0 4px 20px rgba(0,0,0,.45), 0 0 0 10px rgba(37,211,102,.0); }
+}
+@keyframes wa-bounce {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(-45px); }
+}
+
+/* ── SCROLL REVEAL ──
+   Estado oculto y revelado 100% en CSS. El JS sólo togglea
+   la clase .revealed (no escribe transform inline), así el
+   :hover de las cards vuelve a funcionar. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity .8s cubic-bezier(.15,.85,.35,1), transform .8s cubic-bezier(.15,.85,.35,1);
+}
+[data-reveal].revealed { opacity: 1; transform: translateY(0); }
+[data-delay="1"] { transition-delay: .06s; }
+[data-delay="2"] { transition-delay: .12s; }
+[data-delay="3"] { transition-delay: .18s; }
+[data-delay="4"] { transition-delay: .24s; }
+[data-delay="5"] { transition-delay: .30s; }
+[data-delay="6"] { transition-delay: .36s; }
+[data-delay="7"] { transition-delay: .42s; }
+
+/* ── TYPEWRITER / CURSOR PARPADEANTE ── */
+.hero-blink { animation: blink 1s step-end infinite; }

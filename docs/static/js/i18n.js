@@ -92,3 +92,30 @@ const T = {
     form_name: 'Name', form_msg: 'Message', form_send: 'Send message →',
   }
 };
+
+/* ── ROLES DEL TYPEWRITER ──
+   Compartido con effects.js. Lo expone window para romper el
+   acoplamiento entre i18n y el typewriter sin orden de carga estricto. */
+window.TW_ROLES = [
+  'Full-Stack Developer','Analista de Sistemas','Python Backend Dev','Odoo Specialist','Mobile Developer'
+];
+
+/* ── LANG ── */
+let currentLang = 'es';
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang][key] !== undefined) el.innerHTML = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (T[lang][key] !== undefined) el.innerHTML = T[lang][key];
+  });
+  window.TW_ROLES = lang === 'en'
+    ? ['Full-Stack Developer','Systems Analyst','Python Backend Dev','Odoo Specialist','Mobile Developer']
+    : ['Full-Stack Developer','Analista de Sistemas','Python Backend Dev','Odoo Specialist','Mobile Developer'];
+}
