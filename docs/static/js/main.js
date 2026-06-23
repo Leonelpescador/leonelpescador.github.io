@@ -469,19 +469,35 @@ window.addEventListener('scroll', () => {
 
 /* ── WHATSAPP FLOTANTE: hover reinicia GIF + audio ── */
 (function () {
-  const btn   = document.getElementById('wa-btn');
-  const gif   = document.getElementById('wa-gif');
-  const audio = document.getElementById('wa-audio');
+  const btn    = document.getElementById('wa-btn');
+  const gif    = document.getElementById('wa-gif');
+  const audio  = document.getElementById('wa-audio');
+  const toggle = document.getElementById('wa-toggle');
+  const wrapper= document.getElementById('wa-wrapper');
   if (!btn || !gif || !audio) return;
 
   const GIF_SRC = gif.src;
 
+  // Desktop: hover reinicia GIF + audio
   btn.addEventListener('mouseenter', () => {
-    // Reiniciar GIF forzando recarga de src
     gif.src = '';
     gif.src = GIF_SRC;
-    // Reproducir audio desde el inicio
     audio.currentTime = 0;
     audio.play().catch(() => {});
   });
+
+  // Mobile: pestaña abre/cierra el bot
+  if (toggle && wrapper) {
+    toggle.addEventListener('click', () => {
+      const isOpen = wrapper.classList.toggle('open');
+      toggle.innerHTML = isOpen ? '&#8250;' : '&#8249;';
+      // al abrir, reinicia GIF + audio
+      if (isOpen) {
+        gif.src = '';
+        gif.src = GIF_SRC;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      }
+    });
+  }
 })();
