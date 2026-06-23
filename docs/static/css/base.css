@@ -1,0 +1,37 @@
+/* ════════════════════════════════════════════════
+   BASE — tokens, reset, body, scrollbar, selección
+   Cargar PRIMERO (define la base de la cascada).
+   ════════════════════════════════════════════════ */
+
+/* ── TOKENS ── */
+:root {
+  --void:    #000000;
+  --deep:    #04040d;
+  --bone:    #ffffff;
+  --ash:     #bdbdbd;
+  --smoke:   #9a9a9a;
+  --plum:    #8052ff;
+  --amber:   #ffb829;
+  --lichen:  #15846e;
+  --hair:    1px solid rgba(255,255,255,0.08);
+  --f:  'Inter', sans-serif;
+  --fd: 'Space Grotesk', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* scroll-behavior lo maneja el smooth-scroll JS (ui.js) para controlar la duración */
+html { scroll-behavior: auto; }
+body {
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--f);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(128,82,255,0.28); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: rgba(128,82,255,.45); border-radius: 2px; }
