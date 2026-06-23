@@ -466,3 +466,22 @@ window.addEventListener('scroll', () => {
   window.addEventListener('resize', resize);
   resize(); buildGalaxy(); requestAnimationFrame(frame);
 })();
+
+/* ── WHATSAPP FLOTANTE: hover reinicia GIF + audio ── */
+(function () {
+  const btn   = document.getElementById('wa-btn');
+  const gif   = document.getElementById('wa-gif');
+  const audio = document.getElementById('wa-audio');
+  if (!btn || !gif || !audio) return;
+
+  const GIF_SRC = gif.src;
+
+  btn.addEventListener('mouseenter', () => {
+    // Reiniciar GIF forzando recarga de src
+    gif.src = '';
+    gif.src = GIF_SRC;
+    // Reproducir audio desde el inicio
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+  });
+})();
