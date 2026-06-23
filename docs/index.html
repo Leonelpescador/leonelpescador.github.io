@@ -32,7 +32,29 @@
     </div>
     <a href="https://github.com/Leonelpescador" target="_blank" class="btn-gh">GitHub</a>
   </div>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- ── MOBILE MENU ── -->
+<div class="nav-mobile" id="nav-mobile" aria-hidden="true">
+  <ul>
+    <li><a href="#about"      data-i18n="nav_about">Sobre mí</a></li>
+    <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
+    <li><a href="#experience" data-i18n="nav_experience">Experiencia</a></li>
+    <li><a href="#projects"   data-i18n="nav_projects">Proyectos</a></li>
+    <li><a href="#education"  data-i18n="nav_education">Educación</a></li>
+    <li><a href="#contact"    data-i18n="nav_contact">Contacto</a></li>
+  </ul>
+  <div class="nav-mobile-foot">
+    <div class="lang-toggle">
+      <button onclick="setLang('es')" id="mob-btn-es" class="active">ES</button>
+      <button onclick="setLang('en')" id="mob-btn-en">EN</button>
+    </div>
+    <a href="https://github.com/Leonelpescador" target="_blank" class="btn-gh">GitHub</a>
+  </div>
+</div>
 
 <!-- ── HERO ── -->
 <section class="hero" style="border:none;padding:0;">
@@ -64,16 +86,11 @@
       <a href="https://github.com/leonelconsejo" target="_blank" class="hero-social-link">GitHub-CPCES ↗</a>
     </div>
   </div>
-
-  <div class="hero-scroll">
-    <span class="hero-scroll-arr">↓</span>
-    <div class="hero-scroll-line"></div>
-  </div>
 </section>
 
 <!-- ── ABOUT ── -->
 <section id="about">
-  <div class="sec-header">
+  <div class="sec-header" data-reveal>
     <span class="sec-label" data-i18n="about_label">Sobre mí</span>
     <h2 class="sec-title" data-i18n="about_title">Sobre Mí</h2>
     <div class="sec-underline"></div>
@@ -95,7 +112,7 @@
 
 <!-- ── SKILLS ── -->
 <section id="skills">
-  <div class="sec-header">
+  <div class="sec-header" data-reveal>
     <span class="sec-label" data-i18n="skills_label">Habilidades</span>
     <h2 class="sec-title" data-i18n="skills_title">Stack Técnico</h2>
     <div class="sec-underline"></div>
@@ -164,7 +181,7 @@
 
 <!-- ── EXPERIENCE ── -->
 <section id="experience">
-  <div class="sec-header">
+  <div class="sec-header" data-reveal>
     <span class="sec-label" data-i18n="exp_label">Experiencia</span>
     <h2 class="sec-title" data-i18n="exp_title">Trayectoria Profesional</h2>
     <div class="sec-underline"></div>
@@ -232,7 +249,7 @@
 
 <!-- ── PROJECTS ── -->
 <section id="projects">
-  <div class="sec-header">
+  <div class="sec-header" data-reveal>
     <span class="sec-label" data-i18n="proj_label">Proyectos</span>
     <h2 class="sec-title" data-i18n="proj_title">Trabajo Destacado</h2>
     <div class="sec-underline"></div>
@@ -302,8 +319,7 @@
           alt="CENESA"
           onerror="this.style.display='none'">
         <div class="project-links-top">
-          <span class="project-badge badge-lichen">Full Stack E2E</span>
-          <a href="https://gestiones.cenesa.com.ar:88/login" target="_blank" class="project-link-top">Intranet ↗</a>
+          <span class="project-badge badge-lichen">FullStack(E2E)</span>
           <a href="https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view" target="_blank" class="project-link-top">APK ↗</a>
         </div>
       </div>
@@ -324,12 +340,11 @@
     </div>
 
   </div>
-  <p class="proj-more" data-i18n="proj_more">// más proyectos · coming soon</p>
 </section>
 
 <!-- ── EDUCATION ── -->
 <section id="education">
-  <div class="sec-header">
+  <div class="sec-header" data-reveal>
     <span class="sec-label" data-i18n="edu_label">Educación</span>
     <h2 class="sec-title" data-i18n="edu_title">Formación Académica</h2>
     <div class="sec-underline"></div>
@@ -349,7 +364,7 @@
 
 <!-- ── CONTACT ── -->
 <section id="contact">
-  <div class="sec-header">
+  <div class="sec-header" data-reveal>
     <span class="sec-label" data-i18n="contact_label">Contacto</span>
     <h2 class="sec-title" data-i18n="contact_title">Contacto</h2>
     <div class="sec-underline"></div>
@@ -371,30 +386,11 @@
       </div>
       <button type="submit" class="btn-send" data-i18n="form_send">Enviar mensaje →</button>
     </form>
-
-    <div class="contact-links-row">
-      <a href="mailto:leopescador07@gmail.com" class="contact-row-link">
-        <span class="contact-row-label">Email</span>
-        <span class="contact-row-val">leopescador07@gmail.com</span>
-      </a>
-      <a href="https://linkedin.com/in/pescador-jesus-leonel" target="_blank" class="contact-row-link">
-        <span class="contact-row-label">LinkedIn</span>
-        <span class="contact-row-val">pescador-jesus-leonel</span>
-      </a>
-      <a href="https://github.com/Leonelpescador" target="_blank" class="contact-row-link">
-        <span class="contact-row-label">GitHub</span>
-        <span class="contact-row-val">Leonelpescador</span>
-      </a>
-    </div>
   </div>
 </section>
 
 <!-- ── FOOTER ── -->
 <footer>
-  <a href="#" class="footer-brand">
-    <div class="nav-icon"><span></span><span></span><span></span><span></span></div>
-    <span class="nav-name">Leonel Pescador</span>
-  </a>
   <span class="footer-copy">© 2026 Pescador Jesús Leonel · Salta, Argentina</span>
 </footer>
 
