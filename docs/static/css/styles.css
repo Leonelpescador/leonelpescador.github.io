@@ -643,12 +643,11 @@ footer {
 #wa-btn {
   position: fixed;
   bottom: 28px;
-  right: 28px;
+  right:-70px;
   z-index: 9999;
   display: block;
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
+  width: 279px;         /* ← ANCHO del botón/caja */
+  height: 200px;        /* ← ALTO del botón/caja  */
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,.45), 0 0 0 0 rgba(37,211,102,.4);
   transition: transform .25s ease, box-shadow .25s ease;
@@ -664,12 +663,11 @@ footer {
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 100%;
 }
 @keyframes wa-pulse {
   0%, 100% { box-shadow: 0 4px 20px rgba(0,0,0,.45), 0 0 0 0   rgba(37,211,102,.4); }
   50%       { box-shadow: 0 4px 20px rgba(0,0,0,.45), 0 0 0 10px rgba(37,211,102,.0); }
 }
 @media (max-width: 860px) {
-  #wa-btn { width: 54px; height: 54px; bottom: 20px; right: 18px; }
+  #wa-btn { width: 54px; height: 54px; bottom: 20px; right: -10px; } /* ← tamaño en MÓVIL */
 }
