@@ -52,6 +52,81 @@ window.addEventListener('scroll', () => {
   nav.style.height = down ? '48px' : '56px';
 }, { passive: true });
 
+/* ── SMOOTH SCROLL ──
+   Scroll animado y suave (1.1s – 2.4s según distancia) al hacer click
+   en cualquier ancla del nav (desktop/mobile) y en los CTAs del hero
+   (Contactar / Ver portafolio). Cubre todos los <a href="#..."> de la página. */
+(function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let rafId = null;
+
+  /* easing suave: arranca y frena despacio */
+  function easeInOutCubic(t) {
+    return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function navOffset() {
+    const nav = document.getElementById('nav');
+    return nav ? nav.offsetHeight + 8 : 0;
+  }
+
+  function animateTo(targetY) {
+    if (rafId) cancelAnimationFrame(rafId);
+    const startY = window.scrollY;
+    const dist   = targetY - startY;
+    if (Math.abs(dist) < 2) return;
+
+    /* duración proporcional a la distancia, acotada a 1.1s – 2.4s */
+    const duration = Math.min(2400, Math.max(1100, Math.abs(dist) * 0.6));
+    let startT = null;
+
+    /* si el usuario hace scroll manual, cancelamos para no pelear con él */
+    function cancel() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      window.removeEventListener('wheel', cancel);
+      window.removeEventListener('touchstart', cancel);
+    }
+    window.addEventListener('wheel', cancel, { passive: true });
+    window.addEventListener('touchstart', cancel, { passive: true });
+
+    function step(ts) {
+      if (startT === null) startT = ts;
+      const p = Math.min(1, (ts - startT) / duration);
+      window.scrollTo(0, startY + dist * easeInOutCubic(p));
+      if (p < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        rafId = null;
+        window.removeEventListener('wheel', cancel);
+        window.removeEventListener('touchstart', cancel);
+      }
+    }
+    rafId = requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      let targetY;
+      if (href === '#' || href === '#top') {
+        targetY = 0;
+      } else {
+        const target = document.querySelector(href);
+        if (!target) return;
+        targetY = target.getBoundingClientRect().top + window.scrollY - navOffset();
+      }
+      e.preventDefault();
+      if (reduce) {
+        window.scrollTo(0, targetY);
+      } else {
+        animateTo(targetY);
+      }
+      if (href !== '#') history.pushState(null, '', href);
+    });
+  });
+})();
+
 /* ── WHATSAPP FLOTANTE: hover reinicia GIF + audio ── */
 (function () {
   const btn    = document.getElementById('wa-btn');

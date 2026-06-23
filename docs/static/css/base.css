@@ -19,7 +19,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+/* scroll-behavior lo maneja el smooth-scroll JS (ui.js) para controlar la duración */
+html { scroll-behavior: auto; }
 body {
   background: var(--void);
   color: var(--bone);
