@@ -1,0 +1,17 @@
+{
+  "name": "Pescador Jesús Leonel · Full-Stack Developer",
+  "short_name": "Leonel Pescador",
+  "description": "Portfolio de Pescador Jesús Leonel, Desarrollador Full-Stack",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#8052ff",
+  "icons": [
+    {
+      "src": "static/media/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

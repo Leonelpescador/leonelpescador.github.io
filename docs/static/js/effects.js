@@ -5,19 +5,21 @@
 /* ── TYPEWRITER ── */
 (function () {
   let twRI = 0, twCI = 0, twDel = false;
+  const cursorEl = document.querySelector('.hero-tw-cursor');
   function twTick() {
     const roles = window.TW_ROLES;
     const cur = roles[twRI % roles.length];
     const el  = document.getElementById('tw-text');
     if (!el) return;
+    if (cursorEl) cursorEl.style.visibility = 'visible';
     if (!twDel) {
       el.textContent = cur.slice(0, twCI);
       twCI++;
-      if (twCI > cur.length) { twDel = true; setTimeout(twTick, 1800); return; }
+      if (twCI > cur.length) { twDel = true; if (cursorEl) cursorEl.style.visibility = 'hidden'; setTimeout(twTick, 1800); return; }
     } else {
       twCI--;
       el.textContent = cur.slice(0, twCI);
-      if (twCI === 0) { twDel = false; twRI = (twRI + 1) % roles.length; setTimeout(twTick, 350); return; }
+      if (twCI === 0) { twDel = false; twRI = (twRI + 1) % roles.length; if (cursorEl) cursorEl.style.visibility = 'hidden'; setTimeout(twTick, 350); return; }
     }
     setTimeout(twTick, twDel ? 38 : 72);
   }
@@ -30,13 +32,14 @@
    por lo que el :hover de las cards (transform) ya no queda anulado. */
 (function () {
   const els = Array.from(document.querySelectorAll('[data-reveal]'));
+  const revealed = new WeakMap();
 
   function check() {
     const limit = window.innerHeight * 0.90;
     for (const el of els) {
-      if (el._shown) continue;
+      if (revealed.get(el)) continue;
       if (el.getBoundingClientRect().top < limit) {
-        el._shown = true;
+        revealed.set(el, true);
         el.classList.add('revealed');
       }
     }

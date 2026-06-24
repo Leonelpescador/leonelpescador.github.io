@@ -21,9 +21,19 @@
     mob.classList.toggle('open');
     btn.setAttribute('aria-expanded', String(opening));
     mob.setAttribute('aria-hidden', String(!opening));
+    if (opening) {
+      const firstLink = mob.querySelector('a');
+      if (firstLink) firstLink.focus();
+    } else {
+      btn.focus();
+    }
   });
 
   mob.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mob.classList.contains('open')) close();
+  });
 
   document.addEventListener('click', e => {
     if (!btn.contains(e.target) && !mob.contains(e.target)) close();
@@ -45,11 +55,16 @@
 })();
 
 /* ── NAV SCROLL SHRINK ── */
+let ticking = false;
 window.addEventListener('scroll', () => {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
-  const down = window.scrollY > 55;
-  nav.style.height = down ? '48px' : '56px';
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const nav = document.getElementById('nav');
+      if (nav) nav.style.height = window.scrollY > 55 ? '48px' : '56px';
+      ticking = false;
+    });
+    ticking = true;
+  }
 }, { passive: true });
 
 /* ── SMOOTH SCROLL ──
@@ -58,9 +73,8 @@ window.addEventListener('scroll', () => {
    (Contactar / Ver portafolio). Cubre todos los <a href="#..."> de la página. */
 (function () {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let rafId = null;
+  let controller = null;
 
-  /* easing suave: arranca y frena despacio */
   function easeInOutCubic(t) {
     return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
@@ -71,24 +85,28 @@ window.addEventListener('scroll', () => {
   }
 
   function animateTo(targetY) {
-    if (rafId) cancelAnimationFrame(rafId);
+    if (controller) {
+      controller.abort();
+      controller = null;
+    }
+    controller = new AbortController();
+    const signal = controller.signal;
+
     const startY = window.scrollY;
-    const dist   = targetY - startY;
+    const dist = targetY - startY;
     if (Math.abs(dist) < 2) return;
 
-    /* duración proporcional a la distancia, acotada a 1.1s – 2.4s */
     const duration = Math.min(2400, Math.max(1100, Math.abs(dist) * 0.6));
     let startT = null;
+    let rafId = null;
 
-    /* si el usuario hace scroll manual, cancelamos para no pelear con él */
     function cancel() {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = null;
-      window.removeEventListener('wheel', cancel);
-      window.removeEventListener('touchstart', cancel);
     }
-    window.addEventListener('wheel', cancel, { passive: true });
-    window.addEventListener('touchstart', cancel, { passive: true });
+
+    window.addEventListener('wheel', cancel, { passive: true, signal });
+    window.addEventListener('touchstart', cancel, { passive: true, signal });
 
     function step(ts) {
       if (startT === null) startT = ts;
@@ -96,10 +114,6 @@ window.addEventListener('scroll', () => {
       window.scrollTo(0, startY + dist * easeInOutCubic(p));
       if (p < 1) {
         rafId = requestAnimationFrame(step);
-      } else {
-        rafId = null;
-        window.removeEventListener('wheel', cancel);
-        window.removeEventListener('touchstart', cancel);
       }
     }
     rafId = requestAnimationFrame(step);
@@ -131,7 +145,16 @@ window.addEventListener('scroll', () => {
 (function () {
   const btn    = document.getElementById('wa-btn');
   const gif    = document.getElementById('wa-gif');
-  const audio  = document.getElementById('wa-audio');
+  let audio = document.getElementById('wa-audio');
+  let audioLoaded = false;
+  function getAudio() {
+    if (!audioLoaded) {
+      audio = new Audio('static/media/hi.mp3');
+      audio.preload = 'none';
+      audioLoaded = true;
+    }
+    return audio;
+  }
   const toggle = document.getElementById('wa-toggle');
   const wrapper= document.getElementById('wa-wrapper');
   if (!btn || !gif || !audio) return;
@@ -142,8 +165,18 @@ window.addEventListener('scroll', () => {
   btn.addEventListener('mouseenter', () => {
     gif.src = '';
     gif.src = GIF_SRC;
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
+    const a = getAudio();
+    a.currentTime = 0;
+    a.play().catch(() => {});
+  });
+
+  btn.addEventListener('focus', () => {
+    gif.src = '';
+    gif.src = GIF_SRC;
+  });
+  btn.addEventListener('blur', () => {
+    gif.src = '';
+    gif.src = GIF_SRC;
   });
 
   // Mobile: pestaña abre/cierra el bot
@@ -155,9 +188,29 @@ window.addEventListener('scroll', () => {
       if (isOpen) {
         gif.src = '';
         gif.src = GIF_SRC;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
+        const a = getAudio();
+        a.currentTime = 0;
+        a.play().catch(() => {});
       }
     });
   }
+})();
+
+(function () {
+  const navLinks = document.querySelectorAll('.nav-links a, .nav-mobile a');
+  const sections = document.querySelectorAll('section[id]');
+  if (!navLinks.length || !sections.length) return;
+
+  const observer = new IntersectionObserver(entries => {
+    let activeId = '';
+    for (const entry of entries) {
+      if (entry.isIntersecting) activeId = entry.target.id;
+    }
+    if (!activeId) return;
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + activeId);
+    });
+  }, { rootMargin: '-50% 0px -50% 0px' });
+
+  sections.forEach(s => observer.observe(s));
 })();

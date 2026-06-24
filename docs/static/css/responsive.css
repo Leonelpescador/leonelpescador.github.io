@@ -66,6 +66,10 @@
   border-left-color: var(--plum);
   transform: translateX(4px);
 }
+.nav-mobile ul li a.active {
+  color: var(--bone);
+  border-left-color: var(--plum);
+}
 .nav-mobile-foot {
   display: flex;
   align-items: center;
@@ -88,6 +92,8 @@
   .hero-body { padding: 90px 24px 72px; }
   footer { padding: 32px 20px; }
   .sec-title { font-size: clamp(1.8rem, 6vw, 2.6rem); }
+  .back-to-top { bottom: 20px; left: 20px; width: 38px; height: 38px; font-size: 16px; }
+  .hero-name-line { display: inline; }
 }
 
 /* ── WHATSAPP: oculto con pestaña deslizable (mobile) ── */
@@ -131,11 +137,11 @@
 
 /* ocultar pestaña en desktop */
 @media (min-width: 861px) {
-  #wa-wrapper { display: contents; }
+  #wa-wrapper { position: static; }
   #wa-toggle  { display: none; }
 }
 
-/* ── MOTION-SAFE OVERRIDE ── */
 @media (prefers-reduced-motion: reduce) {
   .cursor-dot { display: none; }
+  #particle-canvas { display: none; }
 }

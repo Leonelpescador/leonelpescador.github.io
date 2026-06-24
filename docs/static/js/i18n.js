@@ -16,9 +16,6 @@ const T = {
     about_bio1: 'Soy Analista de Sistemas y Desarrollador Full-Stack con experiencia en la creación de <span class="hi">soluciones tecnológicas de alto impacto</span> y transformación digital.',
     about_bio2: 'Especializado en el ecosistema <span class="hi2">Python (Django · FastAPI · Odoo)</span> y JavaScript. Lidero relevamiento de requerimientos, diseño de arquitecturas escalables y coordinación con equipos multidisciplinarios bajo metodologías ágiles.',
     about_bio3: 'Actualmente enfocado en la <span class="hi3">transformación digital institucional</span>, alineando tecnología con los objetivos del negocio.',
-    meta_location: 'Ubicación', meta_exp: 'Experiencia', meta_exp_val: '5+ años',
-    meta_focus: 'Enfoque', meta_focus_val: 'Transformación digital institucional',
-    stat_years: 'Años de experiencia', stat_projects: 'Proyectos destacados', stat_companies: 'Empresas',
     skills_label: 'Habilidades', skills_title: 'Stack Técnico',
     sk_backend: 'Backend', sk_frontend: 'Frontend', sk_db: 'Databases',
     sk_erp: 'ERP',
@@ -53,7 +50,6 @@ const T = {
     proj3_title: 'CENESA · Intranet Corporativa',
     proj3_org: 'CENESA S.A.',
     proj3_desc: 'Desarrollo de una sistema de uso exclusivo para uso en la intranet de la empresa, encargado de la gestion admistrativa, RRHH, control de medicamentos, entre otras funcionalidades. Desarrollo de Api con FastAPI para la comunicación de la app mobile creada con React Native para Android.',
-    proj_more: '// más proyectos · coming soon',
     edu_label: 'Educación', edu_title: 'Formación Académica',
     edu_degree: 'Técnico Superior en Análisis de Sistemas',
     edu_date: '2022 – 2024',
@@ -66,6 +62,14 @@ const T = {
     footer_copyright: '© 2026 Pescador Jesús Leonel · Salta, Argentina',
     aria_whatsapp_open: 'Abrir WhatsApp',
     aria_whatsapp_contact: 'Contactar por WhatsApp',
+    skip_link: 'Ir al contenido',
+    back_to_top: 'Volver arriba',
+    form_feedback_loading: 'Enviando mensaje...',
+    form_feedback_ok: 'Mensaje enviado con éxito. Gracias por contactarme.',
+    form_feedback_err: 'Error al enviar el mensaje. Por favor intentá de nuevo.',
+    form_name_placeholder: 'Tu nombre',
+    form_email_placeholder: 'tu@email.com',
+    form_msg_placeholder: 'Tu mensaje...',
   },
   en: {
     page_title: 'Pescador Jesús Leonel · Full-Stack Developer',
@@ -84,9 +88,6 @@ const T = {
     about_bio1: 'I am a Systems Analyst and Full-Stack Developer with experience creating <span class="hi">high-impact technology solutions</span> and digital transformation.',
     about_bio2: 'Specialized in the <span class="hi2">Python ecosystem (Django · FastAPI · Odoo)</span> and JavaScript. I lead requirements gathering, scalable architecture design and coordination with multidisciplinary teams under agile methodologies.',
     about_bio3: 'Currently focused on <span class="hi3">institutional digital transformation</span>, aligning technology with business objectives.',
-    meta_location: 'Location', meta_exp: 'Experience', meta_exp_val: '5+ years',
-    meta_focus: 'Focus', meta_focus_val: 'Institutional digital transformation',
-    stat_years: 'Years of experience', stat_projects: 'Featured projects', stat_companies: 'Companies',
     skills_label: 'Skills', skills_title: 'Technical Stack',
     sk_backend: 'Backend', sk_frontend: 'Frontend', sk_db: 'Databases',
     sk_erp: 'ERP',
@@ -121,7 +122,6 @@ const T = {
     proj3_title: 'CENESA · Corporate Intranet',
     proj3_org: 'CENESA S.A.',
     proj3_desc: 'System developed exclusively for use on the company intranet, handling administrative management, HR, medication control, and other functionalities. API built with FastAPI for communication with the mobile app created with React Native for Android.',
-    proj_more: '// more projects · coming soon',
     edu_label: 'Education', edu_title: 'Academic Background',
     edu_degree: 'Systems Analysis Technician',
     edu_date: '2022 – 2024',
@@ -129,11 +129,19 @@ const T = {
     edu_location: 'Salta, Argentina',
     edu_badge: '✓ Completed',
     contact_label: 'Contact', contact_title: 'Contact',
-    contact_question: 'Got a project in mind? Let\'s talk. You can also reach me directly through the "Rita" Bot that opens my WhatsApp.',
+    contact_question: 'Got a project in mind? Let\'s talk. You can also reach me through the "Rita" button that opens my WhatsApp.',
     form_name: 'Name', form_email: 'Email', form_msg: 'Message', form_send: 'Send message →',
     footer_copyright: '© 2026 Pescador Jesús Leonel · Salta, Argentina',
     aria_whatsapp_open: 'Open WhatsApp',
     aria_whatsapp_contact: 'Contact via WhatsApp',
+    skip_link: 'Skip to content',
+    back_to_top: 'Back to top',
+    form_feedback_loading: 'Sending message...',
+    form_feedback_ok: 'Message sent successfully. Thank you for contacting me.',
+    form_feedback_err: 'Error sending the message. Please try again.',
+    form_name_placeholder: 'Your name',
+    form_email_placeholder: 'you@email.com',
+    form_msg_placeholder: 'Your message...',
   }
 };
 
@@ -148,6 +156,7 @@ window.TW_ROLES = [
 let currentLang = 'es';
 function setLang(lang) {
   currentLang = lang;
+  localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
   document.title = T[lang].page_title;
 
@@ -174,9 +183,20 @@ function setLang(lang) {
   const waBtn = document.getElementById('wa-btn');
   if (waBtn) waBtn.setAttribute('aria-label', T[lang].aria_whatsapp_contact);
 
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (T[lang][key] !== undefined) el.placeholder = T[lang][key];
+  });
+
   window.TW_ROLES = lang === 'en'
     ? ['Full-Stack Developer','Systems Analyst','Python Backend Dev','Odoo Specialist','Mobile Developer']
     : ['Full-Stack Developer','Analista de Sistemas','Python Backend Dev','Odoo Specialist','Mobile Developer'];
 }
 
-setLang('es');
+document.getElementById('btn-es')?.addEventListener('click', () => setLang('es'));
+document.getElementById('btn-en')?.addEventListener('click', () => setLang('en'));
+document.getElementById('mob-btn-es')?.addEventListener('click', () => setLang('es'));
+document.getElementById('mob-btn-en')?.addEventListener('click', () => setLang('en'));
+
+const savedLang = localStorage.getItem('lang');
+setLang(savedLang === 'en' || savedLang === 'es' ? savedLang : 'es');

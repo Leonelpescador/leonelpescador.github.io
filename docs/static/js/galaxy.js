@@ -3,7 +3,17 @@
    ════════════════════════════════════════════════ */
 (function () {
   const canvas = document.getElementById('particle-canvas');
+  canvas.setAttribute('role', 'img');
+  canvas.setAttribute('aria-label', 'Animated galaxy background');
   const ctx    = canvas.getContext('2d');
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    resize();
+    ctx.fillStyle = 'rgba(4,4,13,1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
 
   function resize() {
     canvas.width  = canvas.offsetWidth;
@@ -37,9 +47,11 @@
     nebulae = [];
     const NUM_ARMS  = 4;
     const TIGHTNESS = 4.4;
+    const isMobile = window.innerWidth < 768;
+    const particleScale = isMobile ? 0.4 : 1;
 
     /* ── fondo estelar profundo ── */
-    for (let i = 0; i < 700; i++) {
+    for (let i = 0; i < Math.round(700 * particleScale); i++) {
       stars.push({
         gx: (Math.random() - .5) * 4.5,
         gy: (Math.random() - .5) * 2.5,
@@ -53,7 +65,7 @@
     }
 
     /* ── bulbo central denso ── */
-    for (let i = 0; i < 2200; i++) {
+    for (let i = 0; i < Math.round(2200 * particleScale); i++) {
       const r  = Math.pow(Math.random(), 2.2) * .16;
       const th = Math.random() * Math.PI * 2;
       stars.push({
@@ -70,7 +82,7 @@
     /* ── 4 brazos espirales logarítmicos ── */
     for (let arm = 0; arm < NUM_ARMS; arm++) {
       const base = (arm / NUM_ARMS) * Math.PI * 2;
-      for (let i = 0; i < 2600; i++) {
+      for (let i = 0; i < Math.round(2600 * particleScale); i++) {
         const t      = i / 2600;
         const r      = .06 + t * .94;
         const spread = .022 + t * .11;
@@ -91,7 +103,7 @@
     }
 
     /* ── polvo interbrazos ── */
-    for (let i = 0; i < 1100; i++) {
+    for (let i = 0; i < Math.round(1100 * particleScale); i++) {
       const r  = .04 + Math.random() * .92;
       const th = Math.random() * Math.PI * 2;
       stars.push({
@@ -106,7 +118,7 @@
     }
 
     /* ── halo esférico ── */
-    for (let i = 0; i < 900; i++) {
+    for (let i = 0; i < Math.round(900 * particleScale); i++) {
       const r  = .45 + Math.random() * .85;
       const th = Math.random() * Math.PI * 2;
       const ph = (Math.random() - .5) * Math.PI;
@@ -122,7 +134,7 @@
     }
 
     /* ── superestrellas con destello en cruz ── */
-    for (let i = 0; i < 65; i++) {
+    for (let i = 0; i < Math.round(65 * particleScale); i++) {
       const r  = Math.random() < .35 ? Math.random() * .12 : .05 + Math.random() * .85;
       const th = Math.random() * Math.PI * 2;
       stars.push({
@@ -138,7 +150,7 @@
     }
 
     /* ── nebulosas en 3D ── */
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < (isMobile ? 4 : 14); i++) {
       const r  = .08 + Math.random() * .78;
       const th = Math.random() * Math.PI * 2;
       const warm = Math.random() > .52;
