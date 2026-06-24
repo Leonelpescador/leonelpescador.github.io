@@ -36,11 +36,19 @@
 
   function check() {
     const limit = window.innerHeight * 0.90;
+    const topLimit = 80;
     for (const el of els) {
-      if (revealed.get(el)) continue;
-      if (el.getBoundingClientRect().top < limit) {
-        revealed.set(el, true);
-        el.classList.add('revealed');
+      const rect = el.getBoundingClientRect();
+      if (rect.top < limit && rect.bottom > topLimit) {
+        if (!revealed.get(el)) {
+          revealed.set(el, true);
+          el.classList.add('revealed');
+        }
+      } else {
+        if (revealed.get(el)) {
+          revealed.set(el, false);
+          el.classList.remove('revealed');
+        }
       }
     }
   }

@@ -214,3 +214,13 @@ window.addEventListener('scroll', () => {
 
   sections.forEach(s => observer.observe(s));
 })();
+
+/* ── PROJECT CARDS CLICKEABLES ── */
+(function () {
+  document.querySelectorAll('.project-card[data-href]').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('a, button')) return;
+      window.open(card.dataset.href, '_blank', 'noopener,noreferrer');
+    });
+  });
+})();
