@@ -16,8 +16,8 @@
   }
 
   function resize() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
 
   /* paletas */
@@ -186,7 +186,7 @@
     const cosY = Math.cos(curRot), sinY = Math.sin(curRot);
     const R    = Math.min(W, H) * .52;
     const cx   = W * .60, cy = H * .50;
-    const fov  = 1300;
+    const fov  = Math.min(W, H) * 1.2;
 
     /* proyectar y ordenar */
     const projected = stars.map(s => {

@@ -143,5 +143,4 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cursor-dot { display: none; }
-  #particle-canvas { display: none; }
 }
