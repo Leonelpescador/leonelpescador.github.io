@@ -40,6 +40,7 @@
   "description": "Descripción",
   "disable-sounds": "Desactivar sonidos",
   "download-cv": "Descargar CV",
+  "email-copied": "Email copiado",
   "enable-sounds": "Activar sonidos",
   "form-email": "Email",
   "form-error": "Hubo un error al enviar el mensaje. Por favor intentá de nuevo.",

@@ -6,6 +6,7 @@ export type TagVariant =
   | "react-native"
   | "postgresql"
   | "mysql"
+  | "sql-server"
   | "firebase"
   | "docker"
   | "three"
@@ -30,6 +31,7 @@ export const tagLabels = {
   "react-native": "React Native",
   postgresql: "PostgreSQL",
   mysql: "MySQL",
+  "sql-server": "SQL Server",
   firebase: "Firebase",
   docker: "Docker",
   three: "Three.js",

@@ -1,47 +1,22 @@
-import thumbnailCubeWar from "../../../assets/thumbnails/cubewar.webp";
-import thumbnailQuibbo from "../../../assets/thumbnails/quibbo.webp";
-//import thumbnailParticles from "../../../assets/thumbnails/particles.webp";
-import thumbnailPokedex from "../../../assets/thumbnails/pokedex.webp";
-import thumbnailSharkie from "../../../assets/thumbnails/sharkie.webp";
-import thumbnailStreakon from "../../../assets/thumbnails/streakon.webp";
-
 import type { ProjectPreview } from "../../types";
 
 export default [
   {
-    title: "StreakOn",
-    slug: "streakon",
-    thumbnail: thumbnailStreakon,
-    description: "Social habit tracking app",
+    title: "Odoo Integration",
+    slug: "cpces-odoo",
+    thumbnail: "https://www.consejosalta.org.ar/wp-content/uploads/LOGO-APAISADO-SIN-FONDO-PNG.png",
+    description: "Unified 3 systems into Odoo with 24 custom modules",
   },
   {
-    title: "CubeWar",
-    slug: "cubewar",
-    thumbnail: thumbnailCubeWar,
-    description: "Multiplayer strategy game",
+    title: "CENESA · Corporate Website",
+    slug: "cenesa-web",
+    thumbnail: "https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png",
+    description: "Institutional redesign from scratch with HTML, CSS and JavaScript",
   },
   {
-    title: "Quibbo",
-    slug: "quibbo",
-    thumbnail: thumbnailQuibbo,
-    description: "Multiplayer gaming platform",
-  },
-  {
-    title: "Sharkie",
-    slug: "sharkie",
-    thumbnail: thumbnailSharkie,
-    description: "2D adventure game",
-  },
-  /**  {
-    title: "WebGL Particles",
-    slug: "particles",
-    thumbnail: thumbnailParticles,
-    description: "Dynamic 3D particles",
-  }, */
-  {
-    title: "Pokédex",
-    slug: "pokedex",
-    thumbnail: thumbnailPokedex,
-    description: "Open-source learning project",
+    title: "CENESA · Corporate Intranet",
+    slug: "cenesa-intranet",
+    thumbnail: "https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png",
+    description: "Mission-critical intranet with API and Android app for nurses",
   },
 ] as const satisfies ProjectPreview[];

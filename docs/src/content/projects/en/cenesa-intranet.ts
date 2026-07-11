@@ -2,29 +2,32 @@ import type { ProjectContent } from "../../types";
 
 export default {
   title: "CENESA · Corporate Intranet",
-  theme: "dark",
+  theme: "light",
   tags: ["django", "fastapi", "react-native", "firebase", "postgresql"],
   live: "https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view",
   description:
-    "System developed exclusively for use on the company intranet, handling administrative management, HR, medication control, and other functionalities. API built with FastAPI for communication with the mobile app created with React Native for Android.",
+    "The clinic depended on a system that did not cover the full operation: processes such as vacation requests, medication control, and health insurer billing were handled outside the system, causing stock mismanagement, delays, and operational risk. I designed and implemented a mission-critical intranet with Django, FastAPI, and React Native, centralizing operations and reducing tasks that previously took hours or days to minutes.",
   components: [
     {
       type: "text",
       props: {
-        title: "Description",
-        text: "System developed exclusively for use on the company intranet, handling administrative management, HR, medication control, and other functionalities. API built with FastAPI for communication with the mobile app created with React Native for Android.",
+        title: "My role",
+        text: "I acted as the main technical lead. Designed the overall architecture, developed administrative modules, built the API with FastAPI, developed the Android application from scratch for inpatient tablets, and managed the clinic's server infrastructure.",
       },
     },
     {
       type: "list",
       props: {
-        title: "Main modules",
+        title: "Key contributions",
         items: [
-          "Administrative management",
-          "HR control",
-          "Medication control",
-          "FastAPI for mobile app",
-          "Android app with React Native",
+          "Designed the end-to-end architecture: Django + FastAPI + React Native.",
+          "Centralized processes for administration, HR, medication control, health insurer billing, and others.",
+          "Implemented full traceability for medication assignment (nurse, time, warehouse).",
+          "Developed the Android app from scratch for inpatient tablets, designed for nurses.",
+          "Created a billing module that generates import files for health insurers.",
+          "Integrated documented health insurer APIs.",
+          "Reduced operational tasks from hours or days to minutes.",
+          "Managed the clinic's IT infrastructure.",
         ],
       },
     },

@@ -82,6 +82,11 @@ const classes = computed(() => ["tag", `tag-variant-${props.variant}`]);
       color: white;
     }
 
+    &-sql-server {
+      background-color: #a91d22;
+      color: white;
+    }
+
     &-ogl {
       background-color: #0e5495;
       color: white;

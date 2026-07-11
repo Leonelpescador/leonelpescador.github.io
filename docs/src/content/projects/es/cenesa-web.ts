@@ -3,28 +3,28 @@ import type { ProjectContent } from "../../types";
 export default {
   title: "CENESA · Sitio Corporativo",
   theme: "light",
-  tags: ["django", "postgresql", "html", "css", "javascript"],
+  tags: ["html", "css", "javascript"],
   live: "https://www.cenesa.com.ar",
   description:
-    "Diseño y desarrollo del sitio web institucional y corporativo de CENESA S.A. Arquitectura frontend moderna con foco en rendimiento, SEO y experiencia de usuario. Responsable del ciclo completo: UI/UX, desarrollo e infraestructura de deploy.",
+    "CENESA S.A. es un Centro de Estudios de Alta Complejidad con más de 40 años de trayectoria en Salta. Tenía una web en WordPress desactualizada, lenta y con limitaciones para representar la institución. Diseñé y desarrollé el nuevo sitio corporativo desde cero con HTML, CSS y JavaScript, con un frontend responsive y enfoque en rendimiento, SEO y experiencia de usuario.",
   components: [
     {
       type: "text",
       props: {
-        title: "Descripción",
-        text: "Diseño y desarrollo del sitio web institucional y corporativo de CENESA S.A. Arquitectura frontend moderna con foco en rendimiento, SEO y experiencia de usuario. Responsable del ciclo completo: UI/UX, desarrollo e infraestructura de deploy.",
+        title: "Mi rol",
+        text: "Fui el responsable del proyecto end-to-end: diseño UI/UX en Figma bajo criterio institucional, desarrollo frontend, optimización SEO, despliegue y gestión del DNS a través de Cloudflare.",
       },
     },
     {
       type: "list",
       props: {
-        title: "Tecnologías y responsabilidades",
+        title: "Aportes y logros",
         items: [
-          "Django como backend principal",
-          "PostgreSQL para persistencia",
-          "HTML/CSS/JS frontend",
-          "UI/UX y deploy",
-          "Optimización SEO",
+          "Reemplacé una plataforma WordPress obsoleta por un sitio corporativo moderno.",
+          "Diseñé la experiencia de usuario y la interfaz en Figma.",
+          "Desarrollé el sitio responsive con HTML, CSS y JavaScript.",
+          "Optimicé SEO y tiempos de carga.",
+          "Realicé el deploy.",
         ],
       },
     },
