@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Button from "./Button.vue";
 import Logo from "./Logo.vue";
-import HeaderLink from "./HeaderLink.vue";
 import { computed, ref, watch } from "vue";
 import { t } from "../i18n/utils/translate";
 import { useHeaderTheme } from "../composables/useHeaderTheme";
@@ -36,17 +35,7 @@ const { isDarkTheme } = useHeaderTheme({
 
 const isMenuOpen = ref(false);
 
-const navItems = computed(() => [
-  { id: "about", label: t("about") },
-  { id: "journey", label: t("journey") },
-  { id: "education", label: t("education") },
-  { id: "projects", label: t("projects") },
-  { id: "contact", label: t("contact") },
-]);
-
 const handleBackClick = () => {
-  // If it's the first route the user visited, navigate to home
-  // Otherwise, go back in browser history
   if (isFirstRoute.value) {
     router.push("/");
   } else {
@@ -68,19 +57,30 @@ const closeMenu = () => {
   isMenuOpen.value = false;
 };
 
-const handleNavClick = (target: string) => {
-  closeMenu();
+const navTo = (target: string) => {
+  isMenuOpen.value = false;
   if (!lenis.value) return;
   lenis.value.scrollTo("#" + target);
 };
 
-watch(isMenuOpen, (open) => {
-  if (open) {
-    document.documentElement.classList.add("menu-open");
-  } else {
-    document.documentElement.classList.remove("menu-open");
+watch(
+  isMenuOpen,
+  (open) => {
+    if (open) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+  },
+  { flush: "post" },
+);
+
+const handleOverlayClick = (e: MouseEvent) => {
+  const overlay = e.currentTarget as HTMLElement;
+  if (e.target === overlay) {
+    isMenuOpen.value = false;
   }
-});
+};
 
 const classNames = computed(() => {
   return {
@@ -142,7 +142,11 @@ const getInTouchClassNames = computed(() => {
         >{{ t("download-cv") }}</Button
       >
       <LangSwitch class="header-lang-switch" />
-      <SoundsToggle class="header-sounds-toggle" :isDarkTheme="isDarkTheme" v-if="isFeatureEnabled('sounds')" />
+      <SoundsToggle
+        class="header-sounds-toggle"
+        :isDarkTheme="isDarkTheme"
+        v-if="isFeatureEnabled('sounds')"
+      />
       <button
         class="header-menu-toggle"
         :class="{ 'header-menu-toggle-open': isMenuOpen }"
@@ -158,52 +162,55 @@ const getInTouchClassNames = computed(() => {
       </button>
     </div>
 
-    <div
-      class="header-mobile-menu"
-      :class="{ 'header-mobile-menu-open': isMenuOpen }"
-      @click.self="closeMenu"
-    >
-      <div class="header-mobile-menu-inner">
-        <div class="header-mobile-menu-top">
-          <Logo class="header-mobile-menu-logo" />
-          <button
-            class="header-mobile-menu-close"
-            @click="closeMenu"
-            :aria-label="t('close-menu')"
-            data-cursor="circle-white"
-            data-sound="click"
-          >
-            <span></span>
-            <span></span>
-          </button>
+    <Teleport to="body">
+      <Transition name="mobile-menu">
+        <div
+          v-if="isMenuOpen"
+          class="mobile-menu-overlay"
+          @click="handleOverlayClick"
+        >
+          <div class="mobile-menu-panel">
+            <div class="mobile-menu-header">
+              <Logo class="mobile-menu-logo" />
+              <button
+                class="mobile-menu-close"
+                @click="closeMenu"
+                :aria-label="t('close-menu')"
+              >
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+            <nav class="mobile-menu-nav">
+              <button class="mobile-menu-item" @click="navTo('about')">
+                {{ t("about") }}
+              </button>
+              <button class="mobile-menu-item" @click="navTo('journey')">
+                {{ t("journey") }}
+              </button>
+              <button class="mobile-menu-item" @click="navTo('education')">
+                {{ t("education") }}
+              </button>
+              <button class="mobile-menu-item" @click="navTo('projects')">
+                {{ t("projects") }}
+              </button>
+              <button class="mobile-menu-item" @click="navTo('contact')">
+                {{ t("contact") }}
+              </button>
+            </nav>
+            <div class="mobile-menu-footer">
+              <a
+                class="mobile-menu-cv"
+                href="/static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf"
+                download="Pescador_Jesus_Leonel_CV.pdf"
+              >
+                {{ t("download-cv") }}
+              </a>
+            </div>
+          </div>
         </div>
-        <nav class="header-mobile-menu-nav">
-          <HeaderLink
-            v-for="item in navItems"
-            :key="item.id"
-            class="header-mobile-menu-link"
-            @click="handleNavClick(item.id)"
-            :aria-label="item.label"
-            data-cursor="circle-white"
-            data-sound="click"
-            data-hoversound="hover"
-          >
-            {{ item.label }}
-          </HeaderLink>
-        </nav>
-        <div class="header-mobile-menu-footer">
-          <Button
-            renderAs="a"
-            variant="accent"
-            href="/static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf"
-            download="Pescador_Jesus_Leonel_CV.pdf"
-            data-cursor="circle-white"
-            data-hoversound="hover"
-            >{{ t("download-cv") }}</Button
-          >
-        </div>
-      </div>
-    </div>
+      </Transition>
+    </Teleport>
   </header>
 </template>
 
@@ -272,10 +279,6 @@ const getInTouchClassNames = computed(() => {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-  }
-
-  &-music-toggle {
-    display: flex;
   }
 
   &-dark {
@@ -378,108 +381,145 @@ const getInTouchClassNames = computed(() => {
       }
     }
   }
+}
+</style>
 
-  &-mobile-menu {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(45, 42, 36, 0.4);
-    z-index: calc(var(--z-index-header) - 1);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease-in-out;
+<style>
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  background-color: rgba(45, 42, 36, 0.5);
+  display: flex;
+  justify-content: flex-end;
+}
 
-    @include mixins.mq("lg") {
-      display: none;
-    }
+.mobile-menu-panel {
+  width: min(320px, 85vw);
+  height: 100%;
+  background-color: var(--color-beige-400);
+  color: var(--color-text-400);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-outer);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
 
-    &-open {
-      opacity: 1;
-      pointer-events: auto;
-    }
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+}
 
-    &-inner {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: min(320px, 85vw);
-      height: 100%;
-      background-color: var(--color-beige-400);
-      color: var(--color-text-400);
-      transform: translateX(100%);
-      transition: transform 0.3s var(--ease-smooth);
-      display: flex;
-      flex-direction: column;
-      padding: var(--space-outer);
-      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
-    }
+.mobile-menu-logo {
+  width: 28px !important;
+  height: auto;
+}
 
-    &-open &-inner {
-      transform: translateX(0);
-    }
+.mobile-menu-close {
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
 
-    &-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: var(--space-xl);
-    }
+.mobile-menu-close span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-400);
+  display: block;
+}
 
-    &-logo {
-      width: 40px;
-      height: auto;
-    }
+.mobile-menu-close span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
 
-    &-close {
-      width: 44px;
-      height: 44px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      position: relative;
+.mobile-menu-close span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
 
-      span {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 24px;
-        height: 2px;
-        background-color: var(--color-text-400);
-        display: block;
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  flex: 1;
+  padding: var(--space-md) 0;
+}
 
-        &:first-child {
-          transform: translate(-50%, -50%) rotate(45deg);
-        }
-        &:last-child {
-          transform: translate(-50%, -50%) rotate(-45deg);
-        }
-      }
-    }
+.mobile-menu-item {
+  width: 100%;
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text-400);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
 
-    &-nav {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-      flex: 1;
-    }
+.mobile-menu-item:active {
+  background-color: var(--color-grayscale-500);
+}
 
-    &-link {
-      width: 100%;
-      text-align: left;
-      padding: var(--space-sm) 0;
-      font-size: var(--font-size-lg);
-      color: var(--color-text-400);
-      border-radius: var(--radius-md);
+.mobile-menu-footer {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-grayscale-500);
+}
 
-      &::after {
-        border-radius: var(--radius-md);
-      }
-    }
+.mobile-menu-cv {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-lg);
+  background-color: var(--color-orange-400);
+  color: var(--color-white-400);
+  border: none;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: var(--font-size-md);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
 
-    &-footer {
-      margin-top: var(--space-lg);
-      padding-top: var(--space-lg);
-      border-top: 1px solid var(--color-grayscale-500);
-    }
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-enter-active .mobile-menu-panel,
+.mobile-menu-leave-active .mobile-menu-panel {
+  transition: transform 0.3s var(--ease-smooth);
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+}
+
+.mobile-menu-enter-from .mobile-menu-panel,
+.mobile-menu-leave-to .mobile-menu-panel {
+  transform: translateX(100%);
+}
+
+@media (min-width: 1024px) {
+  .mobile-menu-overlay {
+    display: none;
   }
 }
 </style>
