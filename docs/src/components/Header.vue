@@ -35,13 +35,13 @@ const { isDarkTheme } = useHeaderTheme({
 
 const isMenuOpen = ref(false);
 
-const navItems = [
+const navItems = computed(() => [
   { id: "about", label: t("about") },
   { id: "journey", label: t("journey") },
   { id: "education", label: t("education") },
   { id: "projects", label: t("projects") },
   { id: "contact", label: t("contact") },
-];
+]);
 
 const handleBackClick = () => {
   // If it's the first route the user visited, navigate to home
@@ -212,8 +212,9 @@ const getInTouchClassNames = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   width: var(--breakpoint-xxxl);
   padding: 0 var(--space-outer);
   max-width: 100%;
