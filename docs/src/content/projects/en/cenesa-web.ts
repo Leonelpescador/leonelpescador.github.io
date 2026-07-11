@@ -3,10 +3,10 @@ import type { ProjectContent } from "../../types";
 export default {
   title: "CENESA · Corporate Website",
   theme: "light",
-  tags: ["html", "css", "javascript"],
+  tags: ["next", "react", "javascript"],
   live: "https://www.cenesa.com.ar",
   description:
-    "CENESA SA is a high-complexity medical center with over 40 years of history in Salta. It had an outdated, slow WordPress website that no longer represented the institution. I designed and developed the new corporate website from scratch using HTML, CSS, and JavaScript, with a responsive frontend focused on performance, SEO, and user experience.",
+    "CENESA SA is a high-complexity medical center with over 40 years of history in Salta. It had an outdated, slow WordPress website that no longer represented the institution. I designed and developed the new corporate website from scratch using Next.js and React, with a responsive frontend focused on performance, SEO, and user experience.",
   components: [
     {
       type: "text",
@@ -22,7 +22,7 @@ export default {
         items: [
           "Replaced an obsolete WordPress platform with a modern corporate website.",
           "Designed the user experience and interface in Figma.",
-          "Developed a responsive website with HTML, CSS, and JavaScript.",
+          "Developed a responsive website with Next.js and React.",
           "Optimized SEO and loading times.",
           "Deployed on Railway.app with Cloudflare-managed DNS.",
         ],

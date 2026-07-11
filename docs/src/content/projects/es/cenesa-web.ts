@@ -3,16 +3,16 @@ import type { ProjectContent } from "../../types";
 export default {
   title: "CENESA · Sitio Corporativo",
   theme: "light",
-  tags: ["html", "css", "javascript"],
+  tags: ["next", "react", "javascript"],
   live: "https://www.cenesa.com.ar",
   description:
-    "CENESA S.A. es un Centro de Estudios de Alta Complejidad con más de 40 años de trayectoria en Salta. Tenía una web en WordPress desactualizada, lenta y con limitaciones para representar la institución. Diseñé y desarrollé el nuevo sitio corporativo desde cero con HTML, CSS y JavaScript, con un frontend responsive y enfoque en rendimiento, SEO y experiencia de usuario.",
+    "CENESA S.A. es un Centro de Estudios de Alta Complejidad con más de 40 años de trayectoria en Salta. Tenía una web en WordPress desactualizada, lenta y con limitaciones para representar la institución. Diseñé y desarrollé el nuevo sitio corporativo desde cero con Next.js y React, con un frontend responsive y enfoque en rendimiento, SEO y experiencia de usuario.",
   components: [
     {
       type: "text",
       props: {
         title: "Mi rol",
-        text: "Fui el responsable del proyecto end-to-end: diseño UI/UX en Figma bajo criterio institucional, desarrollo frontend, optimización SEO, despliegue y gestión del DNS a través de Cloudflare.",
+        text: "Fui el responsable del proyecto end-to-end: diseño UI/UX en Figma bajo criterio institucional, desarrollo frontend, optimización SEO, despliegue en Railway.app y gestión del DNS a través de Cloudflare.",
       },
     },
     {
@@ -22,9 +22,9 @@ export default {
         items: [
           "Reemplacé una plataforma WordPress obsoleta por un sitio corporativo moderno.",
           "Diseñé la experiencia de usuario y la interfaz en Figma.",
-          "Desarrollé el sitio responsive con HTML, CSS y JavaScript.",
+          "Desarrollé el sitio responsive con Next.js y React.",
           "Optimicé SEO y tiempos de carga.",
-          "Realicé el deploy.",
+          "Desplegué en Railway.app con DNS gestionado a través de Cloudflare.",
         ],
       },
     },

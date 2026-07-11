@@ -16,6 +16,13 @@ const experiences = [
     current: true,
   },
   {
+    companyKey: "exp3-company",
+    dateKey: "exp3-date",
+    roleKey: "exp3-role",
+    bulletsKeys: ["exp3-b1", "exp3-b2", "exp3-b3", "exp3-b4"],
+    current: true,
+  },
+  {
     companyKey: "exp2-company",
     dateKey: "exp2-date",
     roleKey: "exp2-role",
@@ -82,7 +89,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="about-extended-education" data-reveal>
+      <div class="about-extended-education" id="education" data-reveal>
         <h3 class="about-extended-section-title">{{ t("education-title") }}</h3>
         <div class="about-extended-card">
           <div class="about-extended-card-top">

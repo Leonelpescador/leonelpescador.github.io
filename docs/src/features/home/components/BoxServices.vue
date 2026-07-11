@@ -109,16 +109,16 @@ const handleTimelineCreated = (timeline: gsap.core.Timeline, delay: number) => {
 const SERVICES_EN = [
   { name: "Python & Django" },
   { name: "FastAPI & Odoo" },
-  { name: "React Native & JavaScript" },
-  { name: "PostgreSQL & Docker" },
+  { name: "React Native & Next.js" },
+  { name: "PostgreSQL & SQL Server" },
   { name: "Systems Analysis & Agile" },
 ] as const satisfies { name: string }[];
 
 const SERVICES_ES = [
   { name: "Python & Django" },
   { name: "FastAPI & Odoo" },
-  { name: "React Native & JavaScript" },
-  { name: "PostgreSQL & Docker" },
+  { name: "React Native & Next.js" },
+  { name: "PostgreSQL & SQL Server" },
   { name: "Análisis de Sistemas & Agile" },
 ] as const satisfies { name: string }[];
 

@@ -88,7 +88,8 @@ const handleSubmit = async (event: Event) => {
           :href="whatsappUrl"
           variant="border"
           size="md"
-          external
+          target="_blank"
+          rel="noopener noreferrer"
           data-cursor="circle-white"
           data-sound="click"
         >

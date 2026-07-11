@@ -1,6 +1,6 @@
 import type { Locale } from "../../i18n/types";
 
-export const projectIds = ["cpces-odoo", "cenesa-web", "cenesa-intranet"];
+export const projectIds = ["cpces-odoo", "cenesa-web", "cenesa-intranet", "burgos1950-odoo"];
 
 function simplifyModules(glob: Record<string, any>) {
   const result: Record<string, any> = {};
