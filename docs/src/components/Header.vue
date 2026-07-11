@@ -7,7 +7,6 @@ import { t } from "../i18n/utils/translate";
 import { useHeaderTheme } from "../composables/useHeaderTheme";
 import { lenis } from "../composables/useScroll";
 import { projectId } from "../composables/useRouteObserver";
-import { social } from "../content/social";
 import ButtonRound from "./ButtonRound.vue";
 import ArrowRight from "./icons/ArrowRight.vue";
 import SoundsToggle from "./SoundsToggle.vue";
@@ -133,13 +132,13 @@ const getInTouchClassNames = computed(() => {
       <Button
         renderAs="a"
         variant="accent"
-        :aria-label="t('get-in-touch')"
-        :href="social.find((item) => item.name === 'mail')?.url ?? ''"
-        external
+        :aria-label="t('download-cv')"
+        href="/static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf"
+        download="Pescador_Jesus_Leonel_CV.pdf"
         :class="getInTouchClassNames"
         data-cursor="circle-white"
         data-hoversound="hover"
-        >{{ t("get-in-touch") }}</Button
+        >{{ t("download-cv") }}</Button
       >
       <SoundsToggle class="header-sounds-toggle" :isDarkTheme="isDarkTheme" v-if="isFeatureEnabled('sounds')" />
       <button
@@ -194,11 +193,11 @@ const getInTouchClassNames = computed(() => {
           <Button
             renderAs="a"
             variant="accent"
-            :href="social.find((item) => item.name === 'mail')?.url ?? ''"
-            external
+            href="/static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf"
+            download="Pescador_Jesus_Leonel_CV.pdf"
             data-cursor="circle-white"
             data-hoversound="hover"
-            >{{ t("get-in-touch") }}</Button
+            >{{ t("download-cv") }}</Button
           >
         </div>
       </div>
