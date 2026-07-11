@@ -33,7 +33,7 @@ export default {
       type: "media",
       props: {
         type: "image",
-        src: "https://www.consejosalta.org.ar/wp-content/uploads/LOGO-APAISADO-SIN-FONDO-PNG.png",
+        src: "/static/media/projects/media/cpces-odoo.webp",
         alt: "CPCES",
         caption: "CPCES",
       },

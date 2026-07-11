@@ -32,7 +32,7 @@ export default {
       type: "media",
       props: {
         type: "image",
-        src: "https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png",
+        src: "/static/media/projects/media/cenesa-web.webp",
         alt: "CENESA",
         caption: "CENESA",
       },

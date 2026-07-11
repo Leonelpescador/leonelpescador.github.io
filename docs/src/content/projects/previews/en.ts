@@ -4,19 +4,19 @@ export default [
   {
     title: "Odoo Integration",
     slug: "cpces-odoo",
-    thumbnail: "https://www.consejosalta.org.ar/wp-content/uploads/LOGO-APAISADO-SIN-FONDO-PNG.png",
+    thumbnail: "/static/media/projects/thumbnails/cpces-odoo.webp",
     description: "Unified 3 systems into Odoo with 24 custom modules",
   },
   {
     title: "CENESA · Corporate Website",
     slug: "cenesa-web",
-    thumbnail: "https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png",
+    thumbnail: "/static/media/projects/thumbnails/cenesa-web.webp",
     description: "Institutional redesign from scratch with HTML, CSS and JavaScript",
   },
   {
     title: "CENESA · Corporate Intranet",
     slug: "cenesa-intranet",
-    thumbnail: "https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png",
+    thumbnail: "/static/media/projects/thumbnails/cenesa-intranet.webp",
     description: "Mission-critical intranet with API and Android app for nurses",
   },
 ] as const satisfies ProjectPreview[];
