@@ -1,481 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolio de Pescador Jesús Leonel, Desarrollador Full-Stack especializado en Python, Django, FastAPI, Odoo y React Native. Salta, Argentina." />
-  <title>Pescador Jesús Leonel · Full-Stack Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" fetchpriority="high" />
-  <link rel="icon" type="image/svg+xml" href="static/media/favicon.svg" />
-  <link rel="apple-touch-icon" href="static/media/favicon.svg" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="static/css/base.css" />
-  <link rel="stylesheet" href="static/css/animations.css" />
-  <link rel="stylesheet" href="static/css/components.css" />
-  <link rel="stylesheet" href="static/css/responsive.css" />
-  <meta property="og:title" content="Pescador Jesús Leonel · Full-Stack Developer" />
-  <meta property="og:description" content="Desarrollador Full-Stack especializado en Python, Django, FastAPI, Odoo y React Native. Transformación digital institucional." />
-  <meta property="og:url" content="https://leonelpescador.github.io" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://leonelpescador.github.io/static/media/favicon.svg" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Pescador Jesús Leonel · Full-Stack Developer" />
-  <meta name="twitter:description" content="Desarrollador Full-Stack especializado en Python, Django, FastAPI, Odoo y React Native." />
-  <link rel="canonical" href="https://leonelpescador.github.io" />
-  <link rel="sitemap" type="application/xml" href="sitemap.xml" />
-  <meta name="robots" content="index, follow" />
-  <link rel="dns-prefetch" href="//formspree.io" />
-  <link rel="dns-prefetch" href="//www.consejosalta.org.ar" />
-  <link rel="dns-prefetch" href="//archivoscenesa.up.railway.app" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://formspree.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://www.consejosalta.org.ar https://archivoscenesa.up.railway.app https://drive.google.com data:; connect-src 'self' https://formspree.io; frame-src 'self' https://drive.google.com; base-uri 'self'; form-action 'self' https://formspree.io" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Pescador Jesús Leonel",
-  "jobTitle": "Full-Stack Developer",
-  "url": "https://leonelpescador.github.io",
-  "sameAs": [
-    "https://linkedin.com/in/pescador-jesus-leonel",
-    "https://github.com/Leonelpescador",
-    "https://github.com/leonelconsejo"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Salta",
-    "addressCountry": "AR"
-  },
-  "knowsAbout": ["Python", "Django", "FastAPI", "Odoo", "React Native", "PostgreSQL"]
-}
-  </script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<a href="#main-content" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
+    <title>Pescador Jesús Leonel · Full-Stack Developer</title>
+    <meta
+      name="description"
+      content="Desarrollador Full-Stack especializado en Python, Django, FastAPI, Odoo y React Native. Salta, Argentina."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://leonelpescador.github.io/" />
 
-<!-- ── NAVBAR ── -->
-<nav id="nav">
-  <a href="#" class="nav-brand">
-    <div class="nav-icon"><span></span><span></span><span></span><span></span></div>
-    <span class="nav-name">Pescador Jesús Leonel</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#about"      data-i18n="nav_about">Sobre mí</a></li>
-    <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
-    <li><a href="#experience" data-i18n="nav_experience">Experiencia</a></li>
-    <li><a href="#projects"   data-i18n="nav_projects">Proyectos</a></li>
-    <li><a href="#education"  data-i18n="nav_education">Educación</a></li>
-    <li><a href="#contact"    data-i18n="nav_contact">Contacto</a></li>
-  </ul>
-  <div class="nav-right">
-    <div class="lang-toggle">
-      <button type="button" id="btn-es" class="active">ES</button>
-      <button type="button" id="btn-en">EN</button>
+    <meta property="og:title" content="Pescador Jesús Leonel · Full-Stack Developer" />
+    <meta
+      property="og:description"
+      content="Desarrollador Full-Stack especializado en Python, Django, FastAPI, Odoo y React Native. Salta, Argentina."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://leonelpescador.github.io/" />
+    <meta property="og:image" content="https://leonelpescador.github.io/meta/og-image.webp" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pescador Jesús Leonel · Full-Stack Developer" />
+    <meta
+      name="twitter:description"
+      content="Desarrollador Full-Stack especializado en Python, Django, FastAPI, Odoo y React Native. Salta, Argentina."
+    />
+    <meta name="twitter:image" content="https://leonelpescador.github.io/meta/twitter-image.webp" />
+
+    <link rel="preload" href="/fonts/urbanist-400.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/urbanist-700.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/urbanist-900.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/pro-font-windows-400.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/pro-font-windows-700.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <link rel="icon" type="image/png" href="/meta/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/meta/favicon.svg" />
+    <link rel="shortcut icon" href="/meta/favicon.ico" />
+
+    <meta name="theme-color" content="#0f172a" />
+  </head>
+  <body class="is-loading">
+    <svg style="display: none" viewBox="0 0 56 61" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <path
+          id="logo-path"
+          d="M3 14 24 2C28 0 28 0 32 2L53 14C56 16 56 17 56 19L56 43C56 46 55 47 51 49L32 59C28 61 28 61 24 59L5 49C1 47 0 46 0 43L0 19C0 17 0 16 3 14M28 4 5 17 28 28 51 17 28 4M53 20 30 31 30 56 53 44 53 20M40 42 33 35C33 35 32 34 33 33 34 32 35 33 36 34L36 34 43 41C44 42 44 42 43 43L35 51C35 51 34 52 33 51 32 50 33 49 33 49L40 42M16 42 23 35C23 35 24 34 23 33 22 32 21 33 20 34L13 41C12 42 12 42 13 43L21 51C21 51 22 52 23 51 24 50 23 49 23 49L16 42"
+        ></path>
+      </defs>
+    </svg>
+    <div id="app"></div>
+    <div class="preloader">
+      <svg class="preloader-svg" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+        <mask id="preloader-mask">
+          <rect fill="black" height="26" width="26"></rect>
+          <rect fill="white" height="26" width="26" class="preloader-rect" style="transform: scaleY(0)"></rect>
+        </mask>
+
+        <g class="preloader-path" opacity="0.3">
+          <rect x="0" y="0" width="12" height="12" rx="2" fill="#8052ff" />
+          <rect x="14" y="0" width="12" height="12" rx="2" fill="#3b2fff" />
+          <rect x="0" y="14" width="12" height="12" rx="2" fill="#2a1fcc" />
+          <rect x="14" y="14" width="12" height="12" rx="2" fill="rgba(128,82,255,0.5)" />
+        </g>
+        <g class="preloader-path" mask="url(#preloader-mask)">
+          <rect x="0" y="0" width="12" height="12" rx="2" fill="#8052ff" />
+          <rect x="14" y="0" width="12" height="12" rx="2" fill="#3b2fff" />
+          <rect x="0" y="14" width="12" height="12" rx="2" fill="#2a1fcc" />
+          <rect x="14" y="14" width="12" height="12" rx="2" fill="rgba(128,82,255,0.5)" />
+        </g>
+      </svg>
     </div>
-    <a href="https://github.com/Leonelpescador" target="_blank" rel="noopener noreferrer" class="btn-gh" data-i18n="nav_github">GitHub</a>
-    <a href="static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf" download class="btn-gh-cv" data-i18n="nav_cv">CV</a>
-  </div>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menú" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- ── MOBILE MENU ── -->
-<div class="nav-mobile" id="nav-mobile" aria-hidden="true">
-  <ul>
-    <li><a href="#about"      data-i18n="nav_about">Sobre mí</a></li>
-    <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
-    <li><a href="#experience" data-i18n="nav_experience">Experiencia</a></li>
-    <li><a href="#projects"   data-i18n="nav_projects">Proyectos</a></li>
-    <li><a href="#education"  data-i18n="nav_education">Educación</a></li>
-    <li><a href="#contact"    data-i18n="nav_contact">Contacto</a></li>
-  </ul>
-  <div class="nav-mobile-foot">
-    <div class="lang-toggle">
-      <button type="button" id="mob-btn-es" class="active">ES</button>
-      <button type="button" id="mob-btn-en">EN</button>
-    </div>
-    <a href="https://github.com/Leonelpescador" target="_blank" rel="noopener noreferrer" class="btn-gh" data-i18n="nav_github">GitHub</a>
-    <a href="static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf" download class="btn-gh-cv" data-i18n="nav_cv">CV</a>
-  </div>
-</div>
-
-<main id="main-content">
-
-<!-- ── HERO ── -->
-<section class="hero" style="border:none;padding:0;">
-  <canvas id="particle-canvas"></canvas>
-
-  <div class="hero-body">
-    <p class="hero-kicker"><span data-i18n="hero_hello">&gt; Hello, World!</span><span class="hero-blink">_</span></p>
-
-    <h1 class="hero-name"><span class="hero-name-line">Pescador</span> <span class="hero-name-line">Jesús Leonel</span></h1>
-
-    <div class="hero-tw-wrap">
-      <span class="hero-tw" id="tw-text"></span>
-      <span class="hero-tw-cursor">|</span>
-    </div>
-
-    <p class="hero-desc">
-      <span data-i18n="hero_desc">Especializado en Python · Django · FastAPI · Odoo · React Native.</span>
-      <span class="loc" data-i18n="hero_location">Salta, Argentina</span>
-    </p>
-
-    <div class="hero-ctas">
-      <a href="#contact" class="btn-cta-filled" data-i18n="hero_cta_contact">Contactar →</a>
-      <a href="#about"   class="btn-cta-outline" data-i18n="hero_cta_portfolio">Ver portafolio ↓</a>
-      <a href="static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn-cv" download data-i18n="hero_cta_cv">Descargar CV ↓</a>
-    </div>
-
-    <div class="hero-socials">
-      <a href="https://linkedin.com/in/pescador-jesus-leonel" target="_blank" rel="noopener noreferrer" class="hero-social-link" data-i18n="hero_social_linkedin" aria-label="LinkedIn (opens in new tab)">LinkedIn ↗</a>
-      <a href="https://github.com/Leonelpescador" target="_blank" rel="noopener noreferrer" class="hero-social-link" data-i18n="hero_social_github" aria-label="GitHub profile (opens in new tab)">GitHub ↗</a>
-      <a href="https://github.com/leonelconsejo" target="_blank" rel="noopener noreferrer" class="hero-social-link" data-i18n="hero_social_github_cpces" aria-label="GitHub CPCES profile (opens in new tab)">GitHub-CPCES ↗</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── ABOUT ── -->
-<section id="about" aria-labelledby="about-title">
-  <div class="sec-header" data-reveal>
-    <span class="sec-label" data-i18n="about_label">Sobre mí</span>
-    <h2 id="about-title" class="sec-title" data-i18n="about_title">Sobre Mí</h2>
-    <div class="sec-underline"></div>
-  </div>
-  <div class="about-card-centered" data-reveal>
-    <p class="about-bio" data-i18n-html="about_bio1">
-      Soy Analista de Sistemas y Desarrollador Full-Stack con experiencia en la creación de
-      <span class="hi">soluciones tecnológicas de alto impacto</span> y transformación digital.
-    </p>
-    <p class="about-bio" data-i18n-html="about_bio2">
-      Especializado en el ecosistema <span class="hi2">Python (Django · FastAPI · Odoo)</span> y JavaScript.
-      Lidero relevamiento de requerimientos, diseño de arquitecturas escalables y coordinación con equipos multidisciplinarios bajo metodologías ágiles.
-    </p>
-    <p class="about-bio" data-i18n-html="about_bio3">
-      Actualmente enfocado en la <span class="hi3">transformación digital institucional</span>, alineando tecnología con los objetivos del negocio.
-    </p>
-  </div>
-</section>
-
-<!-- ── SKILLS ── -->
-<section id="skills" aria-labelledby="skills-title">
-  <div class="sec-header" data-reveal>
-    <span class="sec-label" data-i18n="skills_label">Habilidades</span>
-    <h2 id="skills-title" class="sec-title" data-i18n="skills_title">Stack Técnico</h2>
-    <div class="sec-underline"></div>
-  </div>
-  <div class="skills-grid">
-    <div class="skill-group" data-reveal data-delay="1">
-      <span class="skill-group-name" data-i18n="sk_backend">Backend</span>
-      <div class="skill-pills">
-        <span class="pill">Python</span>
-        <span class="pill">Django</span>
-        <span class="pill">FastAPI</span>
-      </div>
-    </div>
-    <div class="skill-group" data-reveal data-delay="2">
-      <span class="skill-group-name" data-i18n="sk_frontend">Frontend</span>
-      <div class="skill-pills">
-        <span class="pill">React Native</span>
-        <span class="pill">HTML / CSS</span>
-        <span class="pill">JavaScript</span>
-        <span class="pill">UI/UX Design</span>
-      </div>
-    </div>
-    <div class="skill-group" data-reveal data-delay="3">
-      <span class="skill-group-name" data-i18n="sk_db">Databases</span>
-      <div class="skill-pills">
-        <span class="pill">PostgreSQL</span>
-        <span class="pill">MySQL</span>
-        <span class="pill">Firebase</span>
-        <span class="pill">SQL Server</span>
-      </div>
-    </div>
-    <div class="skill-group" data-reveal data-delay="4">
-      <span class="skill-group-name" data-i18n="sk_erp">ERP</span>
-      <div class="skill-pills">
-        <span class="pill">Odoo v19</span>
-        <span class="pill">ORM</span>
-        <span class="pill" data-i18n="sk_modules">Módulos Custom</span>
-      </div>
-    </div>
-    <div class="skill-group" data-reveal data-delay="5">
-      <span class="skill-group-name" data-i18n="sk_tools">Project Mgmt</span>
-      <div class="skill-pills">
-        <span class="pill">Scrum</span>
-        <span class="pill">Jira</span>
-        <span class="pill">Confluence</span>
-        <span class="pill">Notion</span>
-        <span class="pill">Docker</span>
-      </div>
-    </div>
-    <div class="skill-group" data-reveal data-delay="6">
-      <span class="skill-group-name" data-i18n="sk_design">Design / UX</span>
-      <div class="skill-pills">
-        <span class="pill">Figma</span>
-        <span class="pill">Visio</span>
-      </div>
-    </div>
-    <div class="skill-group" data-reveal data-delay="7">
-      <span class="skill-group-name" data-i18n="sk_idioms">Idiomas</span>
-      <div class="skill-pills">
-        <span class="pill" data-i18n="sk_es">Español (Nativo)</span>
-        <span class="pill" data-i18n="sk_en">English B1</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── EXPERIENCE ── -->
-<section id="experience" aria-labelledby="experience-title">
-  <div class="sec-header" data-reveal>
-    <span class="sec-label" data-i18n="exp_label">Experiencia</span>
-    <h2 id="experience-title" class="sec-title" data-i18n="exp_title">Trayectoria Profesional</h2>
-    <div class="sec-underline"></div>
-  </div>
-  <div class="timeline">
-
-    <!-- CPCES -->
-    <div class="timeline-item" data-reveal data-delay="1">
-      <div class="timeline-card">
-        <div class="timeline-card-top">
-          <div>
-            <span class="timeline-company" data-i18n="exp1_company">
-              Consejo Prof. de Ciencias Económicas de Salta
-              <span class="timeline-current-badge" data-i18n="exp_current">Actual</span>
-            </span>
-          </div>
-          <span class="timeline-date-badge" data-i18n="exp1_date">Jun 2025 – Presente</span>
-        </div>
-        <p class="timeline-role" data-i18n="exp1_role">Desarrollador de Software · Analista Funcional</p>
-        <p class="timeline-loc" data-i18n="exp_location">Salta, Argentina</p>
-        <div class="timeline-bullets">
-          <p class="timeline-bullet" data-i18n="exp1_b1">Análisis de procesos de negocio y relevamiento de requerimientos con las áreas involucradas.</p>
-          <p class="timeline-bullet" data-i18n="exp1_b2">Definición de requerimientos funcionales y elaboración de documentación técnica del proyecto.</p>
-          <p class="timeline-bullet" data-i18n="exp1_b3">Diseño de arquitectura técnica y desarrollo de módulos personalizados en el ecosistema Odoo.</p>
-          <p class="timeline-bullet" data-i18n="exp1_b4">Decisiones estratégicas sobre estructura de código y arquitectura para garantizar escalabilidad.</p>
-        </div>
-        <div class="timeline-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">Odoo</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">Docker</span>
-          <span class="tech-tag" data-i18n="exp1_tag">Análisis Funcional</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- CENESA -->
-    <div class="timeline-item" data-reveal data-delay="2">
-      <div class="timeline-card">
-        <div class="timeline-card-top">
-          <span class="timeline-company" data-i18n="exp2_company">CENESA S.A.</span>
-          <span class="timeline-date-badge" data-i18n="exp2_date">2021 – Sep 2025</span>
-        </div>
-        <p class="timeline-role" data-i18n="exp2_role">Desarrollador de Software · Administrador de Sistema</p>
-        <p class="timeline-loc" data-i18n="exp_location">Salta, Argentina</p>
-        <div class="timeline-bullets">
-          <p class="timeline-bullet" data-i18n="exp2_b1">Diseño, desarrollo y puesta en producción E2E de API web y app mobile corporativa para Android.</p>
-          <p class="timeline-bullet" data-i18n="exp2_b2">Integración de aplicaciones internas: gestión de inventarios, control de turnos y asignación de habitaciones.</p>
-          <p class="timeline-bullet" data-i18n="exp2_b3">Módulo de integración con obras sociales para automatizar y auditar control de reintegros médicos.</p>
-          <p class="timeline-bullet" data-i18n="exp2_b4">Responsable del ciclo de vida completo: UI/UX, arquitectura backend e infraestructura de servidores.</p>
-        </div>
-        <div class="timeline-tech">
-          <span class="tech-tag">Django</span>
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">React Native</span>
-          <span class="tech-tag">Firebase</span>
-          <span class="tech-tag">Android</span>
-          <span class="tech-tag">MySQL</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── PROJECTS ── -->
-<section id="projects" aria-labelledby="projects-title">
-  <div class="sec-header" data-reveal>
-    <span class="sec-label" data-i18n="proj_label">Proyectos</span>
-    <h2 id="projects-title" class="sec-title" data-i18n="proj_title">Proyectos Realizados</h2>
-    <div class="sec-underline"></div>
-  </div>
-  <div class="projects-grid">
-
-    <!-- CPCES Odoo -->
-    <div class="project-card" data-reveal data-delay="1" data-href="https://oficinavirtualdev.consejosalta.org.ar/">
-      <div class="project-top">
-        <img class="project-logo"
-          src="https://www.consejosalta.org.ar/wp-content/uploads/LOGO-APAISADO-SIN-FONDO-PNG.png"
-          alt="CPCES"
-          loading="lazy"
-          decoding="async"
-          onerror="this.style.display='none'">
-        <div class="project-links-top">
-          <span class="project-badge badge-amber" data-i18n="proj_indev">En Desarrollo</span>
-        </div>
-      </div>
-      <div>
-        <p class="project-name" data-i18n="proj1_title">Integración de Odoo</p>
-        <p class="project-org" data-i18n="proj1_org">Consejo Prof. de Ciencias Económicas de Salta</p>
-      </div>
-      <p class="project-desc" data-i18n="proj1_desc">
-        Desarrollo e integración del ORM de Odoo para la digitalización y automatización de los procesos internos del CPCES. Diseño de modelos de datos, relaciones entre entidades y lógica de negocio personalizada, garantizando escalabilidad y trazabilidad completa.
-        Migración de datos históricos al nuevo sistema
-      </p>
-      <a href="https://oficinavirtualdev.consejosalta.org.ar/" target="_blank" rel="noopener noreferrer" class="project-visit-btn" data-i18n="proj_visit_btn">Visitar →</a>
-      <span class="project-stack-label" data-i18n="proj_stack_label">Tecnologías utilizadas</span>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">ORM</span>
-        <span class="stack-tag">PostgreSQL</span>
-        <span class="stack-tag">MySQL</span>
-        <span class="stack-tag">SQLServer</span>  
-        <span class="stack-tag">Docker</span>
-      </div>
-    </div>
-
-    <!-- CENESA Web -->
-    <div class="project-card" data-reveal data-delay="2" data-href="https://www.cenesa.com.ar">
-      <div class="project-top">
-        <img class="project-logo"
-          src="https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png"
-          alt="CENESA"
-          loading="lazy"
-          decoding="async"
-          onerror="this.style.display='none'">
-        <div class="project-links-top">
-          <span class="project-badge badge-plum" data-i18n="proj_badge_corporate">Corporate</span>
-        </div>
-      </div>
-      <div>
-        <p class="project-name" data-i18n="proj2_title">CENESA · Sitio Corporativo</p>
-        <p class="project-org" data-i18n="proj2_org">CENESA S.A.</p>
-      </div>
-      <p class="project-desc" data-i18n="proj2_desc">
-        Diseño y desarrollo del sitio web institucional y corporativo de CENESA S.A. Arquitectura frontend moderna con foco en rendimiento, SEO y experiencia de usuario. Responsable del ciclo completo: UI/UX, desarrollo e infraestructura de deploy.
-      </p>
-      <a href="https://www.cenesa.com.ar" target="_blank" rel="noopener noreferrer" class="project-visit-btn" data-i18n="proj_visit_btn">Visitar →</a>
-      <span class="project-stack-label" data-i18n="proj_stack_label">Tecnologías utilizadas</span>
-      <div class="project-stack">
-        <span class="stack-tag">Django</span>
-        <span class="stack-tag">HTML/CSS</span>
-        <span class="stack-tag">PostgreSQL</span>
-        <span class="stack-tag">UI/UX</span>
-      </div>
-    </div>
-
-    <!-- CENESA Intranet -->
-    <div class="project-card" data-reveal data-delay="3" data-href="https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view">
-      <div class="project-top">
-        <img class="project-logo"
-          src="https://archivoscenesa.up.railway.app/media/archivos/logos-de-cenesa_sombra.png"
-          alt="CENESA"
-          loading="lazy"
-          decoding="async"
-          onerror="this.style.display='none'">
-        <div class="project-links-top">
-          <span class="project-badge badge-lichen" data-i18n="proj_badge_e2e">FullStack(E2E)</span>
-        </div>
-      </div>
-      <div>
-        <p class="project-name" data-i18n="proj3_title">CENESA · Intranet Corporativa</p>
-        <p class="project-org" data-i18n="proj3_org">CENESA S.A.</p>
-      </div>
-      <p class="project-desc" data-i18n="proj3_desc">
-        Desarrollo de una sistema de uso exclusivo para uso en la intranet de la empresa, encargado de la gestion admistrativa, RRHH, control de medicamentos, entre otras funcionalidades. Desarrollo de Api con FastAPI para la comunicación de la app mobile creada con React Native para Android.
-      </p>
-      <a href="https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view" target="_blank" rel="noopener noreferrer" class="project-visit-btn" data-i18n="proj_visit_btn">Visitar →</a>
-      <span class="project-stack-label" data-i18n="proj_stack_label">Tecnologías utilizadas</span>
-      <div class="project-stack">
-        <span class="stack-tag">Django</span>
-        <span class="stack-tag">FastAPI</span>
-        <span class="stack-tag">React Native</span>
-        <span class="stack-tag">Firebase</span>
-        <span class="stack-tag">PostgreSQL</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── EDUCATION ── -->
-<section id="education" aria-labelledby="education-title">
-  <div class="sec-header" data-reveal>
-    <span class="sec-label" data-i18n="edu_label">Educación</span>
-    <h2 id="education-title" class="sec-title" data-i18n="edu_title">Formación Académica</h2>
-    <div class="sec-underline"></div>
-  </div>
-  <div class="edu-card" data-reveal>
-    <div class="edu-card-top">
-      <div>
-        <p class="edu-degree" data-i18n="edu_degree">Técnico Superior en Análisis de Sistemas</p>
-      </div>
-      <span class="edu-date-badge" data-i18n="edu_date">2022 – 2024</span>
-    </div>
-    <p class="edu-inst" data-i18n="edu_institution">Instituto Superior del Milagro</p>
-    <p class="edu-loc" data-i18n="edu_location">Salta, Argentina</p>
-    <span class="edu-badge" data-i18n="edu_badge">✓ Finalizado</span>
-  </div>
-</section>
-
-<!-- ── CONTACT ── -->
-<section id="contact" aria-labelledby="contact-title">
-  <div class="sec-header" data-reveal>
-    <span class="sec-label" data-i18n="contact_label">Contacto</span>
-    <h2 id="contact-title" class="sec-title" data-i18n="contact_title">Contacto</h2>
-    <div class="sec-underline"></div>
-  </div>
-  <div class="contact-inner" data-reveal>
-    <p class="contact-question" data-i18n="contact_question">¿Tenés un proyecto en mente? Hablemos. Recuerda que también puedes contar conmigo tocando el botón "Rita" que te lleva a mi WhatsApp</p>
-    <form action="https://formspree.io/f/xzdlpejn" method="POST" id="contact-form">
-      <input type="text" name="_gotcha" style="display:none" />
-      <div class="form-group">
-        <label class="form-label" data-i18n="form_name">Nombre</label>
-        <input type="text" name="name" class="form-input" required autocomplete="name" maxlength="100" placeholder="Tu nombre" data-i18n-placeholder="form_name_placeholder" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="form_email">Email</label>
-        <input type="email" name="email" class="form-input" required autocomplete="email" maxlength="200" placeholder="tu@email.com" data-i18n-placeholder="form_email_placeholder" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="form_msg">Mensaje</label>
-        <textarea name="message" class="form-textarea" required maxlength="2000" placeholder="Tu mensaje..." data-i18n-placeholder="form_msg_placeholder"></textarea>
-      </div>
-      <button type="submit" class="btn-send" data-i18n="form_send">Enviar mensaje →</button>
-      <div class="form-feedback" aria-live="polite" data-i18n-html="form_feedback_ok"></div>
-    </form>
-  </div>
-</section>
-
-</main>
-
-<button class="back-to-top" id="back-to-top" aria-label="Volver arriba" data-i18n="back_to_top">↑</button>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <span class="footer-copy" data-i18n="footer_copyright">© 2026 Pescador Jesús Leonel · Salta, Argentina</span>
-</footer>
-
-<!-- ── WHATSAPP FLOTANTE ── -->
-<div id="wa-wrapper">
-  <button id="wa-toggle" aria-label="Abrir WhatsApp">&#8249;</button>
-  <a id="wa-btn"
-     href="https://wa.me/5493875795436?text=Hola%20Leonel%2C%20me%20contact%C3%A9%20contigo%20para%20poder%20charlar%20sobre%20un%20proyecto"
-     target="_blank"
-     rel="noopener noreferrer"
-     aria-label="Contactar por WhatsApp">
-    <img id="wa-gif" src="static/media/hi.gif" alt="WhatsApp" />
-    <audio id="wa-audio" src="static/media/hi.mp3" preload="none"></audio>
-  </a>
-</div>
-
-<script src="static/js/i18n.js"></script>
-<script src="static/js/galaxy.js"></script>
-<script src="static/js/ui.js"></script>
-<script src="static/js/effects.js"></script>
-</body>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
 </html>
