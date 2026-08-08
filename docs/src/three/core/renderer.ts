@@ -23,6 +23,7 @@ const init = (_canvas: HTMLCanvasElement | null) => {
     canvas: canvas!,
     antialias: true,
     alpha: false,
+    powerPreference: "high-performance",
   });
 
   gsap.ticker.add(tick);
@@ -74,7 +75,7 @@ const compileScene = async (camera: Camera, sceneToCompile: Scene) => {
     return;
   }
 
-  return new Promise<void>(async (resolve) => {
+  return new Promise<void>((resolve) => {
     if (!instance) {
       return;
     }
@@ -110,6 +111,7 @@ const compileScene = async (camera: Camera, sceneToCompile: Scene) => {
 const destroy = () => {
   if (!instance) return;
   instance.dispose();
+  instance.forceContextLoss();
   gsap.ticker.remove(tick);
   instance = null;
   visible = true;

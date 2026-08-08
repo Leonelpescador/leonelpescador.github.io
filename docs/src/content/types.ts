@@ -12,6 +12,8 @@ export interface ProjectContent {
   description?: string;
   videoBorder?: boolean;
   live?: string;
+  liveLabel?: string;
+  accessNote?: string;
   source?: string;
   components?: ProjectComponent[];
 }
@@ -26,4 +28,5 @@ export interface ProjectPreview {
   slug: string;
   thumbnail: string;
   description: string;
+  evidence: string[];
 }

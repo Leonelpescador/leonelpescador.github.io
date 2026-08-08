@@ -5,14 +5,34 @@ export default {
   theme: "light",
   tags: ["python", "odoo", "postgresql", "javascript"],
   live: "https://www.burgos1950.com.ar/",
+  liveLabel: "Learn about the company",
+  accessNote: "The Odoo platform and its source code are private. The link opens the client’s institutional website and this case only shows authorized information.",
   description:
-    "Burgos 1950, a leading beauty company in Salta with over 70 years of history, operated on a Zeus system that limited its growth and integration across business units. As a freelance developer, I led the full migration to Odoo, covering process analysis, data model design, historical data migration, and the creation of the user interface with the corporate color palette. I worked alongside a team of 4 people, coordinating the development of custom models for wholesale distribution, retail, the training academy, and event management. The platform was deployed on Odoo.sh, integrating Python, PostgreSQL, XML, and JavaScript.",
+    "Burgos 1950 began a gradual migration from Zeus to an owned and customized Odoo solution. I am the only IT specialist in a four-person team and own the technical execution, from initial setup and data migration to module adaptation and deployment on Odoo.sh.",
   components: [
+    {
+      type: "evidence",
+      props: {
+        title: "A gradual migration without interrupting operations",
+        summary: "The first stage keeps Zeus and Odoo running side by side while data and workflows move across four business units.",
+        stats: [
+          { value: "1,000,000+", label: "records migrated and validated" },
+          { value: "+6 years", label: "of historical information" },
+          { value: "4", label: "business units" },
+          { value: "1", label: "IT specialist on the team" },
+        ],
+        stages: [
+          { title: "Starting point", detail: "Zeus continues to support part of the operation during the first stage." },
+          { title: "Migration", detail: "Products, sales, employees, contacts and other data move from the historical database." },
+          { title: "New platform", detail: "Odoo.sh adds adapted modules and new development around the company's workflows." },
+        ],
+      },
+    },
     {
       type: "text",
       props: {
         title: "My role",
-        text: "I was responsible for leading the end-to-end migration project: process analysis of the Zeus system, data modeling in Odoo, historical data migration and validation, interface and color palette design, and team coordination. I made the key technical decisions regarding architecture, custom models, and Odoo.sh configuration.",
+        text: "I own the technical work end to end: setup, process analysis, data migration and validation, module adaptation and development, website design and Odoo.sh configuration. The team has four members and I am its only IT specialist.",
       },
     },
     {
@@ -20,12 +40,11 @@ export default {
       props: {
         title: "Key contributions",
         items: [
-          "Led the complete migration from the Zeus system to Odoo.",
-          "Designed and implemented custom models for distribution, retail, academy, and events.",
-          "Migrated and validated historical data ensuring information integrity.",
-          "Designed the user interface and corporate color palette.",
-          "Coordinated a team of 4 people throughout the entire project.",
-          "Deployed the solution on Odoo.sh with Python, PostgreSQL, XML, and JavaScript integration.",
+          "Planned a gradual transition in which Odoo initially coexists with Zeus.",
+          "Migrated and validated more than 100,000 records covering approximately six years.",
+          "Adapted existing modules and developed new functionality for all four business units.",
+          "Designed the website according to the identity criteria defined by the company.",
+          "Implemented the solution on Odoo.sh with Python, PostgreSQL, XML and JavaScript.",
         ],
       },
     },

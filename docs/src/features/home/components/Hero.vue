@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import Button from "../../../components/Button.vue";
 import Banner from "../../../components/Banner.vue";
 import { preloaderVisible } from "../../../composables/usePreloader";
 import { t } from "../../../i18n/utils/translate";
-import AppearingText from "../../../components/AppearingText.vue";
+import { scrollToTarget } from "../../../composables/useScroll";
 </script>
 
 <template>
@@ -11,8 +11,29 @@ import AppearingText from "../../../components/AppearingText.vue";
     <div class="hero-content grid">
       <div class="hero-content-inner" id="hero-content-inner">
         <div class="hero-content-copys">
+          <p class="hero-eyebrow">{{ t("hero-eyebrow") }}</p>
           <h1 class="hero-title">Pescador<br />Jesús Leonel</h1>
           <Banner class="hero-banner" :copy="t('job-title')" v-if="!preloaderVisible" animated />
+        </div>
+        <p class="hero-summary">{{ t("hero-summary") }}</p>
+        <ul class="hero-signals" :aria-label="t('hero-signals-title')">
+          <li>{{ t("hero-signal-architecture") }}</li>
+          <li>{{ t("hero-signal-data") }}</li>
+          <li>{{ t("hero-signal-production") }}</li>
+        </ul>
+        <div class="hero-actions">
+          <Button variant="accent" size="md" @click="scrollToTarget('#projects')">
+            {{ t("hero-projects-cta") }}
+          </Button>
+          <Button
+            renderAs="a"
+            variant="border"
+            size="md"
+            href="/static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf"
+            download="Pescador_Jesus_Leonel_CV.pdf"
+          >
+            {{ t("download-cv") }}
+          </Button>
         </div>
       </div>
     </div>
@@ -28,16 +49,45 @@ import AppearingText from "../../../components/AppearingText.vue";
   position: relative;
   overflow: hidden;
 
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      var(--color-beige-400) 0%,
+      var(--color-beige-400) 50%,
+      rgba(248, 242, 232, 0.96) 64%,
+      rgba(248, 242, 232, 0) 84%
+    );
+
+    @include mixins.landscape {
+      display: none;
+    }
+  }
+
+  &-eyebrow {
+    color: var(--color-text-300);
+    font-size: var(--font-size-sm);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
   &-content {
+    position: relative;
+    z-index: 1;
     align-items: center;
     justify-content: center;
-    height: 46%;
+    height: 74%;
+    padding-top: var(--height-header);
 
     @include mixins.landscape {
       height: 100%;
 
       @include mixins.mq("md") {
-        padding-bottom: 30%;
+        padding-bottom: 16%;
       }
 
       @include mixins.mq("lg") {
@@ -48,10 +98,10 @@ import AppearingText from "../../../components/AppearingText.vue";
     &-inner {
       transform-origin: center center;
       grid-column: 1 / 13;
-      gap: var(--space-xxl);
+      gap: var(--space-md);
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       width: fit-content;
       position: relative;
@@ -75,19 +125,59 @@ import AppearingText from "../../../components/AppearingText.vue";
         gap: var(--space-md);
       }
     }
+  }
 
-    &-button {
-      width: fit-content;
+  &-summary {
+    max-width: 54ch;
+    color: var(--color-text-300);
+    font-size: var(--font-size-md);
+    line-height: 1.55;
+
+    @include mixins.mq("md") {
+      font-size: var(--font-size-lg);
     }
+  }
+
+  &-signals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
+    margin: 0;
+    padding: 0;
+    color: var(--color-text-400);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    list-style: none;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+
+      &::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--color-orange-400);
+      }
+    }
+  }
+
+  &-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
   }
 
   &-title {
     font-weight: 900;
-    letter-spacing: 0.02em;
-    font-size: var(--font-size-title-lg);
+    letter-spacing: -0.025em;
+    font-size: clamp(2.7rem, 10vw, var(--font-size-title-xl));
+    line-height: 0.92;
 
     @include mixins.landscape {
-      font-size: var(--font-size-title-lg);
+      font-size: clamp(3rem, 7vw, var(--font-size-title-xl));
     }
 
     @include mixins.landscape-large {
@@ -102,21 +192,20 @@ import AppearingText from "../../../components/AppearingText.vue";
   }
 
   &-banner {
-    position: absolute;
-    bottom: 0;
-    right: -16px;
+    position: static;
+    align-self: flex-end;
+    margin-top: calc(var(--space-sm) * -1);
     z-index: 10;
-    transform: rotate(-5deg) translate(0, 65%);
+    transform: rotate(-4deg);
 
     @include mixins.mq("sm") {
-      right: -24px;
-      transform: rotate(-5deg) translate(0, 70%);
+      margin-right: calc(var(--space-sm) * -1);
     }
 
     @include mixins.mq("lg") {
-      right: -32px;
-      transform: rotate(-5deg) translate(0, 80%);
+      margin-right: calc(var(--space-md) * -1);
     }
   }
 }
+
 </style>

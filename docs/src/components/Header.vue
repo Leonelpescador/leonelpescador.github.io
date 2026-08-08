@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Button from "./Button.vue";
 import Logo from "./Logo.vue";
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { t } from "../i18n/utils/translate";
 import { useHeaderTheme } from "../composables/useHeaderTheme";
-import { lenis } from "../composables/useScroll";
+import { scrollToTarget } from "../composables/useScroll";
 import { projectId } from "../composables/useRouteObserver";
 import ButtonRound from "./ButtonRound.vue";
 import ArrowRight from "./icons/ArrowRight.vue";
@@ -13,27 +13,16 @@ import LangSwitch from "./LangSwitch.vue";
 import { isFeatureEnabled } from "../utils/features";
 import { useRouter } from "../composables/useRouter";
 import { useFirstRoute } from "../composables/useFirstRoute";
+import HeaderHome from "./HeaderHome.vue";
 
 const router = useRouter();
 const { isFirstRoute } = useFirstRoute();
 
-const scrolledPastHeroVisible = ref(false);
-const { isDarkTheme } = useHeaderTheme({
-  onUpdate: (element, boundingClientRect, hasScrolledIntoView) => {
-    if (!element || !boundingClientRect) {
-      scrolledPastHeroVisible.value = false;
-      return;
-    }
-
-    if (hasScrolledIntoView) {
-      scrolledPastHeroVisible.value = true;
-    } else {
-      scrolledPastHeroVisible.value = false;
-    }
-  },
-});
+const { isDarkTheme, hasScrolledIntoView: scrolledPastHeroVisible } = useHeaderTheme();
 
 const isMenuOpen = ref(false);
+const menuPanelRef = ref<HTMLElement | null>(null);
+let previouslyFocused: HTMLElement | null = null;
 
 const handleBackClick = () => {
   if (isFirstRoute.value) {
@@ -45,11 +34,11 @@ const handleBackClick = () => {
 
 const handleLogoClick = () => {
   closeMenu();
-  if (!lenis.value) return;
-  lenis.value.scrollTo(0);
+  scrollToTarget(0);
 };
 
 const toggleMenu = () => {
+  if (!isMenuOpen.value) previouslyFocused = document.activeElement as HTMLElement | null;
   isMenuOpen.value = !isMenuOpen.value;
 };
 
@@ -58,22 +47,67 @@ const closeMenu = () => {
 };
 
 const navTo = (target: string) => {
-  isMenuOpen.value = false;
-  if (!lenis.value) return;
-  lenis.value.scrollTo("#" + target);
+  closeMenu();
+  nextTick(() => scrollToTarget("#" + target));
+};
+
+const handleMenuKeydown = (event: KeyboardEvent) => {
+  if (!isMenuOpen.value || !menuPanelRef.value) return;
+
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeMenu();
+    return;
+  }
+
+  if (event.key !== "Tab") return;
+
+  const focusable = Array.from(
+    menuPanelRef.value.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  );
+  const first = focusable[0];
+  const last = focusable.at(-1);
+  if (!first || !last) return;
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 };
 
 watch(
   isMenuOpen,
-  (open) => {
+  async (open) => {
     if (open) {
+      previouslyFocused ??= document.activeElement as HTMLElement | null;
       document.documentElement.style.overflow = "hidden";
+      document.querySelector("main")?.setAttribute("inert", "");
+      await nextTick();
+      menuPanelRef.value?.querySelector<HTMLElement>("button")?.focus();
     } else {
       document.documentElement.style.overflow = "";
+      document.querySelector("main")?.removeAttribute("inert");
+      await nextTick();
+      previouslyFocused?.focus();
+      previouslyFocused = null;
     }
   },
   { flush: "post" },
 );
+
+watch(projectId, closeMenu);
+
+onMounted(() => document.addEventListener("keydown", handleMenuKeydown));
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", handleMenuKeydown);
+  document.documentElement.style.overflow = "";
+  document.querySelector("main")?.removeAttribute("inert");
+});
 
 const handleOverlayClick = (e: MouseEvent) => {
   const overlay = e.currentTarget as HTMLElement;
@@ -115,7 +149,8 @@ const getInTouchClassNames = computed(() => {
         <ArrowRight class="header-back-icon" />
       </ButtonRound>
     </div>
-    <div
+    <button
+      type="button"
       :class="{
         'header-logo': true,
         'header-logo-isProjectPage': projectId !== null,
@@ -123,12 +158,19 @@ const getInTouchClassNames = computed(() => {
         'children-unclickable': true,
       }"
       @click="handleLogoClick"
+      :aria-label="t('back-to-top')"
+      :tabindex="scrolledPastHeroVisible && projectId === null ? 0 : -1"
       data-sound="click"
       data-hoversound="hover"
       data-cursor="circle-white"
     >
       <Logo class="header-logo-image" />
-    </div>
+    </button>
+    <HeaderHome
+      v-if="projectId === null"
+      :is-dark-theme="isDarkTheme"
+      :has-scrolled-into-view="scrolledPastHeroVisible"
+    />
     <div class="header-right">
       <Button
         renderAs="a"
@@ -148,11 +190,13 @@ const getInTouchClassNames = computed(() => {
         v-if="isFeatureEnabled('sounds')"
       />
       <button
+        v-show="!isMenuOpen"
         class="header-menu-toggle"
         :class="{ 'header-menu-toggle-open': isMenuOpen }"
         @click="toggleMenu"
         :aria-label="isMenuOpen ? t('close-menu') : t('open-menu')"
         :aria-expanded="isMenuOpen"
+        aria-controls="mobile-navigation"
         data-cursor="circle-white"
         data-sound="click"
       >
@@ -169,9 +213,17 @@ const getInTouchClassNames = computed(() => {
           class="mobile-menu-overlay"
           @click="handleOverlayClick"
         >
-          <div class="mobile-menu-panel">
+          <div
+            id="mobile-navigation"
+            ref="menuPanelRef"
+            class="mobile-menu-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-menu-title"
+          >
             <div class="mobile-menu-header">
               <Logo class="mobile-menu-logo" />
+              <h2 id="mobile-menu-title" class="visually-hidden">{{ t("primary-navigation") }}</h2>
               <button
                 class="mobile-menu-close"
                 @click="closeMenu"
@@ -184,6 +236,9 @@ const getInTouchClassNames = computed(() => {
             <nav class="mobile-menu-nav">
               <button class="mobile-menu-item" @click="navTo('about')">
                 {{ t("about") }}
+              </button>
+              <button class="mobile-menu-item" @click="navTo('skills')">
+                {{ t("skills") }}
               </button>
               <button class="mobile-menu-item" @click="navTo('journey')">
                 {{ t("journey") }}
@@ -199,6 +254,7 @@ const getInTouchClassNames = computed(() => {
               </button>
             </nav>
             <div class="mobile-menu-footer">
+              <LangSwitch class="mobile-menu-language" />
               <a
                 class="mobile-menu-cv"
                 href="/static/media/pdfs/Pescador_Jesus_Leonel_CV.pdf"
@@ -232,6 +288,23 @@ const getInTouchClassNames = computed(() => {
   pointer-events: none;
 
   --scrolled: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    background: rgba(248, 242, 232, 0.94);
+    box-shadow: 0 1px 0 rgba(45, 42, 36, 0.08);
+    opacity: var(--scrolled);
+    transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+    @include mixins.mq("xl") {
+      display: none;
+    }
+  }
 
   &-scrolled {
     --scrolled: 1;
@@ -284,6 +357,10 @@ const getInTouchClassNames = computed(() => {
   &-dark {
     color: var(--color-white-400);
     --icon-color: var(--color-white-400);
+
+    &::before {
+      background: rgba(5, 46, 135, 0.94);
+    }
   }
 
   &-get-in-touch {
@@ -304,6 +381,8 @@ const getInTouchClassNames = computed(() => {
 
   &-logo {
     cursor: pointer;
+    border: 0;
+    background: transparent;
     display: flex;
     gap: var(--space-xs);
     transition: color 0.2s ease-in-out;
@@ -357,7 +436,7 @@ const getInTouchClassNames = computed(() => {
     position: relative;
     z-index: 1;
 
-    @include mixins.mq("lg") {
+    @include mixins.mq("xl") {
       display: none;
     }
 
@@ -388,7 +467,7 @@ const getInTouchClassNames = computed(() => {
 .mobile-menu-overlay {
   position: fixed;
   inset: 0;
-  z-index: 89;
+  z-index: calc(var(--z-index-header) + 1);
   background-color: rgba(45, 42, 36, 0.5);
   display: flex;
   justify-content: flex-end;
@@ -474,9 +553,16 @@ const getInTouchClassNames = computed(() => {
 }
 
 .mobile-menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
   margin-top: var(--space-lg);
   padding-top: var(--space-lg);
   border-top: 1px solid var(--color-grayscale-500);
+}
+
+.mobile-menu-language {
+  align-self: flex-start;
 }
 
 .mobile-menu-cv {
@@ -486,7 +572,7 @@ const getInTouchClassNames = computed(() => {
   justify-content: center;
   padding: var(--space-sm) var(--space-lg);
   background-color: var(--color-orange-400);
-  color: var(--color-white-400);
+  color: var(--color-black-400);
   border: none;
   border-radius: 100px;
   font-weight: 700;

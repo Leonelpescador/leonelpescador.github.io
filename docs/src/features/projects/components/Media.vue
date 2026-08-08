@@ -25,6 +25,7 @@ const wrapperClasses = computed(() => {
 });
 
 watchEffect(async (onInvalidate) => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   if (!wrapperRef.value) {
     return;
   }
@@ -60,7 +61,10 @@ onMounted(async () => {
         :src="props.src"
         :alt="props.alt"
         loading="lazy"
-        fetchpriority="high"
+        decoding="async"
+        fetchpriority="low"
+        width="1600"
+        height="900"
         class="project-media-image"
         ref="mediaRef"
       />

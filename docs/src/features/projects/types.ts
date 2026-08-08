@@ -2,12 +2,14 @@ import type { Props as ImageTextProps } from "./components/ImageText.vue";
 import type { Props as TextProps } from "./components/Text.vue";
 import type { Props as ListProps } from "./components/List.vue";
 import type { Props as MediaProps } from "./components/Media.vue";
+import type { Props as ProjectEvidenceProps } from "./components/ProjectEvidence.vue";
 
 export interface ProjectComponents {
   imageText: ImageTextProps;
   text: TextProps;
   list: ListProps;
   media: Omit<MediaProps, "index">;
+  evidence: Omit<ProjectEvidenceProps, "index">;
 }
 
 export type ProjectComponent = {

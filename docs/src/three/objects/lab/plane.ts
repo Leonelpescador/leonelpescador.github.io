@@ -45,7 +45,7 @@ const tick = () => {
   plane.position.y = yPosition + 0.01;
 
   // Calculate opacity based on progress - fade in and out
-  let opacity = 0;
+  let opacity: number;
   if (progress <= FADE_IN_START) {
     // Before FADE_IN_START: opacity 0
     opacity = 0;
@@ -66,14 +66,9 @@ const tick = () => {
   }
 
   // Calculate scale - fade between 0 (scale=1), 0.5 (scale=1.5) and 1 (scale=1)
-  let scale = 1;
-  if (progress <= 0.5) {
-    // From 0 to 0.5: scale from 1 to 1.5
-    scale = 1 + (progress / 0.5) * 0.5;
-  } else {
-    // From 0.5 to 1: scale from 1.5 back to 1
-    scale = 1.5 - ((progress - 0.5) / 0.5) * 0.5;
-  }
+  const scale = progress <= 0.5
+    ? 1 + (progress / 0.5) * 0.5
+    : 1.5 - ((progress - 0.5) / 0.5) * 0.5;
 
   // Apply scale to X and Z axes
   plane.scale.x = scale;

@@ -38,6 +38,11 @@ const classes = computed(() => [
     color 0.1s ease-in-out,
     border-color 0.1s ease-in-out;
 
+  &:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
   &-rounded {
     border-radius: 50%;
     aspect-ratio: 1;

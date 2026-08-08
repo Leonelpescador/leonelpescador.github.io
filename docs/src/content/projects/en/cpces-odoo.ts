@@ -4,15 +4,35 @@ export default {
   title: "Odoo Integration",
   theme: "light",
   tags: ["python", "odoo", "postgresql", "mysql", "sql-server"],
-  live: "https://oficinavirtualdev.consejosalta.org.ar/",
+  live: "https://www.consejosalta.org.ar/",
+  liveLabel: "View institutional site",
+  accessNote: "Contractual restrictions prevent identifying the previous systems or displaying operational data. This case only includes authorized information.",
   description:
-    "CPCES operated with three disconnected systems: a custom Windows application, Tango, and a Tango-based solution. This caused duplicated data, in-person procedures, and lack of traceability. I led the unification of the entire operation into an Odoo platform, gathering requirements with end users and the product owner, designing the technical architecture, and coordinating a team of 8 people. The environment integrates PostgreSQL, MySQL, and SQL Server depending on the subsystem. Today the ecosystem supports more than 7,000 professionals through 24 custom modules.",
+    "CPCES operated with three legacy systems that handled different parts of the work. Information had to be entered more than once, causing duplicates, synchronization gaps and inconsistencies in final calculations. I worked end to end on a unified Odoo platform for institutional staff and approximately 7,000 professionals in economics-related fields.",
   components: [
+    {
+      type: "evidence",
+      props: {
+        title: "One platform for the institutional operation",
+        summary: "The implementation combined discovery, architecture, historical migration, data sanitization and the digitization of workflows that previously depended on paper or separate platforms.",
+        stats: [
+          { value: "10M+", label: "records migrated and cleaned" },
+          { value: "30+", label: "modules developed" },
+          { value: "7,000", label: "professionals supported" },
+          { value: "9", label: "team members: 8 technical specialists and a Product Manager" },
+        ],
+        stages: [
+          { title: "Problem", detail: "Three disconnected systems forced duplicate entry and produced out-of-sync information." },
+          { title: "Intervention", detail: "Odoo centralized workflows, historical data and more than 30 institutional modules." },
+          { title: "Status", detail: "The platform is in production, continues to evolve and centralizes professional self-service." },
+        ],
+      },
+    },
     {
       type: "text",
       props: {
         title: "My role",
-        text: "I was responsible for the full project lifecycle: functional analysis, process modeling, data model design, entity relationships, custom business logic, historical data migration from three independent databases, and production deployment. I made the key technical decisions during the critical modeling and architecture stages.",
+        text: "I contributed to functional discovery, architecture, development, migration, deployment and training. At different stages I also coordinated work within a team of eight developers and computer engineers plus one Product Manager.",
       },
     },
     {
@@ -20,12 +40,11 @@ export default {
       props: {
         title: "Key contributions",
         items: [
-          "Unified three heterogeneous systems into an Odoo platform.",
-          "Gathered workflows with end users and the product owner.",
-          "Designed the technical architecture and data model in Odoo.",
-          "Developed 24 custom modules (HR, professional registrations, legalizations, online procedures portal, among others).",
-          "Consolidated historical data migration by validating information across three databases.",
-          "Enabled the digitalization of in-person procedures, turning them into 100% online processes.",
+          "Unified workflows from three legacy systems without exposing contractual information.",
+          "Migrated, cleaned and consolidated more than one million historical records, including residual and duplicated data.",
+          "Contributed to more than 30 modules, including professional management, legalizations and accounting.",
+          "Digitized paper-based workflows and brought a broad set of procedures into the self-service portal.",
+          "Supported production delivery and the platform's ongoing evolution.",
         ],
       },
     },

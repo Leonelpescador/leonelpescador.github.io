@@ -17,6 +17,8 @@ class Resources extends EventEmitter<{
 }> {
   toLoad = sources.length;
   isReady = false;
+  isStarted = false;
+  hasErrors = false;
   loaded = 0;
   items: Record<string, any> = {};
 
@@ -37,18 +39,27 @@ class Resources extends EventEmitter<{
   }
 
   startLoading() {
-    if (this.isReady) return;
+    if (this.isReady || this.isStarted) return;
+    this.isStarted = true;
 
     for (const source of sources) {
       if (source.type === "gltfModel") {
-        this.loaders.gltfLoader.load(source.path, (file) => {
-          this.sourceLoaded(source, file);
-        });
+        this.loaders.gltfLoader.load(
+          source.path,
+          (file) => this.sourceLoaded(source, file),
+          undefined,
+          () => this.sourceFailed(source),
+        );
       } else if (source.type === "texture") {
-        this.loaders.textureLoader.load(source.path, (file: Texture) => {
-          file.colorSpace = SRGBColorSpace;
-          this.sourceLoaded(source, file);
-        });
+        this.loaders.textureLoader.load(
+          source.path,
+          (file: Texture) => {
+            file.colorSpace = SRGBColorSpace;
+            this.sourceLoaded(source, file);
+          },
+          undefined,
+          () => this.sourceFailed(source),
+        );
       }
     }
   }
@@ -56,15 +67,23 @@ class Resources extends EventEmitter<{
   sourceLoaded(source: { name: string; type: string; path: string }, file: ResourceType) {
     this.items[source.name] = file;
 
-    this.loaded++;
+    this.finishSource();
+  }
 
+  sourceFailed(source: { name: string }) {
+    this.hasErrors = true;
+    this.log(`Failed to load ${source.name}`);
+    this.finishSource();
+  }
+
+  finishSource() {
+    this.loaded++;
     this.emit("progress", this.loaded / this.toLoad);
 
-    if (this.loaded === this.toLoad) {
-      this.isReady = true;
-      this.emit("ready");
-      this.log("All resources loaded");
-    }
+    if (this.loaded !== this.toLoad) return;
+    this.isReady = true;
+    this.emit("ready");
+    this.log(this.hasErrors ? "Resources completed with errors" : "All resources loaded");
   }
 
   log(message: string) {
@@ -74,4 +93,3 @@ class Resources extends EventEmitter<{
 }
 
 export const resources = new Resources();
-resources.startLoading();

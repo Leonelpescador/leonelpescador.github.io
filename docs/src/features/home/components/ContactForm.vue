@@ -11,7 +11,7 @@ const whatsappUrl =
   "https://wa.me/5493875795436?text=Hola%20Leonel%2C%20me%20contact%C3%A9%20contigo%20para%20poder%20charlar%20sobre%20un%20proyecto";
 
 const buttonText = computed(() => {
-  if (status.value === "loading") return "...";
+  if (status.value === "loading") return t("form-sending");
   return t("form-send");
 });
 
@@ -43,11 +43,19 @@ const handleSubmit = async (event: Event) => {
 
 <template>
   <div class="contact-form-wrapper">
-    <form ref="formRef" :action="formAction" method="POST" class="contact-form" @submit="handleSubmit">
+    <form
+      ref="formRef"
+      :action="formAction"
+      method="POST"
+      class="contact-form"
+      :aria-busy="status === 'loading'"
+      @submit="handleSubmit"
+    >
       <input type="text" name="_gotcha" style="display: none" />
       <div class="contact-form-group">
-        <label class="contact-form-label">{{ t("form-name") }}</label>
+        <label class="contact-form-label" for="contact-name">{{ t("form-name") }}</label>
         <input
+          id="contact-name"
           type="text"
           name="name"
           class="contact-form-input"
@@ -58,8 +66,9 @@ const handleSubmit = async (event: Event) => {
         />
       </div>
       <div class="contact-form-group">
-        <label class="contact-form-label">{{ t("form-email") }}</label>
+        <label class="contact-form-label" for="contact-email">{{ t("form-email") }}</label>
         <input
+          id="contact-email"
           type="email"
           name="email"
           class="contact-form-input"
@@ -70,8 +79,16 @@ const handleSubmit = async (event: Event) => {
         />
       </div>
       <div class="contact-form-group">
-        <label class="contact-form-label">{{ t("form-message") }}</label>
+        <label class="contact-form-label" for="contact-topic">{{ t("form-topic") }}</label>
+        <select id="contact-topic" name="topic" class="contact-form-input" required>
+          <option value="job">{{ t("form-topic-job") }}</option>
+          <option value="project">{{ t("form-topic-project") }}</option>
+        </select>
+      </div>
+      <div class="contact-form-group">
+        <label class="contact-form-label" for="contact-message">{{ t("form-message") }}</label>
         <textarea
+          id="contact-message"
           name="message"
           class="contact-form-textarea"
           required
@@ -80,7 +97,14 @@ const handleSubmit = async (event: Event) => {
         ></textarea>
       </div>
       <div class="contact-form-actions">
-        <Button type="submit" variant="accent" size="md" data-cursor="circle-white" data-sound="click">
+        <Button
+          type="submit"
+          variant="accent"
+          size="md"
+          :disabled="status === 'loading'"
+          data-cursor="circle-white"
+          data-sound="click"
+        >
           {{ buttonText }}
         </Button>
         <Button
@@ -96,10 +120,10 @@ const handleSubmit = async (event: Event) => {
           {{ t("whatsapp-cta") }}
         </Button>
       </div>
-      <p v-if="status === 'success'" class="contact-form-feedback contact-form-feedback-success">
+      <p v-if="status === 'success'" class="contact-form-feedback contact-form-feedback-success" role="status" aria-live="polite">
         {{ t("form-success") }}
       </p>
-      <p v-if="status === 'error'" class="contact-form-feedback contact-form-feedback-error">
+      <p v-if="status === 'error'" class="contact-form-feedback contact-form-feedback-error" role="alert">
         {{ t("form-error") }}
       </p>
     </form>
@@ -146,6 +170,7 @@ const handleSubmit = async (event: Event) => {
 }
 
 .contact-form-input,
+.contact-form select,
 .contact-form-textarea {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.2);
@@ -165,6 +190,10 @@ const handleSubmit = async (event: Event) => {
   &:focus {
     border-color: var(--color-white-400);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.65;
   }
 }
 

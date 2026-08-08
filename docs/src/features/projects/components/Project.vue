@@ -7,22 +7,34 @@ import ProjectContent from "./ProjectContent.vue";
 import Footer from "../../../components/Footer.vue";
 import { locale } from "../../../i18n/store";
 import { lenis } from "../../../composables/useScroll";
+import Button from "../../../components/Button.vue";
+import { t } from "../../../i18n/utils/translate";
+import { useRouter } from "../../../composables/useRouter";
 
 import type { Locale } from "../../../i18n/types";
+import type { ProjectContent as ProjectContentType } from "../../../content/types";
 
 const loading = ref(true);
-const content = ref(null);
+const content = ref<ProjectContentType | null>(null);
 const error = ref<Error | null>(null);
+const router = useRouter();
+let requestId = 0;
 
 const fetchProject = async (project: string | undefined) => {
+  const currentRequest = ++requestId;
+  loading.value = true;
+  error.value = null;
+  content.value = null;
+
   try {
-    const module = await projectModules[locale.value as Locale][project as string].default;
-    content.value = module;
-    loading.value = false;
+    const loader = projectModules[locale.value as Locale]?.[project as string];
+    if (!loader) throw new Error("Project not found");
+    const module = await loader();
+    if (currentRequest === requestId) content.value = module.default;
   } catch (err) {
-    error.value = new Error(`Failed to fetch project ${project}`);
+    if (currentRequest === requestId) error.value = new Error(`Failed to fetch project ${project}`);
   } finally {
-    loading.value = false;
+    if (currentRequest === requestId) loading.value = false;
   }
 };
 
@@ -62,6 +74,15 @@ watch(
         :content="content"
         :projectId="recentProjectId"
       />
+      <div v-else-if="loading && projectVisible" class="project-state" role="status" aria-live="polite">
+        <p>{{ t("project-loading") }}</p>
+      </div>
+      <div v-else-if="error && projectVisible" class="project-state" role="alert">
+        <p class="project-state-code">404</p>
+        <h1>{{ t("project-not-found") }}</h1>
+        <p>{{ t("project-not-found-description") }}</p>
+        <Button variant="accent" @click="router.replace('/')">{{ t("back-to-home") }}</Button>
+      </div>
       <Footer :class="['project-footer', `project-${recentProjectId}`]"></Footer>
     </div>
   </div>
@@ -91,6 +112,34 @@ watch(
     position: relative;
     margin-top: auto;
     color: var(--color-text-400);
+  }
+
+  &-state {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-outer);
+    text-align: center;
+
+    &-code {
+      color: var(--color-orange-400);
+      font-size: var(--font-size-title-xl);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    h1 {
+      font-size: var(--font-size-title-md);
+    }
+
+    > p:not(.project-state-code) {
+      max-width: 55ch;
+      color: var(--color-text-300);
+      line-height: 1.55;
+    }
   }
 
   ::selection {

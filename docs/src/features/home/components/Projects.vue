@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
-import { previews } from "../../../content/projects/previews";
+import { computed } from "vue";
 import { locale } from "../../../i18n/store";
+import spanishPreviews from "../../../content/projects/previews/es";
+import englishPreviews from "../../../content/projects/previews/en";
 import PreviewCard from "../../projects/components/PreviewCard.vue";
 import NotchSection from "../../../components/NotchSection.vue";
 import Banner from "../../../components/Banner.vue";
@@ -10,24 +11,9 @@ import { isFeatureEnabled } from "../../../utils/features";
 
 import type { ProjectPreview } from "../../../content/types";
 
-const loadedPreviews = ref<ProjectPreview[] | null>(null);
-
-const emit = defineEmits<{
-  (e: "loaded", previews: ProjectPreview[]): void;
-}>();
-
-const loadPreviews = async () => {
-  if (!locale.value) return;
-  const func = previews[locale.value as keyof typeof previews];
-  if (!func) return;
-  const module = await func();
-  loadedPreviews.value = module.default;
-  emit("loaded", module.default);
-};
-
-watch(locale, loadPreviews);
-
-onMounted(loadPreviews);
+const loadedPreviews = computed<ProjectPreview[]>(() =>
+  locale.value === "en" ? [...englishPreviews] : [...spanishPreviews],
+);
 </script>
 
 <template>
@@ -38,11 +24,17 @@ onMounted(loadPreviews);
       <div class="projects-title">
         <Banner class="projects-title-banner" :copy="t('selected')" size="sm" animated />
         <h2 class="projects-title-copy">{{ t("projects") }}</h2>
+        <p class="projects-title-intro">{{ t("projects-intro") }}</p>
       </div>
     </div>
     <div class="grid">
       <div class="projects-cards">
-        <PreviewCard v-for="preview in loadedPreviews" :key="preview.title" :preview="preview" />
+        <PreviewCard
+          v-for="(preview, index) in loadedPreviews"
+          :key="preview.title"
+          :preview="preview"
+          :index="index"
+        />
         <PreviewCard v-if="isFeatureEnabled('startProject')" />
       </div>
     </div>
@@ -57,13 +49,14 @@ onMounted(loadPreviews);
   justify-content: center;
   position: relative;
   width: 100%;
+  scroll-margin-top: calc(var(--height-header) + var(--space-md));
   gap: var(--space-xl);
   padding-left: var(--space-outer);
   padding-right: var(--space-outer);
   background-color: var(--color-beige-400);
   min-height: calc(var(--lvh) * 100 + var(--radius-xxl));
-  padding-top: 96px;
-  padding-bottom: 96px;
+  padding-top: 104px;
+  padding-bottom: 112px;
 
   @include mixins.mq("md") {
     padding-top: 144px;
@@ -81,11 +74,11 @@ onMounted(loadPreviews);
     grid-column: 1 / 13;
 
     @include mixins.mq("md") {
-      grid-column: 1 / 10;
+      grid-column: 1 / 11;
     }
 
     @include mixins.mq("lg") {
-      grid-column: 3 / 8;
+      grid-column: 2 / 9;
     }
 
     &-copy {
@@ -100,6 +93,14 @@ onMounted(loadPreviews);
       @include mixins.mq("xl") {
         font-size: var(--font-size-title-xl);
       }
+    }
+
+    &-intro {
+      max-width: 58ch;
+      margin-top: var(--space-sm);
+      color: var(--color-text-300);
+      font-size: var(--font-size-lg);
+      line-height: 1.55;
     }
 
     &-banner {
@@ -136,23 +137,18 @@ onMounted(loadPreviews);
 
   &-cards {
     max-width: 100%;
-    flex: 1;
     grid-column: 1 / span 12;
-    display: grid;
-    gap: var(--space-lg);
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
 
     @include mixins.mq("md") {
-      grid-column: 1 / span 12;
+      grid-column: 1 / 13;
+      gap: var(--space-xxxl);
     }
 
     @include mixins.mq("lg") {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      grid-column: 3 / span 8;
-    }
-
-    @include mixins.mq("xl") {
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      grid-column: 2 / 12;
     }
   }
 }

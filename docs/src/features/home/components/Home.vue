@@ -1,78 +1,92 @@
+<!--
+THESIS: El portfolio es un recorrido de entrega técnica, no una colección de métricas ni tarjetas equivalentes.
+OWN-WORLD: Papel cálido para la evidencia; azul profundo, cian y escena 3D para los momentos inmersivos.
+STORY: Entender el perfil, recorrer la trayectoria, comprobar cuatro casos y cerrar con una conversación.
+FIRST VIEWPORT: Nombre, especialidad, propuesta concreta y dos acciones sobre la escena 3D; sin grilla de cifras.
+FORM: Secuencia de proyectos de problema a producción, cuarta dirección estructural; seed 6ab7fc45.
+-->
 <script setup lang="ts">
 import Layout from "../../../components/Layout.vue";
 import Hero from "./Hero.vue";
-import About from "./About.vue";
+import Skills from "./Skills.vue";
 import AboutExtended from "./AboutExtended.vue";
 //import AboutSections from "../features/about/Sections.vue";
 import Projects from "./Projects.vue";
 import Contact from "./Contact.vue";
 import Footer from "../../../components/Footer.vue";
-import { ref, onMounted, onUnmounted, watchEffect, computed, watch } from "vue";
-import { three } from "../../../three";
-import { animations } from "../../../animations";
-import HeaderHome from "../../../components/HeaderHome.vue";
+import { defineAsyncComponent, ref, onMounted, onUnmounted, computed, watch } from "vue";
 import { preloaderVisible } from "../../../composables/usePreloader";
-import ScrollIcon from "../../../components/ScrollIcon.vue";
-import { raycast } from "../../../three/utils/raycast";
 import gsap from "gsap";
 import { useAgent } from "../../../composables/useAgent";
 import { projectId, projectVisible } from "../../../composables/useRouteObserver";
 import { isTransitioning } from "../../../composables/useProjectTransition";
-import { renderer } from "../../../three/core/renderer";
+
+const About = defineAsyncComponent(() => import("./About.vue"));
+
+type SceneModules = {
+  three: (typeof import("../../../three"))["three"];
+  animations: (typeof import("../../../animations"))["animations"];
+  raycast: (typeof import("../../../three/utils/raycast"))["raycast"];
+  renderer: (typeof import("../../../three/core/renderer"))["renderer"];
+};
+
+let sceneModules: SceneModules | null = null;
 
 const introRef = ref<HTMLElement | null>(null);
 const stickyObserver = ref<IntersectionObserver | null>(null);
-const scrolledPastIntro = ref(false);
-const projectsLoaded = ref(false);
+const canvasObserver = ref<IntersectionObserver | null>(null);
+const scrolledPastIntro = ref(true);
+const introInView = ref(true);
+const contactInView = ref(false);
+const canvasInView = ref(true);
 const contactRef = ref<HTMLElement | null>(null);
-const contactBottom = ref<number>(0);
 const aboutSpacerRef = ref<HTMLElement | null>(null);
 const isHoveringObject3D = ref<boolean>(false);
 const threeCanvasRef = ref<HTMLCanvasElement | null>(null);
 const threeInitialized = ref<boolean>(false);
+const sceneEnabled = ref(true);
+let sceneScheduleId: number | null = null;
 const { isTouch } = useAgent();
+
+const canUseEnhancedScene = (canvas: HTMLCanvasElement) => {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (connection?.saveData || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+
+  try {
+    return Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+};
+
+const scheduleSceneInitialization = (callback: () => void) => {
+  if ("requestIdleCallback" in window) {
+    return window.requestIdleCallback(callback, { timeout: 1200 });
+  }
+  return globalThis.setTimeout(callback, 150);
+};
+
+const updateRendererState = () => {
+  sceneModules?.renderer.setIsActive(
+    sceneEnabled.value &&
+      threeInitialized.value &&
+      canvasInView.value &&
+      !projectVisible.value &&
+      document.visibilityState === "visible",
+  );
+};
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
   scrolledPastIntro.value = entries[0]?.isIntersecting ?? false;
 };
 
 const isStickyVisible = computed(() => {
-  return scrolledPastIntro.value || !projectsLoaded.value;
-});
-
-const updateContactBottomOffset = () => {
-  if (!contactRef.value) return;
-  const bounding = contactRef.value.getBoundingClientRect();
-  const documentBottom = document.documentElement.scrollHeight;
-  const elementBottom = bounding.bottom + window.scrollY;
-  // distance from bottom of document to bottom of contact section
-  contactBottom.value = documentBottom - elementBottom;
-};
-
-watch([projectVisible, isTransitioning], () => {
-  if (!projectVisible.value) {
-    updateContactBottomOffset();
-  }
-});
-
-watchEffect((onInvalidate) => {
-  if (!contactRef.value || preloaderVisible.value) return;
-
-  const resizeObserver = new ResizeObserver(updateContactBottomOffset);
-  resizeObserver.observe(contactRef.value as HTMLElement);
-
-  //const intersectionObserver = new IntersectionObserver(updateContactBottomOffset);
-  //intersectionObserver.observe(contactRef.value as HTMLElement);
-
-  onInvalidate(() => {
-    resizeObserver.disconnect();
-    //intersectionObserver.disconnect();
-  });
+  return scrolledPastIntro.value;
 });
 
 const updateCursor = () => {
   if (isTouch.value) return;
-  const hoveringBox = raycast.getHoveringBox();
+  const hoveringBox = sceneModules?.raycast.getHoveringBox();
   const shouldBePointer = !!hoveringBox;
 
   if (shouldBePointer !== isHoveringObject3D.value) {
@@ -85,50 +99,74 @@ onMounted(() => {
   stickyObserver.value = new IntersectionObserver(handleIntersection);
   stickyObserver.value.observe(introRef.value as HTMLElement);
 
-  if (threeCanvasRef.value && !threeInitialized.value) {
-    three.init(threeCanvasRef.value);
-    threeInitialized.value = true;
+  const canvas = threeCanvasRef.value;
+  if (canvas) {
+    sceneEnabled.value = canUseEnhancedScene(canvas);
+    canvasObserver.value = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target === introRef.value) introInView.value = entry.isIntersecting;
+        if (entry.target === contactRef.value) contactInView.value = entry.isIntersecting;
+      });
+      canvasInView.value = introInView.value || contactInView.value;
+      updateRendererState();
+    });
+    canvasObserver.value.observe(introRef.value as HTMLElement);
+    canvasObserver.value.observe(contactRef.value as HTMLElement);
   }
 
-  gsap.ticker.add(updateCursor);
+  if (canvas && sceneEnabled.value && !threeInitialized.value) {
+    sceneScheduleId = scheduleSceneInitialization(async () => {
+      const [threeModule, animationsModule, raycastModule, rendererModule] = await Promise.all([
+        import("../../../three"),
+        import("../../../animations"),
+        import("../../../three/utils/raycast"),
+        import("../../../three/core/renderer"),
+      ]);
+      sceneModules = {
+        three: threeModule.three,
+        animations: animationsModule.animations,
+        raycast: raycastModule.raycast,
+        renderer: rendererModule.renderer,
+      };
+      threeInitialized.value = await sceneModules.three.init(canvas);
+      sceneEnabled.value = threeInitialized.value;
+      sceneScheduleId = null;
+      updateRendererState();
+      if (threeInitialized.value && !isTouch.value) gsap.ticker.add(updateCursor);
+    });
+  }
+
+  document.addEventListener("visibilitychange", updateRendererState);
 });
 
 onUnmounted(() => {
   stickyObserver.value?.disconnect();
   stickyObserver.value = null;
+  canvasObserver.value?.disconnect();
+  canvasObserver.value = null;
+  if (sceneScheduleId !== null) {
+    if ("cancelIdleCallback" in window) window.cancelIdleCallback(sceneScheduleId);
+    else globalThis.clearTimeout(sceneScheduleId);
+  }
 
-  three.destroy();
+  sceneModules?.three.destroy();
 
   document.documentElement.style.cursor = "";
 
   gsap.ticker.remove(updateCursor);
-  animations.destroy();
+  document.removeEventListener("visibilitychange", updateRendererState);
+  sceneModules?.animations.destroy();
+  sceneModules = null;
 });
 
-const handleProjectsLoaded = () => {
-  projectsLoaded.value = true;
-};
-
-watchEffect((onInvalidate) => {
-  if (
-    projectsLoaded &&
-    threeInitialized &&
-    //(projectId.value === null || isTransitioning.value) &&
-    !preloaderVisible.value
-  ) {
-    animations.init();
-  }
-
-  onInvalidate(() => {
-    animations.destroy();
-  });
+watch([threeInitialized, preloaderVisible], ([initialized, preloader]) => {
+  if (initialized && !preloader) sceneModules?.animations.init();
+  else sceneModules?.animations.destroy();
 });
 
 watch(
   projectVisible,
-  (newVal) => {
-    renderer.setIsActive(!newVal);
-  },
+  updateRendererState,
   { immediate: true },
 );
 </script>
@@ -137,36 +175,39 @@ watch(
   <div
     :class="[
       'home-wrapper',
+      { 'home-wrapper-static': !sceneEnabled },
       typeof projectId === 'string' && isTransitioning && `home-wrapper-out`,
       typeof projectId !== 'string' && isTransitioning && `home-wrapper-in`,
     ]"
   >
-    <ScrollIcon />
     <Layout>
       <div class="intro-wrapper" ref="introRef">
         <div
           class="intro-sticky"
           :class="{ 'intro-sticky-visible': isStickyVisible }"
-          :style="{ '--contact-bottom': `${contactBottom}px` }"
         >
-          <canvas :class="['three-canvas', { 'three-canvas-contact': !isStickyVisible }]" ref="threeCanvasRef"></canvas>
-          <div :class="{ 'intro-about-hidden': !isStickyVisible }">
+          <canvas
+            :class="['three-canvas', { 'three-canvas-contact': !isStickyVisible }]"
+            ref="threeCanvasRef"
+            :aria-hidden="true"
+          ></canvas>
+          <div v-if="threeInitialized" :class="{ 'intro-about-hidden': !isStickyVisible }">
             <About :spacer-ref="aboutSpacerRef" />
           </div>
         </div>
         <Hero class="intro-hero" id="hero" />
         <div class="intro-wrapper-spacer"></div>
-      <div class="about-spacer" ref="aboutSpacerRef" id="about"></div>
+      <div :class="['about-spacer', { 'about-spacer-static': !sceneEnabled }]" ref="aboutSpacerRef" id="about"></div>
     </div>
-    <AboutExtended />
-    <Projects id="projects" @loaded="handleProjectsLoaded" />
+      <Skills />
+      <AboutExtended />
+      <Projects id="projects" />
       <div ref="contactRef" class="home-contact">
-        <Contact id="contact" v-if="projectsLoaded" />
+        <Contact id="contact" :enhanced="sceneEnabled && threeInitialized" />
       </div>
       <Footer :withSocial="false"></Footer>
     </Layout>
   </div>
-  <HeaderHome v-if="projectsLoaded" />
 </template>
 
 <style scoped lang="scss">
@@ -178,8 +219,8 @@ watch(
   overflow: hidden;
 
   &-contact {
-    position: absolute;
-    bottom: var(--contact-bottom);
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
     height: calc(var(--lvh) * 100);
@@ -221,19 +262,25 @@ watch(
   &-contact {
     width: 100%;
     min-height: calc(var(--lvh) * 100);
-    max-height: calc(var(--lvh) * 100);
   }
 }
 
 .about-spacer {
   max-height: calc(var(--lvh) * 250);
   min-height: calc(var(--lvh) * 250);
+
+  &-static {
+    min-height: 0;
+    max-height: 0;
+  }
 }
 
 .intro-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  isolation: isolate;
 
   &-spacer {
     display: none;
@@ -249,6 +296,7 @@ watch(
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
   width: 100%;
   max-height: calc(var(--lvh) * 100);
   min-height: calc(var(--lvh) * 100);
@@ -266,7 +314,7 @@ watch(
   max-height: calc(var(--lvh) * 100);
   min-height: calc(var(--lvh) * 100);
   overflow: hidden;
-  z-index: -1;
+  z-index: 0;
   display: flex;
   align-items: flex-end;
 

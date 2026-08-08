@@ -1,75 +1,97 @@
 <script setup lang="ts">
 import HeaderLink from "./HeaderLink.vue";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { t } from "../i18n/utils/translate";
-import { lenis } from "../composables/useScroll";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useHeaderTheme } from "../composables/useHeaderTheme";
+import { translations } from "../i18n/store";
+import { scrollToTarget } from "../composables/useScroll";
 import { projectId } from "../composables/useRouteObserver";
 
-const handleLinkClick = (link: string) => {
-  if (!lenis.value) return;
-  lenis.value.scrollTo(link);
-};
+const props = defineProps<{
+  isDarkTheme: boolean;
+  hasScrolledIntoView: boolean;
+}>();
 
-type ActiveLink = "about" | "journey" | "education" | "projects" | "contact";
+type ActiveLink = "about" | "skills" | "journey" | "education" | "projects" | "contact";
 const activeLink = ref<ActiveLink | null>(null);
-const sections: ActiveLink[] = ["about", "journey", "education", "projects", "contact"];
-const ariaLabels = {
-  about: t("about"),
-  journey: t("journey"),
-  education: t("education"),
-  projects: t("projects"),
-  contact: t("contact"),
-};
+const sections: ActiveLink[] = ["about", "skills", "journey", "education", "projects", "contact"];
+let frameId = 0;
+let resizeObserver: ResizeObserver | null = null;
 
 const isMounted = ref(false);
+const navRef = ref<HTMLElement | null>(null);
 
-const barStyle = ref({ transform: "" });
-const ITEM_WIDTH = 124;
-
-const { isDarkTheme, hasScrolledIntoView } = useHeaderTheme();
+const barStyle = ref({ transform: "translateX(0)", width: "0px" });
 
 const updateBarPosition = () => {
-  const index = sections.indexOf(activeLink.value as ActiveLink);
-  const left = index * ITEM_WIDTH;
+  if (!activeLink.value || !navRef.value) return;
+
+  const activeElement = navRef.value.querySelector<HTMLElement>(`[data-section="${activeLink.value}"]`);
+  if (!activeElement) return;
+
   barStyle.value = {
-    transform: `translateX(${left}px)`,
+    transform: `translateX(${activeElement.offsetLeft - 3}px)`,
+    width: `${activeElement.offsetWidth}px`,
   };
 };
 
+const updateActiveLink = () => {
+  frameId = 0;
+  const marker = window.innerHeight * 0.25;
+  const nextActive = [...sections].reverse().find((section) => {
+    const element = document.getElementById(section);
+    if (!element) return false;
+    const rect = element.getBoundingClientRect();
+    return rect.top <= marker && rect.bottom > marker;
+  }) ?? null;
+
+  if (nextActive !== activeLink.value) activeLink.value = nextActive;
+  updateBarPosition();
+};
+
+const scheduleActiveLinkUpdate = () => {
+  if (!frameId) frameId = requestAnimationFrame(updateActiveLink);
+};
+
+const handleLinkClick = (section: ActiveLink) => {
+  activeLink.value = section;
+  updateBarPosition();
+  scrollToTarget(`#${section}`);
+};
+
 onMounted(() => {
-  sections.forEach((section) => {
-    ScrollTrigger.create({
-      trigger: `#${section}`,
-      start: section === "about" ? "top 22.5%" : "top center",
-      end: "bottom center",
-      onEnter: () => {
-        activeLink.value = section;
-        updateBarPosition();
-      },
-      onEnterBack: () => {
-        activeLink.value = section;
-        updateBarPosition();
-      },
-      onLeave: () => (activeLink.value = null),
-      onLeaveBack: () => (activeLink.value = null),
-    });
-  });
-
-  ScrollTrigger.refresh();
-
+  window.addEventListener("scroll", scheduleActiveLinkUpdate, { passive: true });
+  window.addEventListener("resize", scheduleActiveLinkUpdate);
+  resizeObserver = new ResizeObserver(updateBarPosition);
+  if (navRef.value) resizeObserver.observe(navRef.value);
+  scheduleActiveLinkUpdate();
   isMounted.value = true;
+});
+
+watch(translations, () => nextTick(updateBarPosition));
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", scheduleActiveLinkUpdate);
+  window.removeEventListener("resize", scheduleActiveLinkUpdate);
+  resizeObserver?.disconnect();
+  resizeObserver = null;
+  if (frameId) cancelAnimationFrame(frameId);
 });
 </script>
 
 <template>
   <div :class="['header-home', { 'header-home-mounted': isMounted, 'header-home-isProjectPage': projectId !== null }]">
-    <div :class="['header-home-links', { 'header-home-links-dark': isDarkTheme }]">
+    <nav
+      ref="navRef"
+      :class="['header-home-links', { 'header-home-links-dark': props.isDarkTheme }]"
+      :aria-label="t('primary-navigation')"
+    >
       <div
         :class="[
           'header-home-bar',
-          { 'header-home-bar-active': activeLink !== null && hasScrolledIntoView, 'header-home-bar-dark': isDarkTheme },
+          {
+            'header-home-bar-active': activeLink !== null && props.hasScrolledIntoView,
+            'header-home-bar-dark': props.isDarkTheme,
+          },
         ]"
         :style="barStyle"
       ></div>
@@ -79,18 +101,20 @@ onMounted(() => {
         :is-active="activeLink === section"
         :class="[
           'header-home-link',
-          { 'header-home-link-active': activeLink === section && hasScrolledIntoView },
+          { 'header-home-link-active': activeLink === section && props.hasScrolledIntoView },
           'children-unclickable',
         ]"
-        @click="handleLinkClick('#' + section)"
-        :is-dark-theme="isDarkTheme"
-        :aria-label="ariaLabels[section]"
+        @click="handleLinkClick(section)"
+        :is-dark-theme="props.isDarkTheme"
+        :aria-label="t(section)"
+        :aria-current="activeLink === section ? 'location' : undefined"
+        :data-section="section"
         data-sound="click"
         data-hoversound="hover"
       >
         {{ t(section) }}
       </HeaderLink>
-    </div>
+    </nav>
   </div>
 </template>
 
@@ -118,7 +142,7 @@ onMounted(() => {
     opacity: 1;
   }
 
-  @include mixins.mq("lg") {
+  @include mixins.mq("xl") {
     display: flex;
   }
 
@@ -144,11 +168,12 @@ onMounted(() => {
     top: 3px;
     left: 3px;
     height: calc(100% - 6px);
-    width: 124px;
+    width: 0;
     background: var(--color-orange-400);
     border-radius: 100px;
     transition:
       transform 0.3s var(--ease-smooth),
+      width 0.3s var(--ease-smooth),
       opacity 0.1s ease-in-out,
       background-color 0.1s ease-in-out;
     z-index: 1;
@@ -172,7 +197,9 @@ onMounted(() => {
     background: none;
     transition: color 0.1s ease-in-out;
     font-size: var(--font-size-sm);
-    width: 124px;
+    width: auto;
+    min-width: 96px;
+    padding-inline: var(--space-md);
     white-space: nowrap;
     text-transform: uppercase;
 
