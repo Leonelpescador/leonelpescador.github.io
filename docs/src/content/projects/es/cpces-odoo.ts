@@ -16,7 +16,7 @@ export default {
         title: "Una operación institucional en una sola plataforma",
         summary: "La implementación combinó relevamiento, arquitectura, migración histórica, sanitización y digitalización de procesos que antes dependían de papel o plataformas separadas.",
         stats: [
-          { value: "+1 millón", label: "de registros migrados y depurados" },
+          { value: "+10 millón", label: "de registros migrados y depurados" },
           { value: "+30", label: "módulos desarrollados" },
           { value: "7.000", label: "profesionales comprendidos" },
           { value: "9", label: "integrantes: 8 técnicos y un Product Manager" },
@@ -41,7 +41,7 @@ export default {
         title: "Aportes y logros",
         items: [
           "Unifiqué procesos provenientes de tres sistemas heredados sin exponer información contractual.",
-          "Migré, depuré y consolidé más de un millón de registros históricos, incluyendo datos residuales y duplicados.",
+          "Migré, depuré y consolidé más de diez millones de registros históricos, incluyendo datos residuales y duplicados.",
           "Participé en el desarrollo de más de 30 módulos; entre los principales se encuentran gestión del profesional, legalizaciones y contabilidad.",
           "Digitalicé procesos que se realizaban en papel y concentré un amplio conjunto de trámites en el portal de autogestión.",
           "Acompañé la puesta en producción y la evolución continua de la plataforma.",

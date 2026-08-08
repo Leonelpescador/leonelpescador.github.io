@@ -16,7 +16,7 @@ export default {
         title: "Una migración gradual sin interrumpir la operación",
         summary: "La primera etapa mantiene la convivencia entre Zeus y Odoo mientras se trasladan datos y procesos de cuatro unidades de negocio.",
         stats: [
-          { value: "+100.000", label: "registros migrados y validados" },
+          { value: "+1 M", label: "registros migrados y validados" },
           { value: "+6 años", label: "de información histórica" },
           { value: "4", label: "unidades de negocio" },
           { value: "1", label: "perfil informático en el equipo" },
@@ -41,7 +41,7 @@ export default {
         title: "Aportes y logros",
         items: [
           "Planifiqué una transición gradual en la que Odoo convive inicialmente con Zeus.",
-          "Migré y validé más de 100.000 registros correspondientes a aproximadamente seis años.",
+          "Migré y validé más de 1.000.000 registros correspondientes a aproximadamente seis años.",
           "Adapté módulos existentes y desarrollé nuevas funcionalidades para las cuatro unidades de negocio.",
           "Diseñé el sitio web siguiendo los criterios de identidad definidos por la empresa.",
           "Implementé la solución en Odoo.sh con Python, PostgreSQL, XML y JavaScript.",

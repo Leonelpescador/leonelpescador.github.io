@@ -6,7 +6,7 @@ export default [
     slug: "cpces-odoo",
     thumbnail: "/static/media/projects/thumbnails/cpces-odoo.webp",
     description: "Three legacy systems, more than one million records and one institutional operation unified in Odoo",
-    evidence: ["1M+ records", "30+ modules", "Live and evolving"],
+    evidence: ["10M+ records", "30+ modules", "Live and evolving"],
   },
   {
     title: "CENESA · Corporate Website",
@@ -27,6 +27,6 @@ export default [
     slug: "burgos1950-odoo",
     thumbnail: "/static/media/projects/thumbnails/burgos1950-odoo.webp",
     description: "The first stage of a gradual migration from Zeus to a customized Odoo.sh solution",
-    evidence: ["100,000+ records", "+6 years of data", "4 business units"],
+    evidence: ["1.000.000+ records", "+6 years of data", "4 business units"],
   },
 ] as const satisfies ProjectPreview[];

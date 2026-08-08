@@ -28,7 +28,7 @@ test("mobile menu traps focus, closes with Escape and restores the trigger", asy
 test("published case studies load through direct URLs", async ({ page }) => {
   await page.goto("/project/cpces-odoo");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator(".project-wrapper-visible .project-evidence-value", { hasText: /1M\+|\+1 millón/i })).toBeVisible();
+  await expect(page.locator(".project-wrapper-visible .project-evidence-value", { hasText: /10M\+|\+10 millón/i })).toBeVisible();
 });
 
 test("desktop section navigation clears the fixed header and keeps the target active", async ({ page }, testInfo) => {

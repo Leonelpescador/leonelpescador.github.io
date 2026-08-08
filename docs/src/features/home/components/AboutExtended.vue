@@ -237,32 +237,33 @@ onUnmounted(() => {
   &-timeline {
     display: flex;
     flex-direction: column;
+    gap: var(--space-md);
     position: relative;
-    border-bottom: 1px solid var(--color-grayscale-500);
+
+    @include mixins.mq("md") {
+      gap: var(--space-lg);
+    }
   }
 
   &-card {
-    border-top: 1px solid var(--color-grayscale-500);
-    padding: var(--space-lg) 0;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-xs) var(--space-lg);
+    background-color: var(--color-beige-400);
+    border: 1px solid var(--color-grayscale-500);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
 
     @include mixins.mq("md") {
-      grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.7fr);
-      padding: var(--space-xl) 0;
+      padding: var(--space-lg);
     }
 
     &-top {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
       gap: var(--space-sm);
-
-      @include mixins.mq("md") {
-        grid-column: 1;
-        grid-row: 1;
-      }
     }
 
     &-company {
@@ -276,7 +277,7 @@ onUnmounted(() => {
       margin-left: var(--space-xs);
       padding: 2px 8px;
       background-color: var(--color-orange-400);
-      color: var(--color-black-400);
+      color: var(--color-white-400);
       font-size: var(--font-size-xs);
       font-weight: 800;
       text-transform: uppercase;
@@ -289,38 +290,26 @@ onUnmounted(() => {
       color: var(--color-text-300);
       font-size: var(--font-size-sm);
       font-weight: 700;
-
-      @include mixins.mq("md") {
-        grid-column: 1;
-        grid-row: 2;
-      }
     }
 
     &-date {
       font-size: var(--font-size-sm);
       font-weight: 700;
       color: var(--color-text-300);
+      padding: var(--space-xxs) var(--space-sm);
+      background-color: var(--color-grayscale-400);
+      border-radius: var(--radius-sm);
     }
 
     &-role {
-      font-size: var(--font-size-xl);
-      font-weight: 800;
+      font-size: var(--font-size-md);
+      font-weight: 700;
       color: var(--color-dark-blue-500);
-
-      @include mixins.mq("md") {
-        grid-column: 2;
-        grid-row: 1;
-      }
     }
 
     &-location {
       font-size: var(--font-size-sm);
       color: var(--color-text-300);
-
-      @include mixins.mq("md") {
-        grid-column: 2;
-        grid-row: 2;
-      }
     }
 
     &-list {
@@ -330,11 +319,6 @@ onUnmounted(() => {
       flex-direction: column;
       gap: var(--space-xs);
       margin-top: var(--space-xs);
-
-      @include mixins.mq("md") {
-        grid-column: 2;
-        grid-row: 3;
-      }
 
       li {
         font-size: var(--font-size-md);
@@ -354,10 +338,6 @@ onUnmounted(() => {
 
     @include mixins.mq("lg") {
       grid-column: 2 / 10;
-    }
-
-    > .about-extended-card {
-      border-bottom: 1px solid var(--color-grayscale-500);
     }
   }
 

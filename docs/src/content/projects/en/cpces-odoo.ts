@@ -16,7 +16,7 @@ export default {
         title: "One platform for the institutional operation",
         summary: "The implementation combined discovery, architecture, historical migration, data sanitization and the digitization of workflows that previously depended on paper or separate platforms.",
         stats: [
-          { value: "1M+", label: "records migrated and cleaned" },
+          { value: "10M+", label: "records migrated and cleaned" },
           { value: "30+", label: "modules developed" },
           { value: "7,000", label: "professionals supported" },
           { value: "9", label: "team members: 8 technical specialists and a Product Manager" },

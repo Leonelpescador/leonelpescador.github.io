@@ -5,8 +5,8 @@ export default [
     title: "Integración de Odoo",
     slug: "cpces-odoo",
     thumbnail: "/static/media/projects/thumbnails/cpces-odoo.webp",
-    description: "Tres sistemas heredados, más de un millón de registros y una operación institucional unificada en Odoo",
-    evidence: ["+1 millón de registros", "+30 módulos", "En producción y evolución"],
+    description: "Tres sistemas heredados, más de 10 millones de registros y una operación institucional unificada en Odoo",
+    evidence: ["+10 millones de registros", "+30 módulos", "En producción y evolución"],
   },
   {
     title: "CENESA · Sitio Corporativo",
@@ -27,6 +27,6 @@ export default [
     slug: "burgos1950-odoo",
     thumbnail: "/static/media/projects/thumbnails/burgos1950-odoo.webp",
     description: "Primera etapa de una migración gradual desde Zeus hacia una solución personalizada en Odoo.sh",
-    evidence: ["+100.000 registros", "+6 años de datos", "4 unidades"],
+    evidence: ["+1 M registros", "+6 años de datos", "4 unidades"],
   },
 ] as const satisfies ProjectPreview[];

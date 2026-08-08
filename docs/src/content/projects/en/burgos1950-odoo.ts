@@ -16,7 +16,7 @@ export default {
         title: "A gradual migration without interrupting operations",
         summary: "The first stage keeps Zeus and Odoo running side by side while data and workflows move across four business units.",
         stats: [
-          { value: "100,000+", label: "records migrated and validated" },
+          { value: "1,000,000+", label: "records migrated and validated" },
           { value: "+6 years", label: "of historical information" },
           { value: "4", label: "business units" },
           { value: "1", label: "IT specialist on the team" },
