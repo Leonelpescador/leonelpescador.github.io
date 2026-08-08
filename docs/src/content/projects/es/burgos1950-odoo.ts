@@ -5,9 +5,28 @@ export default {
   theme: "light",
   tags: ["python", "odoo", "postgresql", "javascript"],
   live: "https://www.burgos1950.com.ar/",
+  liveLabel: "Conocer la empresa",
+  accessNote: "La plataforma Odoo y su código son privados. El enlace lleva al sitio institucional del cliente y el caso muestra únicamente información autorizada.",
   description:
     "Burgos 1950, empresa salteña líder en belleza con más de 70 años de trayectoria, operaba con un sistema Zeus que limitaba su crecimiento y la integración entre sus unidades de negocio. Como desarrollador freelance, lideré la migración completa a Odoo, abarcando el relevamiento de procesos, el diseño del modelo de datos, la migración de datos históricos y la creación de la interfaz de usuario con la paleta de colores corporativa. Trabajé junto a un equipo de 4 personas, coordinando el desarrollo de modelos personalizados para las unidades de distribución mayorista, venta minorista, academia de formación y gestión de eventos. La plataforma se desplegó en Odoo.sh, integrando Python, PostgreSQL, XML y JavaScript.",
   components: [
+    {
+      type: "evidence",
+      props: {
+        title: "Migración operativa con continuidad de negocio",
+        summary: "El desafío combinó migración histórica, nuevos modelos y coordinación de equipo para cuatro unidades de negocio.",
+        stats: [
+          { value: "70+ años", label: "de trayectoria empresarial" },
+          { value: "4", label: "personas coordinadas" },
+          { value: "4", label: "unidades de negocio modeladas" },
+        ],
+        stages: [
+          { title: "Sistema legado", detail: "Zeus limitaba integración y evolución entre las unidades del negocio." },
+          { title: "Migración", detail: "Relevamiento, modelado y validación de datos históricos en Odoo." },
+          { title: "Plataforma", detail: "Modelos personalizados y despliegue en Odoo.sh con identidad corporativa." },
+        ],
+      },
+    },
     {
       type: "text",
       props: {

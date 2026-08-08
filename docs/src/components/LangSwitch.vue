@@ -2,6 +2,7 @@
 import Button from "./Button.vue";
 import { locale } from "../i18n/store";
 import { changeLocale } from "../i18n/utils/locale";
+import { t } from "../i18n/utils/translate";
 
 const handleLangSwitch = () => {
   changeLocale(locale.value === "en" ? "es" : "en");
@@ -13,6 +14,7 @@ const handleLangSwitch = () => {
     variant="border"
     size="sm"
     @click="handleLangSwitch"
+    :aria-label="t('switch-language', { language: locale === 'en' ? 'español' : 'English' })"
     data-cursor="circle-white"
     data-sound="click"
     data-hoversound="hover"

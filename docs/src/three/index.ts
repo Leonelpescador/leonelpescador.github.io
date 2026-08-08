@@ -11,14 +11,32 @@ let canvas: HTMLCanvasElement | null = null;
 const init = (_canvas: HTMLCanvasElement) => {
   canvas = _canvas;
 
-  resources.once("ready", () => {
-    threeSizes.init(_canvas);
-    camera.init();
-    renderTarget.init();
-    renderer.init(canvas);
+  return new Promise<boolean>((resolve) => {
+    const setup = () => {
+      if (resources.hasErrors) {
+        resolve(false);
+        return;
+      }
 
-    objects.init();
-    raycast.init();
+      try {
+        threeSizes.init(_canvas);
+        camera.init();
+        renderTarget.init();
+        renderer.init(canvas);
+        objects.init();
+        raycast.init();
+        resolve(true);
+      } catch (error) {
+        console.error("[Three] Scene initialization failed", error);
+        destroy();
+        resolve(false);
+      }
+    };
+
+    if (resources.isReady) setup();
+    else resources.once("ready", setup);
+
+    resources.startLoading();
   });
 };
 

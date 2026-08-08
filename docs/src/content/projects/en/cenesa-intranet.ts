@@ -5,9 +5,28 @@ export default {
   theme: "light",
   tags: ["django", "fastapi", "react-native", "firebase", "postgresql"],
   live: "https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view",
+  liveLabel: "View demo",
+  accessNote: "The intranet and its source code are private because they support clinical operations. The demo and this case do not expose patient data.",
   description:
     "The clinic depended on a system that did not cover the full operation: processes such as vacation requests, medication control, and health insurer billing were handled outside the system, causing stock mismanagement, delays, and operational risk. I designed and implemented a mission-critical intranet with Django, FastAPI, and React Native, centralizing operations and reducing tasks that previously took hours or days to minutes.",
   components: [
+    {
+      type: "evidence",
+      props: {
+        title: "An architecture for critical clinical workflows",
+        summary: "The solution connected administration, API and mobile operations with traceability as a cross-cutting requirement.",
+        stats: [
+          { value: "Hours/days", label: "previous duration of operational tasks" },
+          { value: "Minutes", label: "reported duration after delivery" },
+          { value: "Android", label: "app built for inpatient tablets" },
+        ],
+        stages: [
+          { title: "Scattered workflows", detail: "Leave, medication and reimbursements lived outside the main system." },
+          { title: "Integrated core", detail: "Django and FastAPI centralized rules, data and documented integrations." },
+          { title: "Ward operations", detail: "React Native brought medication assignment and traceability to tablets." },
+        ],
+      },
+    },
     {
       type: "text",
       props: {

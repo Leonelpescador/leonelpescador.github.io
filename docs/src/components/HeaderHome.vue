@@ -1,27 +1,15 @@
 <script setup lang="ts">
 import HeaderLink from "./HeaderLink.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { t } from "../i18n/utils/translate";
-import { lenis } from "../composables/useScroll";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollToTarget } from "../composables/useScroll";
 import { useHeaderTheme } from "../composables/useHeaderTheme";
 import { projectId } from "../composables/useRouteObserver";
-
-const handleLinkClick = (link: string) => {
-  if (!lenis.value) return;
-  lenis.value.scrollTo(link);
-};
 
 type ActiveLink = "about" | "journey" | "education" | "projects" | "contact";
 const activeLink = ref<ActiveLink | null>(null);
 const sections: ActiveLink[] = ["about", "journey", "education", "projects", "contact"];
-const ariaLabels = {
-  about: t("about"),
-  journey: t("journey"),
-  education: t("education"),
-  projects: t("projects"),
-  contact: t("contact"),
-};
+let frameId = 0;
 
 const isMounted = ref(false);
 
@@ -38,34 +26,49 @@ const updateBarPosition = () => {
   };
 };
 
+const updateActiveLink = () => {
+  frameId = 0;
+  const marker = window.innerHeight * 0.25;
+  const nextActive = [...sections].reverse().find((section) => {
+    const element = document.getElementById(section);
+    if (!element) return false;
+    const rect = element.getBoundingClientRect();
+    return rect.top <= marker && rect.bottom > marker;
+  }) ?? null;
+
+  if (nextActive !== activeLink.value) {
+    activeLink.value = nextActive;
+    updateBarPosition();
+  }
+};
+
+const scheduleActiveLinkUpdate = () => {
+  if (!frameId) frameId = requestAnimationFrame(updateActiveLink);
+};
+
+const handleLinkClick = (section: ActiveLink) => {
+  activeLink.value = section;
+  updateBarPosition();
+  scrollToTarget(`#${section}`);
+};
+
 onMounted(() => {
-  sections.forEach((section) => {
-    ScrollTrigger.create({
-      trigger: `#${section}`,
-      start: section === "about" ? "top 22.5%" : "top center",
-      end: "bottom center",
-      onEnter: () => {
-        activeLink.value = section;
-        updateBarPosition();
-      },
-      onEnterBack: () => {
-        activeLink.value = section;
-        updateBarPosition();
-      },
-      onLeave: () => (activeLink.value = null),
-      onLeaveBack: () => (activeLink.value = null),
-    });
-  });
-
-  ScrollTrigger.refresh();
-
+  window.addEventListener("scroll", scheduleActiveLinkUpdate, { passive: true });
+  window.addEventListener("resize", scheduleActiveLinkUpdate);
+  scheduleActiveLinkUpdate();
   isMounted.value = true;
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", scheduleActiveLinkUpdate);
+  window.removeEventListener("resize", scheduleActiveLinkUpdate);
+  if (frameId) cancelAnimationFrame(frameId);
 });
 </script>
 
 <template>
   <div :class="['header-home', { 'header-home-mounted': isMounted, 'header-home-isProjectPage': projectId !== null }]">
-    <div :class="['header-home-links', { 'header-home-links-dark': isDarkTheme }]">
+    <nav :class="['header-home-links', { 'header-home-links-dark': isDarkTheme }]" :aria-label="t('primary-navigation')">
       <div
         :class="[
           'header-home-bar',
@@ -82,15 +85,16 @@ onMounted(() => {
           { 'header-home-link-active': activeLink === section && hasScrolledIntoView },
           'children-unclickable',
         ]"
-        @click="handleLinkClick('#' + section)"
+        @click="handleLinkClick(section)"
         :is-dark-theme="isDarkTheme"
-        :aria-label="ariaLabels[section]"
+        :aria-label="t(section)"
+        :aria-current="activeLink === section ? 'location' : undefined"
         data-sound="click"
         data-hoversound="hover"
       >
         {{ t(section) }}
       </HeaderLink>
-    </div>
+    </nav>
   </div>
 </template>
 

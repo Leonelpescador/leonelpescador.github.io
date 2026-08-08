@@ -5,9 +5,24 @@ export default {
   theme: "light",
   tags: ["next", "react", "javascript"],
   live: "https://www.cenesa.com.ar",
+  liveLabel: "View corporate site",
+  accessNote: "The public website makes the final result verifiable. The source code belongs to the institution.",
   description:
     "CENESA SA is a high-complexity medical center with over 40 years of history in Salta. It had an outdated, slow WordPress website that no longer represented the institution. I designed and developed the new corporate website from scratch using Next.js and React, with a responsive frontend focused on performance, SEO, and user experience.",
   components: [
+    {
+      type: "evidence",
+      props: {
+        title: "End-to-end institutional redesign",
+        summary: "The work connected identity, experience, implementation and deployment under a single line of responsibility.",
+        stats: [{ value: "40+ years", label: "of institutional history represented" }],
+        stages: [
+          { title: "Starting point", detail: "An outdated, slow WordPress site that limited institutional communication." },
+          { title: "Design and build", detail: "Figma prototyping and a responsive frontend with Next.js and React." },
+          { title: "Delivery", detail: "Railway deployment, Cloudflare DNS and a technical foundation focused on SEO." },
+        ],
+      },
+    },
     {
       type: "text",
       props: {

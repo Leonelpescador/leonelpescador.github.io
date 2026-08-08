@@ -6,7 +6,7 @@ import LangSwitch from "./LangSwitch.vue";
 import NotchSection from "./NotchSection.vue";
 import { t } from "../i18n/utils/translate";
 import ButtonRound from "./ButtonRound.vue";
-import { lenis } from "../composables/useScroll";
+import { scrollToTarget } from "../composables/useScroll";
 import ArrowRightLong from "./icons/ArrowRightLong.vue";
 
 interface Props {
@@ -14,8 +14,7 @@ interface Props {
 }
 
 const handleBackToTop = () => {
-  if (!lenis.value) return;
-  lenis.value.scrollTo(0);
+  scrollToTarget(0);
 };
 
 const { withSocial = true } = defineProps<Props>();
@@ -26,18 +25,18 @@ const showAttribution = import.meta.env.VITE_SHOW_ATTRIBUTION !== "false";
   <footer class="footer">
     <NotchSection class="footer-notch" />
     <div class="footer-content">
-      <div
+      <button
+        type="button"
         class="footer-back-to-top"
-        tabindex="0"
+        :aria-label="t('back-to-top')"
         @click="handleBackToTop"
-        @keydown.enter="handleBackToTop"
         data-cursor="circle-white"
         data-sound="click"
       >
         <ButtonRound renderAs="div" variant="border" class="children-unclickable" data-hoversound="hover">
           <ArrowRightLong class="footer-back-to-top-icon" />
         </ButtonRound>
-      </div>
+      </button>
       <div class="footer-top">
         <Social v-if="withSocial" />
         <div class="footer-top-links">
@@ -60,6 +59,7 @@ const showAttribution = import.meta.env.VITE_SHOW_ATTRIBUTION !== "false";
             >
           </Clickable>
         </div>
+        <p v-if="showAttribution">{{ t("adaptation-by") }}</p>
         <div class="footer-credits-music">
           <p>
             {{ t("music-produced-by") }}
@@ -102,6 +102,8 @@ const showAttribution = import.meta.env.VITE_SHOW_ATTRIBUTION !== "false";
 
   &-back-to-top {
     cursor: pointer;
+    border: 0;
+    background: transparent;
 
     @include mixins.mq("md") {
       position: absolute;

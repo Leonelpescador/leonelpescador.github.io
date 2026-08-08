@@ -24,7 +24,7 @@ watch(projectId, () => {
   <div class="project-hero grid">
     <div class="project-hero-top">
       <div class="project-hero-title-wrapper">
-        <h1 class="project-hero-title" :key="animationKey">
+        <h1 class="project-hero-title" :key="animationKey" tabindex="-1">
           {{ content.title }}
         </h1>
       </div>
@@ -36,7 +36,7 @@ watch(projectId, () => {
     <div class="project-hero-buttons">
       <Link v-if="content.live" :href="content.live" external class="project-hero-button" data-cursor="arrow-external">
         <Button renderAs="div" variant="accent" class="children-unclickable" data-hoversound="hover">{{
-          t("live-view")
+          content.liveLabel ?? t("live-view")
         }}</Button>
       </Link>
       <Link
@@ -51,6 +51,7 @@ watch(projectId, () => {
         }}</Button>
       </Link>
     </div>
+    <p v-if="content.accessNote" class="project-hero-access-note">{{ content.accessNote }}</p>
   </div>
 </template>
 
@@ -93,6 +94,22 @@ watch(projectId, () => {
 
     @include mixins.mq("lg") {
       grid-column: 2 / 6;
+    }
+  }
+
+  &-access-note {
+    grid-column: 1 / 13;
+    margin-top: var(--space-sm);
+    color: var(--color-text-300);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+
+    @include mixins.mq("md") {
+      grid-column: 6 / 12;
+    }
+
+    @include mixins.mq("lg") {
+      grid-column: 7 / 12;
     }
   }
 

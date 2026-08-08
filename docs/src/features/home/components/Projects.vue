@@ -38,6 +38,7 @@ onMounted(loadPreviews);
       <div class="projects-title">
         <Banner class="projects-title-banner" :copy="t('selected')" size="sm" animated />
         <h2 class="projects-title-copy">{{ t("projects") }}</h2>
+        <p class="projects-title-intro">{{ t("projects-intro") }}</p>
       </div>
     </div>
     <div class="grid">
@@ -100,6 +101,14 @@ onMounted(loadPreviews);
       @include mixins.mq("xl") {
         font-size: var(--font-size-title-xl);
       }
+    }
+
+    &-intro {
+      max-width: 58ch;
+      margin-top: var(--space-sm);
+      color: var(--color-text-300);
+      font-size: var(--font-size-lg);
+      line-height: 1.55;
     }
 
     &-banner {

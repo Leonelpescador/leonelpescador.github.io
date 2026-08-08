@@ -4,3 +4,5 @@ Disallow: /legal
 Disallow: /de/legal
 Disallow: /privacy
 Disallow: /de/privacy
+
+Sitemap: https://leonelpescador.github.io/sitemap.xml

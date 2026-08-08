@@ -8,6 +8,28 @@ export const lenis = ref<Lenis | null>(null);
 export const projectLenis = ref<Lenis | null>(null);
 export const velocity = ref(0);
 
+const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const getNavigationOffset = () => {
+  const headerHeight = document.querySelector<HTMLElement>("header")?.getBoundingClientRect().height ?? 0;
+  return -(headerHeight + 16);
+};
+
+export const scrollToTarget = (target: string | number | HTMLElement) => {
+  if (lenis.value && !prefersReducedMotion()) {
+    lenis.value.scrollTo(target, { offset: typeof target === "number" ? 0 : getNavigationOffset() });
+    return;
+  }
+
+  if (typeof target === "number") {
+    window.scrollTo({ top: target, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    return;
+  }
+
+  const element = typeof target === "string" ? document.querySelector<HTMLElement>(target) : target;
+  element?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+};
+
 const handleScroll = () => {
   ScrollTrigger.update();
 };
@@ -38,10 +60,14 @@ export const useScroll = () => {
   };
 
   onMounted(() => {
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    if (prefersReducedMotion()) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return;
+    }
 
     createNewLenis();
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
   });
 
   watch(isTransitioning, (newIsTransitioning) => {
@@ -56,5 +82,9 @@ export const useScroll = () => {
 
   onUnmounted(() => {
     gsap.ticker.remove(tick);
+    window.removeEventListener("scroll", handleScroll);
+    lenis.value?.off("scroll", handleScroll);
+    lenis.value?.destroy();
+    lenis.value = null;
   });
 };

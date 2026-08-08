@@ -14,6 +14,7 @@ const experiences = [
     roleKey: "exp1-role",
     bulletsKeys: ["exp1-b1", "exp1-b2", "exp1-b3", "exp1-b4"],
     current: true,
+    typeKey: "exp1-type",
   },
   {
     companyKey: "exp3-company",
@@ -21,6 +22,7 @@ const experiences = [
     roleKey: "exp3-role",
     bulletsKeys: ["exp3-b1", "exp3-b2", "exp3-b3", "exp3-b4"],
     current: true,
+    typeKey: "exp3-type",
   },
   {
     companyKey: "exp2-company",
@@ -28,6 +30,7 @@ const experiences = [
     roleKey: "exp2-role",
     bulletsKeys: ["exp2-b1", "exp2-b2", "exp2-b3", "exp2-b4"],
     current: false,
+    typeKey: "exp2-type",
   },
 ];
 
@@ -35,6 +38,11 @@ onMounted(() => {
   if (!sectionRef.value) return;
 
   const revealElements = sectionRef.value.querySelectorAll("[data-reveal]");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    gsap.set(revealElements, { clearProps: "all" });
+    return;
+  }
+
   revealElements.forEach((el) => {
     gsap.set(el, { opacity: 0, y: 40 });
     const trigger = ScrollTrigger.create({
@@ -71,6 +79,7 @@ onUnmounted(() => {
 
       <div class="about-extended-experience" data-reveal>
         <h3 class="about-extended-section-title">{{ t("experience-title") }}</h3>
+        <p class="about-extended-experience-context">{{ t("experience-context") }}</p>
         <div class="about-extended-timeline">
           <div v-for="exp in experiences" :key="exp.companyKey" class="about-extended-card">
             <div class="about-extended-card-top">
@@ -80,6 +89,7 @@ onUnmounted(() => {
               </span>
               <span class="about-extended-card-date">{{ t(exp.dateKey) }}</span>
             </div>
+            <span class="about-extended-card-type">{{ t(exp.typeKey) }}</span>
             <p class="about-extended-card-role">{{ t(exp.roleKey) }}</p>
             <p class="about-extended-card-location">{{ t("experience-location") }}</p>
             <ul class="about-extended-card-list">
@@ -89,7 +99,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="about-extended-education" id="education" data-reveal>
+      <div class="about-extended-education" id="education">
         <h3 class="about-extended-section-title">{{ t("education-title") }}</h3>
         <div class="about-extended-card">
           <div class="about-extended-card-top">
@@ -214,6 +224,14 @@ onUnmounted(() => {
       grid-column: 1 / 12;
     }
 
+    &-context {
+      max-width: 68ch;
+      margin-top: calc(var(--space-sm) * -1);
+      margin-bottom: var(--space-lg);
+      color: var(--color-text-300);
+      line-height: 1.55;
+    }
+
     @include mixins.mq("lg") {
       grid-column: 2 / 12;
     }
@@ -262,12 +280,19 @@ onUnmounted(() => {
       margin-left: var(--space-xs);
       padding: 2px 8px;
       background-color: var(--color-orange-400);
-      color: var(--color-white-400);
+      color: var(--color-black-400);
       font-size: var(--font-size-xs);
       font-weight: 800;
       text-transform: uppercase;
       border-radius: 100px;
       vertical-align: middle;
+    }
+
+    &-type {
+      align-self: flex-start;
+      color: var(--color-text-300);
+      font-size: var(--font-size-sm);
+      font-weight: 700;
     }
 
     &-date {
@@ -322,7 +347,7 @@ onUnmounted(() => {
     align-self: flex-start;
     margin-top: var(--space-xs);
     padding: var(--space-xxs) var(--space-sm);
-    background-color: var(--color-cyan-500);
+    background-color: var(--color-dark-blue-500);
     color: var(--color-white-400);
     font-size: var(--font-size-sm);
     font-weight: 800;

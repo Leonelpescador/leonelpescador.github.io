@@ -1,28 +1,36 @@
 <script setup lang="ts">
 import Layout from "../../../components/Layout.vue";
 import Hero from "./Hero.vue";
-import About from "./About.vue";
 import AboutExtended from "./AboutExtended.vue";
 //import AboutSections from "../features/about/Sections.vue";
 import Projects from "./Projects.vue";
 import Contact from "./Contact.vue";
 import Footer from "../../../components/Footer.vue";
-import { ref, onMounted, onUnmounted, watchEffect, computed, watch } from "vue";
-import { three } from "../../../three";
-import { animations } from "../../../animations";
+import { defineAsyncComponent, ref, onMounted, onUnmounted, watchEffect, computed, watch } from "vue";
 import HeaderHome from "../../../components/HeaderHome.vue";
 import { preloaderVisible } from "../../../composables/usePreloader";
-import ScrollIcon from "../../../components/ScrollIcon.vue";
-import { raycast } from "../../../three/utils/raycast";
 import gsap from "gsap";
 import { useAgent } from "../../../composables/useAgent";
 import { projectId, projectVisible } from "../../../composables/useRouteObserver";
 import { isTransitioning } from "../../../composables/useProjectTransition";
-import { renderer } from "../../../three/core/renderer";
+
+const About = defineAsyncComponent(() => import("./About.vue"));
+
+type SceneModules = {
+  three: (typeof import("../../../three"))["three"];
+  animations: (typeof import("../../../animations"))["animations"];
+  raycast: (typeof import("../../../three/utils/raycast"))["raycast"];
+  renderer: (typeof import("../../../three/core/renderer"))["renderer"];
+};
+
+let sceneModules: SceneModules | null = null;
+const sceneIntentEvents = ["pointermove", "pointerdown", "wheel", "touchstart", "keydown"] as const;
 
 const introRef = ref<HTMLElement | null>(null);
 const stickyObserver = ref<IntersectionObserver | null>(null);
+const canvasObserver = ref<IntersectionObserver | null>(null);
 const scrolledPastIntro = ref(false);
+const canvasInView = ref(true);
 const projectsLoaded = ref(false);
 const contactRef = ref<HTMLElement | null>(null);
 const contactBottom = ref<number>(0);
@@ -30,7 +38,44 @@ const aboutSpacerRef = ref<HTMLElement | null>(null);
 const isHoveringObject3D = ref<boolean>(false);
 const threeCanvasRef = ref<HTMLCanvasElement | null>(null);
 const threeInitialized = ref<boolean>(false);
+const sceneEnabled = ref(true);
+let sceneScheduleId: number | null = null;
+let startSceneListener: (() => void) | null = null;
 const { isTouch } = useAgent();
+
+const canUseEnhancedScene = (canvas: HTMLCanvasElement) => {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (connection?.saveData || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+
+  try {
+    return Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+};
+
+const scheduleSceneInitialization = (callback: () => void) => {
+  if ("requestIdleCallback" in window) {
+    return window.requestIdleCallback(callback, { timeout: 1200 });
+  }
+  return globalThis.setTimeout(callback, 150);
+};
+
+const removeSceneIntentListeners = () => {
+  if (!startSceneListener) return;
+  sceneIntentEvents.forEach((event) => window.removeEventListener(event, startSceneListener!));
+  startSceneListener = null;
+};
+
+const updateRendererState = () => {
+  sceneModules?.renderer.setIsActive(
+    sceneEnabled.value &&
+      threeInitialized.value &&
+      canvasInView.value &&
+      !projectVisible.value &&
+      document.visibilityState === "visible",
+  );
+};
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
   scrolledPastIntro.value = entries[0]?.isIntersecting ?? false;
@@ -72,7 +117,7 @@ watchEffect((onInvalidate) => {
 
 const updateCursor = () => {
   if (isTouch.value) return;
-  const hoveringBox = raycast.getHoveringBox();
+  const hoveringBox = sceneModules?.raycast.getHoveringBox();
   const shouldBePointer = !!hoveringBox;
 
   if (shouldBePointer !== isHoveringObject3D.value) {
@@ -85,50 +130,78 @@ onMounted(() => {
   stickyObserver.value = new IntersectionObserver(handleIntersection);
   stickyObserver.value.observe(introRef.value as HTMLElement);
 
-  if (threeCanvasRef.value && !threeInitialized.value) {
-    three.init(threeCanvasRef.value);
-    threeInitialized.value = true;
+  const canvas = threeCanvasRef.value;
+  if (canvas) {
+    sceneEnabled.value = canUseEnhancedScene(canvas);
+    canvasObserver.value = new IntersectionObserver((entries) => {
+      canvasInView.value = entries[0]?.isIntersecting ?? false;
+      updateRendererState();
+    });
+    canvasObserver.value.observe(canvas);
   }
 
-  gsap.ticker.add(updateCursor);
+  if (canvas && sceneEnabled.value && !threeInitialized.value) {
+    startSceneListener = () => {
+      removeSceneIntentListeners();
+      sceneScheduleId = scheduleSceneInitialization(async () => {
+        const [threeModule, animationsModule, raycastModule, rendererModule] = await Promise.all([
+          import("../../../three"),
+          import("../../../animations"),
+          import("../../../three/utils/raycast"),
+          import("../../../three/core/renderer"),
+        ]);
+        sceneModules = {
+          three: threeModule.three,
+          animations: animationsModule.animations,
+          raycast: raycastModule.raycast,
+          renderer: rendererModule.renderer,
+        };
+        threeInitialized.value = await sceneModules.three.init(canvas);
+        sceneEnabled.value = threeInitialized.value;
+        updateRendererState();
+        if (threeInitialized.value && !isTouch.value) gsap.ticker.add(updateCursor);
+      });
+    };
+    sceneIntentEvents.forEach((event) => window.addEventListener(event, startSceneListener!, { passive: true }));
+  }
+
+  document.addEventListener("visibilitychange", updateRendererState);
 });
 
 onUnmounted(() => {
   stickyObserver.value?.disconnect();
   stickyObserver.value = null;
+  canvasObserver.value?.disconnect();
+  canvasObserver.value = null;
+  removeSceneIntentListeners();
 
-  three.destroy();
+  if (sceneScheduleId !== null) {
+    if ("cancelIdleCallback" in window) window.cancelIdleCallback(sceneScheduleId);
+    else globalThis.clearTimeout(sceneScheduleId);
+  }
+
+  sceneModules?.three.destroy();
 
   document.documentElement.style.cursor = "";
 
   gsap.ticker.remove(updateCursor);
-  animations.destroy();
+  document.removeEventListener("visibilitychange", updateRendererState);
+  sceneModules?.animations.destroy();
+  sceneModules = null;
 });
 
 const handleProjectsLoaded = () => {
   projectsLoaded.value = true;
 };
 
-watchEffect((onInvalidate) => {
-  if (
-    projectsLoaded &&
-    threeInitialized &&
-    //(projectId.value === null || isTransitioning.value) &&
-    !preloaderVisible.value
-  ) {
-    animations.init();
-  }
-
-  onInvalidate(() => {
-    animations.destroy();
-  });
+watch([projectsLoaded, threeInitialized, preloaderVisible], ([loaded, initialized, preloader]) => {
+  if (loaded && initialized && !preloader) sceneModules?.animations.init();
+  else sceneModules?.animations.destroy();
 });
 
 watch(
   projectVisible,
-  (newVal) => {
-    renderer.setIsActive(!newVal);
-  },
+  updateRendererState,
   { immediate: true },
 );
 </script>
@@ -137,11 +210,12 @@ watch(
   <div
     :class="[
       'home-wrapper',
+      { 'home-wrapper-static': !sceneEnabled },
       typeof projectId === 'string' && isTransitioning && `home-wrapper-out`,
       typeof projectId !== 'string' && isTransitioning && `home-wrapper-in`,
     ]"
   >
-    <ScrollIcon />
+    <HeaderHome v-if="projectsLoaded" />
     <Layout>
       <div class="intro-wrapper" ref="introRef">
         <div
@@ -149,24 +223,27 @@ watch(
           :class="{ 'intro-sticky-visible': isStickyVisible }"
           :style="{ '--contact-bottom': `${contactBottom}px` }"
         >
-          <canvas :class="['three-canvas', { 'three-canvas-contact': !isStickyVisible }]" ref="threeCanvasRef"></canvas>
-          <div :class="{ 'intro-about-hidden': !isStickyVisible }">
+          <canvas
+            :class="['three-canvas', { 'three-canvas-contact': !isStickyVisible }]"
+            ref="threeCanvasRef"
+            :aria-hidden="true"
+          ></canvas>
+          <div v-if="threeInitialized" :class="{ 'intro-about-hidden': !isStickyVisible }">
             <About :spacer-ref="aboutSpacerRef" />
           </div>
         </div>
         <Hero class="intro-hero" id="hero" />
         <div class="intro-wrapper-spacer"></div>
-      <div class="about-spacer" ref="aboutSpacerRef" id="about"></div>
+      <div :class="['about-spacer', { 'about-spacer-static': !sceneEnabled }]" ref="aboutSpacerRef" id="about"></div>
     </div>
     <AboutExtended />
     <Projects id="projects" @loaded="handleProjectsLoaded" />
       <div ref="contactRef" class="home-contact">
-        <Contact id="contact" v-if="projectsLoaded" />
+        <Contact id="contact" v-if="projectsLoaded" :enhanced="sceneEnabled && threeInitialized" />
       </div>
       <Footer :withSocial="false"></Footer>
     </Layout>
   </div>
-  <HeaderHome v-if="projectsLoaded" />
 </template>
 
 <style scoped lang="scss">
@@ -221,19 +298,25 @@ watch(
   &-contact {
     width: 100%;
     min-height: calc(var(--lvh) * 100);
-    max-height: calc(var(--lvh) * 100);
   }
 }
 
 .about-spacer {
   max-height: calc(var(--lvh) * 250);
   min-height: calc(var(--lvh) * 250);
+
+  &-static {
+    min-height: 0;
+    max-height: 0;
+  }
 }
 
 .intro-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  isolation: isolate;
 
   &-spacer {
     display: none;
@@ -249,6 +332,7 @@ watch(
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
   width: 100%;
   max-height: calc(var(--lvh) * 100);
   min-height: calc(var(--lvh) * 100);
@@ -266,7 +350,7 @@ watch(
   max-height: calc(var(--lvh) * 100);
   min-height: calc(var(--lvh) * 100);
   overflow: hidden;
-  z-index: -1;
+  z-index: 0;
   display: flex;
   align-items: flex-end;
 

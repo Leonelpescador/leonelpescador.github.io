@@ -60,3 +60,41 @@ html {
     pointer-events: none;
   }
 }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-cyan-400);
+  outline-offset: 3px;
+}
+
+:where(section, div)[id] {
+  scroll-margin-top: calc(var(--height-header) + var(--space-md));
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: calc(var(--z-index-preloader) + 1);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--color-dark-blue-500);
+  color: var(--color-white-400);
+  font-weight: 800;
+  transform: translateY(calc(-100% - var(--space-lg)));
+  transition: transform 0.15s ease-out;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

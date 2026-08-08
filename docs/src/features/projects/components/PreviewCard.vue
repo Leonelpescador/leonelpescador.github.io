@@ -21,6 +21,7 @@ const props = defineProps<{
 }>();
 
 onMounted(async () => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   if (!wrapperRef.value || ScrollTrigger.isInViewport(wrapperRef.value)) {
     return;
   }
@@ -58,9 +59,22 @@ onUnmounted(() => {
     <div class="preview-card-top" ref="wrapperRef">
       <div class="preview-card-image-wrapper">
         <div class="preview-card-image-container">
-          <img :src="props.preview.thumbnail" :alt="props.preview.title" class="preview-card-image" ref="imageRef" />
+          <img
+            :src="props.preview.thumbnail"
+            alt=""
+            class="preview-card-image"
+            ref="imageRef"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="960"
+            height="540"
+          />
         </div>
       </div>
+      <ul class="preview-card-evidence" aria-hidden="true">
+        <li v-for="item in props.preview.evidence" :key="item">{{ item }}</li>
+      </ul>
       <div class="preview-card-overlay">
         <div class="preview-card-edge">
           <ButtonRound class="preview-card-button" variant="accent" renderAs="div">
@@ -171,6 +185,32 @@ onUnmounted(() => {
     border-radius: 32px 0 0 0;
     padding-right: 1px;
     padding-bottom: 1px;
+  }
+
+  &-evidence {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxs);
+    max-width: calc(100% - var(--space-xl));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 5px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      background: rgba(5, 46, 135, 0.92);
+      color: var(--color-white-400);
+      font-size: var(--font-size-xs);
+      font-weight: 800;
+      line-height: 1.2;
+      backdrop-filter: blur(4px);
+    }
   }
 
   &-button {
