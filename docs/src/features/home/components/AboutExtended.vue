@@ -120,24 +120,20 @@ onUnmounted(() => {
   width: 100%;
   background-color: var(--color-beige-500);
   color: var(--color-text-400);
-  padding: calc(var(--space-outer) * 3) var(--space-outer);
+  padding: 104px var(--space-outer) 120px;
   position: relative;
   z-index: 1;
+  scroll-margin-top: calc(var(--height-header) + var(--space-md));
 
   @include mixins.mq("md") {
-    padding: calc(var(--space-outer) * 4) var(--space-outer);
+    padding-top: 144px;
+    padding-bottom: 160px;
   }
 
   &-content {
     width: 100%;
     max-width: calc(var(--breakpoint-xxxl));
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-
-    @include mixins.mq("md") {
-      gap: calc(var(--space-outer) * 2);
-    }
+    row-gap: var(--space-xxl);
   }
 
   &-header {
@@ -147,11 +143,11 @@ onUnmounted(() => {
     gap: var(--space-xs);
 
     @include mixins.mq("md") {
-      grid-column: 1 / 8;
+      grid-column: 1 / 6;
     }
 
     @include mixins.mq("lg") {
-      grid-column: 2 / 8;
+      grid-column: 2 / 6;
     }
   }
 
@@ -174,8 +170,8 @@ onUnmounted(() => {
   }
 
   &-underline {
-    width: 60px;
-    height: 4px;
+    width: 48px;
+    height: 3px;
     background-color: var(--color-orange-400);
     border-radius: var(--radius-sm);
     margin-top: var(--space-xs);
@@ -188,11 +184,11 @@ onUnmounted(() => {
     gap: var(--space-md);
 
     @include mixins.mq("md") {
-      grid-column: 1 / 12;
+      grid-column: 6 / 13;
     }
 
     @include mixins.mq("lg") {
-      grid-column: 2 / 10;
+      grid-column: 7 / 12;
     }
 
     &-text {
@@ -210,7 +206,7 @@ onUnmounted(() => {
   &-section-title {
     font-size: var(--font-size-title-sm);
     font-weight: 800;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
 
     @include mixins.mq("md") {
       font-size: var(--font-size-title-md);
@@ -219,9 +215,10 @@ onUnmounted(() => {
 
   &-experience {
     grid-column: 1 / 13;
+    margin-top: var(--space-xl);
 
     @include mixins.mq("md") {
-      grid-column: 1 / 12;
+      grid-column: 1 / 13;
     }
 
     &-context {
@@ -240,33 +237,32 @@ onUnmounted(() => {
   &-timeline {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
     position: relative;
-
-    @include mixins.mq("md") {
-      gap: var(--space-lg);
-    }
+    border-bottom: 1px solid var(--color-grayscale-500);
   }
 
   &-card {
-    background-color: var(--color-beige-400);
-    border: 1px solid var(--color-grayscale-500);
-    border-radius: var(--radius-lg);
-    padding: var(--space-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    border-top: 1px solid var(--color-grayscale-500);
+    padding: var(--space-lg) 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xs) var(--space-lg);
 
     @include mixins.mq("md") {
-      padding: var(--space-lg);
+      grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.7fr);
+      padding: var(--space-xl) 0;
     }
 
     &-top {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       gap: var(--space-sm);
+
+      @include mixins.mq("md") {
+        grid-column: 1;
+        grid-row: 1;
+      }
     }
 
     &-company {
@@ -293,26 +289,38 @@ onUnmounted(() => {
       color: var(--color-text-300);
       font-size: var(--font-size-sm);
       font-weight: 700;
+
+      @include mixins.mq("md") {
+        grid-column: 1;
+        grid-row: 2;
+      }
     }
 
     &-date {
       font-size: var(--font-size-sm);
       font-weight: 700;
       color: var(--color-text-300);
-      padding: var(--space-xxs) var(--space-sm);
-      background-color: var(--color-grayscale-400);
-      border-radius: var(--radius-sm);
     }
 
     &-role {
-      font-size: var(--font-size-md);
-      font-weight: 700;
+      font-size: var(--font-size-xl);
+      font-weight: 800;
       color: var(--color-dark-blue-500);
+
+      @include mixins.mq("md") {
+        grid-column: 2;
+        grid-row: 1;
+      }
     }
 
     &-location {
       font-size: var(--font-size-sm);
       color: var(--color-text-300);
+
+      @include mixins.mq("md") {
+        grid-column: 2;
+        grid-row: 2;
+      }
     }
 
     &-list {
@@ -323,6 +331,11 @@ onUnmounted(() => {
       gap: var(--space-xs);
       margin-top: var(--space-xs);
 
+      @include mixins.mq("md") {
+        grid-column: 2;
+        grid-row: 3;
+      }
+
       li {
         font-size: var(--font-size-md);
         line-height: var(--line-height-copy);
@@ -332,13 +345,19 @@ onUnmounted(() => {
 
   &-education {
     grid-column: 1 / 13;
+    margin-top: var(--space-xl);
+    scroll-margin-top: calc(var(--height-header) + var(--space-md));
 
     @include mixins.mq("md") {
-      grid-column: 1 / 8;
+      grid-column: 1 / 10;
     }
 
     @include mixins.mq("lg") {
-      grid-column: 2 / 7;
+      grid-column: 2 / 10;
+    }
+
+    > .about-extended-card {
+      border-bottom: 1px solid var(--color-grayscale-500);
     }
   }
 

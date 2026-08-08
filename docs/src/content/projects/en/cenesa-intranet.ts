@@ -6,24 +6,24 @@ export default {
   tags: ["django", "fastapi", "react-native", "firebase", "postgresql"],
   live: "https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view",
   liveLabel: "View demo",
-  accessNote: "The intranet and its source code are private because they support clinical operations. The demo and this case do not expose patient data.",
+  accessNote: "The intranet and its production screens are private. The linked APK is only a demonstration and cannot access the system or any clinical data.",
   description:
-    "The clinic depended on a system that did not cover the full operation: processes such as vacation requests, medication control, and health insurer billing were handled outside the system, causing stock mismanagement, delays, and operational risk. I designed and implemented a mission-critical intranet with Django, FastAPI, and React Native, centralizing operations and reducing tasks that previously took hours or days to minutes.",
+    "I designed and developed an internal platform for approximately 30 CENESA employees. It connects billing, nursing, pharmacy and administration, digitizes internal workflows and supports medication administration and auditing from tablets.",
   components: [
     {
       type: "evidence",
       props: {
-        title: "An architecture for critical clinical workflows",
-        summary: "The solution connected administration, API and mobile operations with traceability as a cross-cutting requirement.",
+        title: "A connected and traceable internal operation",
+        summary: "The intranet runs exclusively within the institutional LAN and connects the web operation with an always-online mobile application.",
         stats: [
-          { value: "Hours/days", label: "previous duration of operational tasks" },
-          { value: "Minutes", label: "reported duration after delivery" },
-          { value: "Android", label: "app built for inpatient tablets" },
+          { value: "≈30", label: "employee users" },
+          { value: "4", label: "operational areas connected" },
+          { value: "LAN", label: "access restricted to the institution" },
         ],
         stages: [
-          { title: "Scattered workflows", detail: "Leave, medication and reimbursements lived outside the main system." },
-          { title: "Integrated core", detail: "Django and FastAPI centralized rules, data and documented integrations." },
-          { title: "Ward operations", detail: "React Native brought medication assignment and traceability to tablets." },
+          { title: "Internal workflows", detail: "Leave requests, availability and payroll updates moved into digital workflows." },
+          { title: "Controlled integration", detail: "FastAPI reads information from Geclisa without writing data into the clinical system." },
+          { title: "Ward operations", detail: "React Native and Expo let nursing record administered medication for pharmacy reconciliation." },
         ],
       },
     },
@@ -31,7 +31,7 @@ export default {
       type: "text",
       props: {
         title: "My role",
-        text: "I acted as the main technical lead. Designed the overall architecture, developed administrative modules, built the API with FastAPI, developed the Android application from scratch for inpatient tablets, and managed the clinic's server infrastructure.",
+        text: "I created the project end to end: discovery, design, architecture, web and mobile development, API, network security, deployment and support. The web app uses Django, HTML, CSS and JavaScript; FastAPI supports mobile communication; React Native and Expo power the app; Firebase is used only for authentication.",
       },
     },
     {
@@ -39,14 +39,12 @@ export default {
       props: {
         title: "Key contributions",
         items: [
-          "Designed the end-to-end architecture: Django + FastAPI + React Native.",
-          "Centralized processes for administration, HR, medication control, health insurer billing, and others.",
-          "Implemented full traceability for medication assignment (nurse, time, warehouse).",
-          "Developed the Android app from scratch for inpatient tablets, designed for nurses.",
-          "Created a billing module that generates import files for health insurers.",
-          "Integrated documented health insurer APIs.",
-          "Reduced operational tasks from hours or days to minutes.",
-          "Managed the clinic's IT infrastructure.",
+          "Centralized billing, nursing, pharmacy and administrative workflows.",
+          "Digitized leave requests, availability checks and payroll update preparation.",
+          "Implemented medication recording and traceability so pharmacy can compare entered and supplied items.",
+          "Built a tablet application with React Native and Expo that requires a connection.",
+          "Integrated read-only Geclisa queries through FastAPI.",
+          "Restricted the web application to the LAN through MikroTik and implemented user- and role-based permissions.",
         ],
       },
     },

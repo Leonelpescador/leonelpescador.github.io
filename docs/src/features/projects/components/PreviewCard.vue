@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import Link from "../../../components/Link.vue";
-import Notch from "../../../components/Notch.vue";
 import ArrowRightLong from "../../../components/icons/ArrowRightLong.vue";
 import gsap from "gsap";
 import { onMounted, onUnmounted, ref } from "vue";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ButtonRound from "../../../components/ButtonRound.vue";
 import { t } from "../../../i18n/utils/translate";
 import { social } from "../../../content/social";
 import Plus from "../../../components/icons/Plus.vue";
@@ -18,6 +16,7 @@ const imageRef = ref<HTMLImageElement | null>(null);
 
 const props = defineProps<{
   preview?: ProjectPreview;
+  index?: number;
 }>();
 
 onMounted(async () => {
@@ -56,40 +55,36 @@ onUnmounted(() => {
     data-hoversound="hover"
     v-if="props.preview"
   >
-    <div class="preview-card-top" ref="wrapperRef">
-      <div class="preview-card-image-wrapper">
-        <div class="preview-card-image-container">
-          <img
-            :src="props.preview.thumbnail"
-            alt=""
-            class="preview-card-image"
-            ref="imageRef"
-            loading="lazy"
-            decoding="async"
-            fetchpriority="low"
-            width="960"
-            height="540"
-          />
-        </div>
-      </div>
-      <ul class="preview-card-evidence" aria-hidden="true">
-        <li v-for="item in props.preview.evidence" :key="item">{{ item }}</li>
-      </ul>
-      <div class="preview-card-overlay">
-        <div class="preview-card-edge">
-          <ButtonRound class="preview-card-button" variant="accent" renderAs="div">
-            <ArrowRightLong class="preview-card-button-arrow" />
-          </ButtonRound>
-        </div>
-        <Notch class="preview-card-notch preview-card-notch-left" />
-        <Notch class="preview-card-notch preview-card-notch-right" />
+    <div class="preview-card-visual" ref="wrapperRef">
+      <div class="preview-card-image-container">
+        <img
+          :src="props.preview.thumbnail"
+          alt=""
+          class="preview-card-image"
+          ref="imageRef"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+          width="960"
+          height="540"
+        />
       </div>
     </div>
     <div class="preview-card-content">
       <div class="preview-card-copys">
+        <p class="preview-card-kicker">
+          {{ String((props.index ?? 0) + 1).padStart(2, "0") }} · {{ t("case-study") }}
+        </p>
         <h3 class="preview-card-title">{{ props.preview.title }}</h3>
         <p class="preview-card-description">{{ props.preview.description }}</p>
       </div>
+      <ul class="preview-card-evidence" :aria-label="t('case-evidence')">
+        <li v-for="item in props.preview.evidence" :key="item">{{ item }}</li>
+      </ul>
+      <span class="preview-card-cta">
+        {{ t("view-project") }}
+        <ArrowRightLong class="preview-card-cta-icon" />
+      </span>
     </div>
   </Link>
 
@@ -101,8 +96,8 @@ onUnmounted(() => {
     external
     :href="social[0]?.url ?? ''"
   >
-    <div class="preview-card-top preview-card-top-empty">
-      <Plus class="preview-card-top-empty-icon" />
+    <div class="preview-card-visual preview-card-visual-empty">
+      <Plus class="preview-card-visual-empty-icon" />
     </div>
     <div class="preview-card-content">
       <div class="preview-card-copys">
@@ -114,32 +109,32 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .preview-card {
-  --hover: 0;
   position: relative;
-  border-radius: var(--radius-xl);
   z-index: var(--z-index-layout);
+  display: grid;
+  gap: var(--space-lg);
+  padding-block: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--color-grayscale-500);
 
-  &::after {
-    content: "";
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    width: calc(100% + 16px);
-    height: calc(100% + 16px);
-    background-color: var(--color-grayscale-400);
-    border-radius: var(--radius-xl);
-    z-index: -1;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.1s ease-in-out;
+  @include mixins.mq("md") {
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    align-items: center;
+    gap: var(--space-xxl);
+    padding-block: var(--space-lg) var(--space-xxl);
   }
 
   @include mixins.hover {
     &:hover {
-      --hover: 1;
+      .preview-card-image-container {
+        transform: scale(1.025);
+      }
 
-      &::after {
-        opacity: 1;
+      .preview-card-title {
+        color: var(--color-dark-blue-500);
+      }
+
+      .preview-card-cta-icon {
+        transform: translateX(6px);
       }
     }
   }
@@ -147,77 +142,23 @@ onUnmounted(() => {
   &-content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
-    padding-top: var(--space-xs);
-  }
-
-  &-overlay {
-    @include mixins.hover {
-      display: none;
-    }
-  }
-
-  &-notch {
-    position: absolute;
-    color: var(--color-beige-400);
-    --icon-color: var(--color-beige-400);
-    transform: scale(-1) rotate(90deg);
-    height: var(--radius-lg);
-
-    &-left {
-      bottom: 0;
-      right: 50px;
-    }
-
-    &-right {
-      bottom: 50px;
-      right: 0;
-    }
-  }
-
-  &-edge {
-    position: absolute;
-    bottom: -1px;
-    right: -1px;
-    background-color: var(--color-beige-400);
-    padding-left: 6px;
-    padding-top: 6px;
-    border-radius: 32px 0 0 0;
-    padding-right: 1px;
-    padding-bottom: 1px;
+    align-items: flex-start;
+    gap: var(--space-lg);
   }
 
   &-evidence {
-    position: absolute;
-    top: var(--space-sm);
-    left: var(--space-sm);
-    z-index: 2;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xxs);
-    max-width: calc(100% - var(--space-xl));
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
 
     li {
-      padding: 5px 9px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 999px;
-      background: rgba(5, 46, 135, 0.92);
-      color: var(--color-white-400);
-      font-size: var(--font-size-xs);
-      font-weight: 800;
-      line-height: 1.2;
-      backdrop-filter: blur(4px);
-    }
-  }
-
-  &-button {
-    &-arrow {
-      transition: transform 0.1s ease-in-out;
-      width: 100%;
-      transform: rotate(calc(var(--hover) * -45deg));
+      padding-block: var(--space-xs);
+      border-top: 1px solid var(--color-grayscale-500);
+      color: var(--color-text-300);
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      line-height: 1.35;
     }
   }
 
@@ -227,22 +168,19 @@ onUnmounted(() => {
     object-fit: cover;
 
     &-container {
-      transition: transform 0.1s ease-in-out;
-      transform: scale(calc(1 + var(--hover) * 0.02));
+      height: 100%;
+      transition: transform 0.3s var(--ease-power2-out);
       aspect-ratio: 16/9;
-    }
-
-    &-wrapper {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      background-color: var(--color-beige-500);
     }
   }
 
-  &-top {
+  &-visual {
     position: relative;
     width: 100%;
     aspect-ratio: 16/9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-beige-500);
 
     &-empty {
       border: 4px dashed var(--color-grayscale-500);
@@ -264,18 +202,42 @@ onUnmounted(() => {
   &-copys {
     display: flex;
     flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  &-kicker {
+    color: var(--color-text-300);
+    font-family: "ProFontWindows", monospace;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
   }
 
   &-title {
-    font-size: var(--font-size-title-xs);
-    font-weight: 700;
+    font-size: var(--font-size-title-sm);
+    font-weight: 900;
     color: var(--color-text-400);
+    line-height: 1.08;
+    transition: color 0.2s ease;
   }
 
   &-description {
     font-size: var(--font-size-md);
     color: var(--color-text-300);
     font-weight: 500;
+    line-height: 1.5;
+  }
+
+  &-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--color-dark-blue-500);
+    font-weight: 800;
+
+    &-icon {
+      width: var(--icon-size-md);
+      transition: transform 0.2s var(--ease-power2-out);
+    }
   }
 }
 </style>

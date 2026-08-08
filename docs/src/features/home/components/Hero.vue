@@ -4,13 +4,6 @@ import Banner from "../../../components/Banner.vue";
 import { preloaderVisible } from "../../../composables/usePreloader";
 import { t } from "../../../i18n/utils/translate";
 import { scrollToTarget } from "../../../composables/useScroll";
-
-const impactItems = [
-  { value: "7.000+", label: "impact-professionals" },
-  { value: "24", label: "impact-modules" },
-  { value: "3", label: "impact-systems" },
-  { value: "8", label: "impact-team" },
-];
 </script>
 
 <template>
@@ -23,6 +16,11 @@ const impactItems = [
           <Banner class="hero-banner" :copy="t('job-title')" v-if="!preloaderVisible" animated />
         </div>
         <p class="hero-summary">{{ t("hero-summary") }}</p>
+        <ul class="hero-signals" :aria-label="t('hero-signals-title')">
+          <li>{{ t("hero-signal-architecture") }}</li>
+          <li>{{ t("hero-signal-data") }}</li>
+          <li>{{ t("hero-signal-production") }}</li>
+        </ul>
         <div class="hero-actions">
           <Button variant="accent" size="md" @click="scrollToTarget('#projects')">
             {{ t("hero-projects-cta") }}
@@ -39,12 +37,6 @@ const impactItems = [
         </div>
       </div>
     </div>
-    <dl class="hero-impact" :aria-label="t('impact-title')">
-      <div v-for="item in impactItems" :key="item.label" class="hero-impact-item">
-        <dt class="hero-impact-value">{{ item.value }}</dt>
-        <dd class="hero-impact-label">{{ t(item.label) }}</dd>
-      </div>
-    </dl>
   </div>
 </template>
 
@@ -57,6 +49,25 @@ const impactItems = [
   position: relative;
   overflow: hidden;
 
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      var(--color-beige-400) 0%,
+      var(--color-beige-400) 50%,
+      rgba(248, 242, 232, 0.96) 64%,
+      rgba(248, 242, 232, 0) 84%
+    );
+
+    @include mixins.landscape {
+      display: none;
+    }
+  }
+
   &-eyebrow {
     color: var(--color-text-300);
     font-size: var(--font-size-sm);
@@ -65,9 +76,12 @@ const impactItems = [
   }
 
   &-content {
+    position: relative;
+    z-index: 1;
     align-items: center;
     justify-content: center;
-    height: 60%;
+    height: 74%;
+    padding-top: var(--height-header);
 
     @include mixins.landscape {
       height: 100%;
@@ -114,7 +128,7 @@ const impactItems = [
   }
 
   &-summary {
-    max-width: 58ch;
+    max-width: 54ch;
     color: var(--color-text-300);
     font-size: var(--font-size-md);
     line-height: 1.55;
@@ -124,56 +138,36 @@ const impactItems = [
     }
   }
 
+  &-signals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
+    margin: 0;
+    padding: 0;
+    color: var(--color-text-400);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    list-style: none;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+
+      &::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--color-orange-400);
+      }
+    }
+  }
+
   &-actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
-  }
-
-  &-impact {
-    position: absolute;
-    inset-inline: var(--space-outer);
-    bottom: var(--space-outer);
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1px;
-    margin: 0 auto;
-    max-width: 980px;
-    overflow: hidden;
-    border: 1px solid var(--color-grayscale-500);
-    border-radius: var(--radius-lg);
-    background: var(--color-grayscale-500);
-    z-index: 2;
-
-    @include mixins.mq("md") {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      inset-inline: max(var(--space-outer), calc((100vw - 980px) / 2));
-    }
-
-    &-item {
-      min-width: 0;
-      padding: var(--space-sm);
-      background: var(--color-beige-400);
-
-      @include mixins.mq("md") {
-        padding: var(--space-md);
-      }
-    }
-
-    &-value {
-      color: var(--color-dark-blue-500);
-      font-size: var(--font-size-xxl);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    &-label {
-      margin-top: var(--space-xxs);
-      color: var(--color-text-300);
-      font-size: var(--font-size-xs);
-      line-height: 1.3;
-    }
   }
 
   &-title {
@@ -214,9 +208,4 @@ const impactItems = [
   }
 }
 
-@media (max-height: 700px) {
-  .hero-impact {
-    display: none;
-  }
-}
 </style>

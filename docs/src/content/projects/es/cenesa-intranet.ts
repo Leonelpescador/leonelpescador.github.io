@@ -6,24 +6,24 @@ export default {
   tags: ["django", "fastapi", "react-native", "firebase", "postgresql"],
   live: "https://drive.google.com/file/d/11gh83zIf9nuE4C3Se6Aka7nRVHqzptms/view",
   liveLabel: "Ver demostración",
-  accessNote: "La intranet y su código son privados por tratarse de una operación clínica. La demostración y este caso evitan mostrar datos de pacientes.",
+  accessNote: "La intranet y sus pantallas productivas son privadas. El APK enlazado es únicamente demostrativo y no permite acceder al sistema ni a datos clínicos.",
   description:
-    "La clínica dependía de un sistema que no cubría la operación completa: procesos como solicitud de vacaciones, control de medicamentos y facturación de obras sociales se manejaban por fuera, generando descontrol de stock, demoras y riesgo operativo. Diseñé e implementé una intranet de misión crítica con Django, FastAPI y React Native, centralizando la operación y reduciendo tareas que tomaban horas o días a minutos.",
+    "Diseñé y desarrollé una plataforma interna para aproximadamente 30 empleados de CENESA. La solución conecta facturación, enfermería, farmacia y administración, digitaliza procesos internos y permite registrar y auditar la administración de medicamentos desde tablets.",
   components: [
     {
       type: "evidence",
       props: {
-        title: "Una arquitectura para procesos clínicos críticos",
-        summary: "La solución conectó administración, API y operación móvil con trazabilidad como criterio transversal.",
+        title: "Una operación interna conectada y trazable",
+        summary: "La intranet funciona exclusivamente dentro de la LAN institucional y conecta la gestión web con una aplicación móvil siempre online.",
         stats: [
-          { value: "Horas/días", label: "duración anterior de tareas operativas" },
-          { value: "Minutos", label: "duración posterior reportada" },
-          { value: "Android", label: "app creada para tablets de internación" },
+          { value: "≈30", label: "empleados usuarios" },
+          { value: "4", label: "áreas operativas conectadas" },
+          { value: "LAN", label: "acceso restringido a la institución" },
         ],
         stages: [
-          { title: "Procesos dispersos", detail: "Vacaciones, medicamentos y reintegros se gestionaban fuera del sistema principal." },
-          { title: "Núcleo integrado", detail: "Django y FastAPI centralizaron reglas, datos e integraciones documentadas." },
-          { title: "Operación en sala", detail: "React Native llevó asignación y trazabilidad de medicamentos a tablets." },
+          { title: "Procesos internos", detail: "Vacaciones, disponibilidad y novedades para sueldos pasaron a flujos digitales." },
+          { title: "Integración controlada", detail: "FastAPI permite consultar información de Geclisa sin escribir datos en el sistema clínico." },
+          { title: "Operación en sala", detail: "React Native y Expo permiten que enfermería registre lo administrado para su control por farmacia." },
         ],
       },
     },
@@ -31,7 +31,7 @@ export default {
       type: "text",
       props: {
         title: "Mi rol",
-        text: "Actué como responsable técnico principal. Diseñé la arquitectura completa, desarrollé los módulos administrativos, construí la API con FastAPI, desarrollé la aplicación Android desde cero para tablets de internación y administré la infraestructura de servidores de la clínica.",
+        text: "Creé el proyecto de principio a fin: relevamiento, diseño, arquitectura, desarrollo web y móvil, API, seguridad de red, despliegue y soporte. La aplicación web utiliza Django, HTML, CSS y JavaScript; FastAPI comunica la operación móvil; React Native y Expo resuelven la app; Firebase se usa exclusivamente para autenticación.",
       },
     },
     {
@@ -39,14 +39,12 @@ export default {
       props: {
         title: "Aportes y logros",
         items: [
-          "Diseñé la arquitectura integral: Django + FastAPI + React Native.",
-          "Centralicé procesos de administración, RRHH, control de medicamentos, facturación de obras sociales y otros.",
-          "Implementé trazabilidad completa en la asignación de medicamentos (enfermero, hora, depósito).",
-          "Desarrollé la app Android desde cero para tablets de internación, orientada a enfermeros.",
-          "Creé un módulo de facturación que genera archivos importadores para obras sociales.",
-          "Integré APIs documentadas de obras sociales.",
-          "Reduje tareas operativas de horas o días a minutos.",
-          "Gestioné la infraestructura TI de la clínica.",
+          "Centralicé procesos de facturación, enfermería, farmacia y administración.",
+          "Digitalicé solicitudes de vacaciones, consulta de disponibilidad y preparación de novedades para sueldos.",
+          "Implementé registro y trazabilidad de medicamentos para comparar lo ingresado por enfermería con lo suministrado por farmacia.",
+          "Desarrollé una aplicación para tablets con React Native y Expo, disponible solamente con conexión.",
+          "Integré consultas de solo lectura con Geclisa mediante FastAPI.",
+          "Restringí la aplicación web a la LAN mediante MikroTik e implementé permisos por usuario y rol.",
         ],
       },
     },

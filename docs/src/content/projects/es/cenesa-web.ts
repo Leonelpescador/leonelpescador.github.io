@@ -8,18 +8,21 @@ export default {
   liveLabel: "Ver sitio corporativo",
   accessNote: "El sitio público permite verificar el resultado final. El código fuente pertenece a la institución.",
   description:
-    "CENESA S.A. es un Centro de Estudios de Alta Complejidad con más de 40 años de trayectoria en Salta. Tenía una web en WordPress desactualizada, lenta y con limitaciones para representar la institución. Diseñé y desarrollé el nuevo sitio corporativo desde cero con Next.js y React, con un frontend responsive y enfoque en rendimiento, SEO y experiencia de usuario.",
+    "CENESA tenía una presencia web visualmente desactualizada que no comunicaba con claridad sus servicios ni la identidad de la institución. Diseñé y desarrollé en solitario el nuevo sitio corporativo, desde la propuesta visual y la migración de contenidos hasta la infraestructura y la publicación.",
   components: [
     {
       type: "evidence",
       props: {
-        title: "Rediseño institucional de extremo a extremo",
-        summary: "El trabajo conectó identidad, experiencia, implementación y despliegue en una única línea de responsabilidad.",
-        stats: [{ value: "40+ años", label: "de trayectoria institucional representada" }],
+        title: "Una presencia digital más clara para los pacientes",
+        summary: "El rediseño organizó la información institucional alrededor de servicios, profesionales, novedades, preguntas frecuentes, contacto y solicitud de turnos.",
+        stats: [
+          { value: "7", label: "secciones públicas principales" },
+          { value: "End-to-end", label: "diseño, desarrollo e infraestructura" },
+        ],
         stages: [
-          { title: "Punto de partida", detail: "WordPress desactualizado, lento y limitado para comunicar la institución." },
-          { title: "Diseño y desarrollo", detail: "Prototipado en Figma y frontend responsive con Next.js y React." },
-          { title: "Entrega", detail: "Despliegue en Railway, DNS en Cloudflare y base técnica orientada a SEO." },
+          { title: "Punto de partida", detail: "Una estética antigua y contenidos que necesitaban una estructura más clara." },
+          { title: "Diseño y desarrollo", detail: "Bocetos en Figma y Canva, migración de contenidos y frontend responsive con Next.js y React." },
+          { title: "Publicación", detail: "Hosting, Railway, dominio, DNS, Cloudflare y SEO técnico bajo una única responsabilidad." },
         ],
       },
     },
@@ -27,7 +30,7 @@ export default {
       type: "text",
       props: {
         title: "Mi rol",
-        text: "Fui el responsable del proyecto end-to-end: diseño UI/UX en Figma bajo criterio institucional, desarrollo frontend, optimización SEO, despliegue en Railway.app y gestión del DNS a través de Cloudflare.",
+        text: "Trabajé en solitario y consulté cada decisión visual con el responsable de la institución. Me ocupé del diseño UI/UX, el desarrollo frontend, la migración de contenido, el SEO técnico, el despliegue, el dominio y la configuración de DNS y Cloudflare.",
       },
     },
     {
@@ -35,10 +38,11 @@ export default {
       props: {
         title: "Aportes y logros",
         items: [
-          "Reemplacé una plataforma WordPress obsoleta por un sitio corporativo moderno.",
-          "Diseñé la experiencia de usuario y la interfaz en Figma.",
+          "Reemplacé una presencia visual desactualizada por un sitio corporativo contemporáneo y orientado a pacientes.",
+          "Diseñé la experiencia y presenté bocetos en Figma y Canva para validar la dirección con la institución.",
+          "Migré y reorganicé el contenido del sitio anterior.",
           "Desarrollé el sitio responsive con Next.js y React.",
-          "Optimicé SEO y tiempos de carga.",
+          "Implementé SEO técnico sin atribuir mejoras de tráfico o posicionamiento no medidas.",
           "Desplegué en Railway.app con DNS gestionado a través de Cloudflare.",
         ],
       },

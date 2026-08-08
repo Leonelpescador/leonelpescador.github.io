@@ -3,8 +3,12 @@ import HeaderLink from "./HeaderLink.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import { t } from "../i18n/utils/translate";
 import { scrollToTarget } from "../composables/useScroll";
-import { useHeaderTheme } from "../composables/useHeaderTheme";
 import { projectId } from "../composables/useRouteObserver";
+
+const props = defineProps<{
+  isDarkTheme: boolean;
+  hasScrolledIntoView: boolean;
+}>();
 
 type ActiveLink = "about" | "journey" | "education" | "projects" | "contact";
 const activeLink = ref<ActiveLink | null>(null);
@@ -15,8 +19,6 @@ const isMounted = ref(false);
 
 const barStyle = ref({ transform: "" });
 const ITEM_WIDTH = 124;
-
-const { isDarkTheme, hasScrolledIntoView } = useHeaderTheme();
 
 const updateBarPosition = () => {
   const index = sections.indexOf(activeLink.value as ActiveLink);
@@ -68,11 +70,14 @@ onUnmounted(() => {
 
 <template>
   <div :class="['header-home', { 'header-home-mounted': isMounted, 'header-home-isProjectPage': projectId !== null }]">
-    <nav :class="['header-home-links', { 'header-home-links-dark': isDarkTheme }]" :aria-label="t('primary-navigation')">
+    <nav :class="['header-home-links', { 'header-home-links-dark': props.isDarkTheme }]" :aria-label="t('primary-navigation')">
       <div
         :class="[
           'header-home-bar',
-          { 'header-home-bar-active': activeLink !== null && hasScrolledIntoView, 'header-home-bar-dark': isDarkTheme },
+          {
+            'header-home-bar-active': activeLink !== null && props.hasScrolledIntoView,
+            'header-home-bar-dark': props.isDarkTheme,
+          },
         ]"
         :style="barStyle"
       ></div>
@@ -82,11 +87,11 @@ onUnmounted(() => {
         :is-active="activeLink === section"
         :class="[
           'header-home-link',
-          { 'header-home-link-active': activeLink === section && hasScrolledIntoView },
+          { 'header-home-link-active': activeLink === section && props.hasScrolledIntoView },
           'children-unclickable',
         ]"
         @click="handleLinkClick(section)"
-        :is-dark-theme="isDarkTheme"
+        :is-dark-theme="props.isDarkTheme"
         :aria-label="t(section)"
         :aria-current="activeLink === section ? 'location' : undefined"
         data-sound="click"

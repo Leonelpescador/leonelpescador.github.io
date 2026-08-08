@@ -13,25 +13,12 @@ import LangSwitch from "./LangSwitch.vue";
 import { isFeatureEnabled } from "../utils/features";
 import { useRouter } from "../composables/useRouter";
 import { useFirstRoute } from "../composables/useFirstRoute";
+import HeaderHome from "./HeaderHome.vue";
 
 const router = useRouter();
 const { isFirstRoute } = useFirstRoute();
 
-const scrolledPastHeroVisible = ref(false);
-const { isDarkTheme } = useHeaderTheme({
-  onUpdate: (element, boundingClientRect, hasScrolledIntoView) => {
-    if (!element || !boundingClientRect) {
-      scrolledPastHeroVisible.value = false;
-      return;
-    }
-
-    if (hasScrolledIntoView) {
-      scrolledPastHeroVisible.value = true;
-    } else {
-      scrolledPastHeroVisible.value = false;
-    }
-  },
-});
+const { isDarkTheme, hasScrolledIntoView: scrolledPastHeroVisible } = useHeaderTheme();
 
 const isMenuOpen = ref(false);
 const menuPanelRef = ref<HTMLElement | null>(null);
@@ -179,6 +166,11 @@ const getInTouchClassNames = computed(() => {
     >
       <Logo class="header-logo-image" />
     </button>
+    <HeaderHome
+      v-if="projectId === null"
+      :is-dark-theme="isDarkTheme"
+      :has-scrolled-into-view="scrolledPastHeroVisible"
+    />
     <div class="header-right">
       <Button
         renderAs="a"
@@ -294,6 +286,23 @@ const getInTouchClassNames = computed(() => {
 
   --scrolled: 0;
 
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    background: rgba(248, 242, 232, 0.94);
+    box-shadow: 0 1px 0 rgba(45, 42, 36, 0.08);
+    opacity: var(--scrolled);
+    transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+    @include mixins.mq("lg") {
+      display: none;
+    }
+  }
+
   &-scrolled {
     --scrolled: 1;
   }
@@ -345,6 +354,10 @@ const getInTouchClassNames = computed(() => {
   &-dark {
     color: var(--color-white-400);
     --icon-color: var(--color-white-400);
+
+    &::before {
+      background: rgba(5, 46, 135, 0.94);
+    }
   }
 
   &-get-in-touch {

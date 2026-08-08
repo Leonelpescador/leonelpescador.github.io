@@ -27,7 +27,10 @@ export const scrollToTarget = (target: string | number | HTMLElement) => {
   }
 
   const element = typeof target === "string" ? document.querySelector<HTMLElement>(target) : target;
-  element?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+  if (!element) return;
+
+  const top = element.getBoundingClientRect().top + window.scrollY + getNavigationOffset();
+  window.scrollTo({ top, behavior: prefersReducedMotion() ? "auto" : "smooth" });
 };
 
 const handleScroll = () => {

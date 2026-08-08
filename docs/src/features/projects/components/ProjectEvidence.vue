@@ -24,7 +24,7 @@ defineProps<Props>();
 <template>
   <section class="project-evidence" :aria-labelledby="`evidence-${index}`">
     <div class="project-evidence-heading">
-      <h3 :id="`evidence-${index}`" class="project-evidence-title">{{ title }}</h3>
+      <h2 :id="`evidence-${index}`" class="project-evidence-title">{{ title }}</h2>
       <p v-if="summary" class="project-evidence-summary">{{ summary }}</p>
     </div>
 
@@ -39,7 +39,7 @@ defineProps<Props>();
       <li v-for="(stage, stageIndex) in stages" :key="stage.title" class="project-evidence-stage">
         <span class="project-evidence-step" aria-hidden="true">{{ String(stageIndex + 1).padStart(2, "0") }}</span>
         <div>
-          <h4>{{ stage.title }}</h4>
+          <h3>{{ stage.title }}</h3>
           <p>{{ stage.detail }}</p>
         </div>
       </li>
@@ -52,56 +52,68 @@ defineProps<Props>();
 <style scoped lang="scss">
 .project-evidence {
   grid-column: 1 / 13;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  max-width: 1040px;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-md);
+  row-gap: var(--space-xl);
+  max-width: 1180px;
   justify-self: center;
-  padding: var(--space-lg);
-  border-radius: var(--radius-lg);
-  background: var(--color-dark-blue-500);
-  color: var(--color-white-400);
+  padding-block: var(--space-xl);
+  border-block: 1px solid var(--color-grayscale-500);
+  color: var(--color-text-400);
 
   @include mixins.mq("md") {
-    grid-column: 2 / 12;
-    padding: var(--space-xl);
+    grid-column: 1 / 13;
+    column-gap: var(--space-lg);
   }
 
   &-heading {
-    max-width: 68ch;
+    grid-column: 1 / 13;
+
+    @include mixins.mq("md") {
+      grid-column: 1 / 6;
+    }
   }
 
   &-title {
-    font-size: var(--font-size-title-sm);
+    max-width: 14ch;
+    font-size: var(--font-size-title-md);
+    font-weight: 900;
     letter-spacing: -0.02em;
+    line-height: 1.04;
   }
 
   &-summary {
-    margin-top: var(--space-xs);
-    color: var(--color-text-cyan-400);
+    max-width: 58ch;
+    margin-top: var(--space-sm);
+    color: var(--color-text-300);
     line-height: 1.55;
   }
 
   &-stats {
+    grid-column: 1 / 13;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-block: 1px solid rgba(255, 255, 255, 0.25);
+    align-self: start;
+    border-top: 1px solid var(--color-grayscale-500);
 
     @include mixins.mq("md") {
+      grid-column: 7 / 13;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
   }
 
   &-stat {
-    padding: var(--space-md) var(--space-sm);
+    padding: var(--space-md) var(--space-sm) var(--space-md) 0;
+    border-bottom: 1px solid var(--color-grayscale-500);
 
     & + & {
-      border-left: 1px solid rgba(255, 255, 255, 0.18);
+      padding-left: var(--space-sm);
     }
   }
 
   &-value {
-    color: var(--color-cyan-400);
+    color: var(--color-dark-blue-500);
     font-size: var(--font-size-xxl);
     font-weight: 900;
     line-height: 1;
@@ -109,14 +121,15 @@ defineProps<Props>();
 
   &-label {
     margin-top: var(--space-xxs);
-    color: var(--color-text-cyan-400);
+    color: var(--color-text-300);
     font-size: var(--font-size-sm);
     line-height: 1.35;
   }
 
   &-flow {
+    grid-column: 1 / 13;
     display: grid;
-    gap: var(--space-sm);
+    gap: var(--space-lg);
 
     @include mixins.mq("md") {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -124,35 +137,37 @@ defineProps<Props>();
   }
 
   &-stage {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-direction: column;
     gap: var(--space-sm);
-    padding: var(--space-md);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: var(--radius-md);
+    padding-top: var(--space-md);
+    border-top: 3px solid var(--color-text-400);
 
-    h4 {
+    h3 {
       font-size: var(--font-size-lg);
+      font-weight: 800;
       line-height: 1.2;
     }
 
     p {
       margin-top: var(--space-xxs);
-      color: var(--color-text-cyan-400);
+      color: var(--color-text-300);
       font-size: var(--font-size-sm);
       line-height: 1.5;
     }
   }
 
   &-step {
-    color: var(--color-cyan-400);
+    color: var(--color-dark-blue-500);
     font-family: "ProFontWindows", monospace;
     font-size: var(--font-size-sm);
+    font-weight: 700;
   }
 
   &-note {
+    grid-column: 1 / 13;
     max-width: 75ch;
-    color: var(--color-text-cyan-400);
+    color: var(--color-text-300);
     font-size: var(--font-size-sm);
     line-height: 1.5;
   }
