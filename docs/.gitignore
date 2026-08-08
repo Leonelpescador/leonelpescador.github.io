@@ -1,5 +1,5 @@
 # Logs
-docs\tests
+docs\tests*
 logs
 *.log
 npm-debug.log*

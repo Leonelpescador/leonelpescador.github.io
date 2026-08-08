@@ -467,7 +467,7 @@ const getInTouchClassNames = computed(() => {
 .mobile-menu-overlay {
   position: fixed;
   inset: 0;
-  z-index: 89;
+  z-index: calc(var(--z-index-header) + 1);
   background-color: rgba(45, 42, 36, 0.5);
   display: flex;
   justify-content: flex-end;

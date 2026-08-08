@@ -30,6 +30,17 @@ test("mobile menu traps focus, closes with Escape and restores the trigger", asy
   await expect(trigger).toBeFocused();
 });
 
+test("mobile exposes the sound control and unlocks it from a user gesture", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.includes("mobile"), "Mobile audio check");
+  await page.goto("/");
+
+  const soundToggle = page.locator(".header-sounds-toggle");
+  await expect(soundToggle).toBeVisible();
+  await expect(soundToggle).toHaveAccessibleName(/activar sonidos|enable sounds/i);
+  await soundToggle.click();
+  await expect(soundToggle).toHaveAccessibleName(/desactivar sonidos|disable sounds/i);
+});
+
 test("published case studies load through direct URLs", async ({ page }) => {
   await page.goto("/project/cpces-odoo");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
