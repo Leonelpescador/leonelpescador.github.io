@@ -20,13 +20,13 @@ export default [
     slug: "cenesa-intranet",
     thumbnail: "/static/media/projects/thumbnails/cenesa-intranet.webp",
     description: "Intranet y app para conectar administración, enfermería, farmacia y facturación dentro de la LAN",
-    evidence: ["≈30 empleados", "4 áreas conectadas", "Django + API + app"],
+    evidence: ["+30 empleados", "4 áreas conectadas", "Django + API + app"],
   },
   {
     title: "Migración a Odoo · Burgos 1950",
     slug: "burgos1950-odoo",
     thumbnail: "/static/media/projects/thumbnails/burgos1950-odoo.webp",
     description: "Primera etapa de una migración gradual desde Zeus hacia una solución personalizada en Odoo.sh",
-    evidence: ["+100.000 registros", "≈6 años de datos", "4 unidades"],
+    evidence: ["+100.000 registros", "+6 años de datos", "4 unidades"],
   },
 ] as const satisfies ProjectPreview[];

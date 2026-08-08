@@ -16,7 +16,7 @@ export default {
         title: "Una operación interna conectada y trazable",
         summary: "La intranet funciona exclusivamente dentro de la LAN institucional y conecta la gestión web con una aplicación móvil siempre online.",
         stats: [
-          { value: "≈30", label: "empleados usuarios" },
+          { value: "+30", label: "empleados usuarios" },
           { value: "4", label: "áreas operativas conectadas" },
           { value: "LAN", label: "acceso restringido a la institución" },
         ],

@@ -17,7 +17,7 @@ export default {
         summary: "La primera etapa mantiene la convivencia entre Zeus y Odoo mientras se trasladan datos y procesos de cuatro unidades de negocio.",
         stats: [
           { value: "+100.000", label: "registros migrados y validados" },
-          { value: "≈6 años", label: "de información histórica" },
+          { value: "+6 años", label: "de información histórica" },
           { value: "4", label: "unidades de negocio" },
           { value: "1", label: "perfil informático en el equipo" },
         ],

@@ -16,7 +16,7 @@ export default {
         title: "A connected and traceable internal operation",
         summary: "The intranet runs exclusively within the institutional LAN and connects the web operation with an always-online mobile application.",
         stats: [
-          { value: "≈30", label: "employee users" },
+          { value: "+30", label: "employee users" },
           { value: "4", label: "operational areas connected" },
           { value: "LAN", label: "access restricted to the institution" },
         ],
