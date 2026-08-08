@@ -237,6 +237,9 @@ const getInTouchClassNames = computed(() => {
               <button class="mobile-menu-item" @click="navTo('about')">
                 {{ t("about") }}
               </button>
+              <button class="mobile-menu-item" @click="navTo('skills')">
+                {{ t("skills") }}
+              </button>
               <button class="mobile-menu-item" @click="navTo('journey')">
                 {{ t("journey") }}
               </button>
@@ -298,7 +301,7 @@ const getInTouchClassNames = computed(() => {
     opacity: var(--scrolled);
     transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
 
-    @include mixins.mq("lg") {
+    @include mixins.mq("xl") {
       display: none;
     }
   }
@@ -433,7 +436,7 @@ const getInTouchClassNames = computed(() => {
     position: relative;
     z-index: 1;
 
-    @include mixins.mq("lg") {
+    @include mixins.mq("xl") {
       display: none;
     }
 

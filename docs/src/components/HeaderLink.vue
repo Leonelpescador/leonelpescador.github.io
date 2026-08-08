@@ -23,12 +23,13 @@ const props = defineProps<{
   background: none;
   transition: color 0.1s ease-in-out;
   font-size: var(--font-size-md);
-  width: 128px;
+  width: auto;
+  min-width: 96px;
   white-space: nowrap;
   text-transform: uppercase;
   z-index: 2;
   border-radius: 100px;
-  padding: var(--space-xxs) 0;
+  padding: var(--space-xxs) var(--space-md);
 
   &::after {
     content: "";

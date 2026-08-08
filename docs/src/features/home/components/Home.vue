@@ -8,6 +8,7 @@ FORM: Secuencia de proyectos de problema a producción, cuarta dirección estruc
 <script setup lang="ts">
 import Layout from "../../../components/Layout.vue";
 import Hero from "./Hero.vue";
+import Skills from "./Skills.vue";
 import AboutExtended from "./AboutExtended.vue";
 //import AboutSections from "../features/about/Sections.vue";
 import Projects from "./Projects.vue";
@@ -198,8 +199,9 @@ watch(
         <div class="intro-wrapper-spacer"></div>
       <div :class="['about-spacer', { 'about-spacer-static': !sceneEnabled }]" ref="aboutSpacerRef" id="about"></div>
     </div>
-    <AboutExtended />
-    <Projects id="projects" />
+      <Skills />
+      <AboutExtended />
+      <Projects id="projects" />
       <div ref="contactRef" class="home-contact">
         <Contact id="contact" :enhanced="sceneEnabled && threeInitialized" />
       </div>

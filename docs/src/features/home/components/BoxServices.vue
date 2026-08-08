@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, watchEffect, onBeforeUnmount } from "vue";
+import { ref, watchEffect, onBeforeUnmount } from "vue";
 import gsap from "gsap";
-import { locale } from "../../../i18n/store";
 import { t } from "../../../i18n/utils/translate";
 import AppearingText from "../../../components/AppearingText.vue";
 import { BREAKPOINTS } from "../../../utils/sizes";
@@ -106,25 +105,12 @@ const handleTimelineCreated = (timeline: gsap.core.Timeline, delay: number) => {
   timelines.value = updatedTimelines;
 };
 
-const SERVICES_EN = [
-  { name: "Python & Django" },
-  { name: "FastAPI & Odoo" },
-  { name: "React Native & Next.js" },
-  { name: "PostgreSQL & SQL Server" },
-  { name: "Systems Analysis & Agile" },
-] as const satisfies { name: string }[];
-
-const SERVICES_ES = [
-  { name: "Python & Django" },
-  { name: "FastAPI & Odoo" },
-  { name: "React Native & Next.js" },
-  { name: "PostgreSQL & SQL Server" },
-  { name: "Análisis de Sistemas & Agile" },
-] as const satisfies { name: string }[];
-
-const services = computed(() => {
-  return locale.value === "en" ? SERVICES_EN : SERVICES_ES;
-});
+const services = [
+  "skills-teaser-backend",
+  "skills-teaser-web-mobile",
+  "skills-teaser-data",
+  "skills-teaser-infrastructure",
+] as const;
 </script>
 
 <template>
@@ -140,10 +126,10 @@ const services = computed(() => {
           />
         </div>
         <div class="box-services-list">
-          <div class="box-services-list-item" v-for="(service, index) in services" :key="service.name">
+          <div class="box-services-list-item" v-for="(service, index) in services" :key="service">
             <p class="box-services-list-item-name">
               <AppearingText
-                :text="service.name"
+                :text="t(service)"
                 :steps="1"
                 :duration="0.35"
                 @timeline:created="(tl: gsap.core.Timeline) => handleTimelineCreated(tl, 0.15 + index * 0.1)"

@@ -25,3 +25,7 @@ test("every published case exists in both locales", () => {
 test("GitHub Pages fallback is present", () => {
   assert.equal(existsSync(new URL("../public/404.html", import.meta.url)), true);
 });
+
+test("skills icon sprite is bundled locally", () => {
+  assert.equal(existsSync(new URL("../public/static/media/skills.svg", import.meta.url)), true);
+});

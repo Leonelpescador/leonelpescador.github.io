@@ -18,10 +18,15 @@ test("mobile menu traps focus, closes with Escape and restores the trigger", asy
   const trigger = page.getByRole("button", { name: /abrir menú|open menu/i });
   await trigger.focus();
   await trigger.press("Enter");
-  await expect(page.getByRole("dialog")).toBeVisible();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  const menuItems = dialog.locator(".mobile-menu-item");
+  await expect(menuItems.nth(0)).toHaveText(/sobre mí|about/i);
+  await expect(menuItems.nth(1)).toHaveText(/habilidades|skills/i);
+  await expect(menuItems.nth(2)).toHaveText(/trayectoria|journey/i);
 
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog")).toBeHidden();
+  await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();
 });
 
@@ -34,6 +39,21 @@ test("published case studies load through direct URLs", async ({ page }) => {
 test("desktop section navigation clears the fixed header and keeps the target active", async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes("desktop"), "Desktop navigation check");
   await page.goto("/");
+
+  const skillsLink = page.getByRole("button", { name: /habilidades|skills/i });
+  await skillsLink.click();
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const target = document.querySelector<HTMLElement>("#skills");
+        const header = document.querySelector<HTMLElement>("header");
+        if (!target || !header) return false;
+        return target.getBoundingClientRect().top >= header.getBoundingClientRect().bottom;
+      }),
+    )
+    .toBe(true);
+  await expect(skillsLink).toHaveAttribute("aria-current", "location");
 
   const educationLink = page.getByRole("button", { name: /educación|education/i });
   await educationLink.click();

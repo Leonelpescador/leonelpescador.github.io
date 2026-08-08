@@ -46,7 +46,11 @@ watchEffect((onCleanup) => {
           <p>{{ t("contact-project-description") }}</p>
         </div>
       </div>
-      <a class="contact-email" href="mailto:leopescador07@gmail.com"></a>
+      <a
+        class="contact-email"
+        href="mailto:leopescador07@gmail.com"
+        aria-label="leopescador07@gmail.com"
+      ></a>
       <Social variant="background" />
       <ContactForm />
     </div>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import HeaderLink from "./HeaderLink.vue";
-import { onMounted, onUnmounted, ref } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { t } from "../i18n/utils/translate";
+import { translations } from "../i18n/store";
 import { scrollToTarget } from "../composables/useScroll";
 import { projectId } from "../composables/useRouteObserver";
 
@@ -10,21 +11,26 @@ const props = defineProps<{
   hasScrolledIntoView: boolean;
 }>();
 
-type ActiveLink = "about" | "journey" | "education" | "projects" | "contact";
+type ActiveLink = "about" | "skills" | "journey" | "education" | "projects" | "contact";
 const activeLink = ref<ActiveLink | null>(null);
-const sections: ActiveLink[] = ["about", "journey", "education", "projects", "contact"];
+const sections: ActiveLink[] = ["about", "skills", "journey", "education", "projects", "contact"];
 let frameId = 0;
+let resizeObserver: ResizeObserver | null = null;
 
 const isMounted = ref(false);
+const navRef = ref<HTMLElement | null>(null);
 
-const barStyle = ref({ transform: "" });
-const ITEM_WIDTH = 124;
+const barStyle = ref({ transform: "translateX(0)", width: "0px" });
 
 const updateBarPosition = () => {
-  const index = sections.indexOf(activeLink.value as ActiveLink);
-  const left = index * ITEM_WIDTH;
+  if (!activeLink.value || !navRef.value) return;
+
+  const activeElement = navRef.value.querySelector<HTMLElement>(`[data-section="${activeLink.value}"]`);
+  if (!activeElement) return;
+
   barStyle.value = {
-    transform: `translateX(${left}px)`,
+    transform: `translateX(${activeElement.offsetLeft - 3}px)`,
+    width: `${activeElement.offsetWidth}px`,
   };
 };
 
@@ -38,10 +44,8 @@ const updateActiveLink = () => {
     return rect.top <= marker && rect.bottom > marker;
   }) ?? null;
 
-  if (nextActive !== activeLink.value) {
-    activeLink.value = nextActive;
-    updateBarPosition();
-  }
+  if (nextActive !== activeLink.value) activeLink.value = nextActive;
+  updateBarPosition();
 };
 
 const scheduleActiveLinkUpdate = () => {
@@ -57,20 +61,30 @@ const handleLinkClick = (section: ActiveLink) => {
 onMounted(() => {
   window.addEventListener("scroll", scheduleActiveLinkUpdate, { passive: true });
   window.addEventListener("resize", scheduleActiveLinkUpdate);
+  resizeObserver = new ResizeObserver(updateBarPosition);
+  if (navRef.value) resizeObserver.observe(navRef.value);
   scheduleActiveLinkUpdate();
   isMounted.value = true;
 });
 
+watch(translations, () => nextTick(updateBarPosition));
+
 onUnmounted(() => {
   window.removeEventListener("scroll", scheduleActiveLinkUpdate);
   window.removeEventListener("resize", scheduleActiveLinkUpdate);
+  resizeObserver?.disconnect();
+  resizeObserver = null;
   if (frameId) cancelAnimationFrame(frameId);
 });
 </script>
 
 <template>
   <div :class="['header-home', { 'header-home-mounted': isMounted, 'header-home-isProjectPage': projectId !== null }]">
-    <nav :class="['header-home-links', { 'header-home-links-dark': props.isDarkTheme }]" :aria-label="t('primary-navigation')">
+    <nav
+      ref="navRef"
+      :class="['header-home-links', { 'header-home-links-dark': props.isDarkTheme }]"
+      :aria-label="t('primary-navigation')"
+    >
       <div
         :class="[
           'header-home-bar',
@@ -94,6 +108,7 @@ onUnmounted(() => {
         :is-dark-theme="props.isDarkTheme"
         :aria-label="t(section)"
         :aria-current="activeLink === section ? 'location' : undefined"
+        :data-section="section"
         data-sound="click"
         data-hoversound="hover"
       >
@@ -127,7 +142,7 @@ onUnmounted(() => {
     opacity: 1;
   }
 
-  @include mixins.mq("lg") {
+  @include mixins.mq("xl") {
     display: flex;
   }
 
@@ -153,11 +168,12 @@ onUnmounted(() => {
     top: 3px;
     left: 3px;
     height: calc(100% - 6px);
-    width: 124px;
+    width: 0;
     background: var(--color-orange-400);
     border-radius: 100px;
     transition:
       transform 0.3s var(--ease-smooth),
+      width 0.3s var(--ease-smooth),
       opacity 0.1s ease-in-out,
       background-color 0.1s ease-in-out;
     z-index: 1;
@@ -181,7 +197,9 @@ onUnmounted(() => {
     background: none;
     transition: color 0.1s ease-in-out;
     font-size: var(--font-size-sm);
-    width: 124px;
+    width: auto;
+    min-width: 96px;
+    padding-inline: var(--space-md);
     white-space: nowrap;
     text-transform: uppercase;
 
